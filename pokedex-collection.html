@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>PokeWaarde — Mijn Collectie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #22223a;
+    --surface3: #2a2a45;
+    --accent: #f7c948;
+    --accent2: #e8a020;
+    --blue: #4fc3f7;
+    --green: #69db7c;
+    --red: #ff6b6b;
+    --text: #f0f0f8;
+    --text2: #9898b8;
+    --text3: #5e5e7e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --nav-h: 64px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 56px;
+    background: rgba(15,15,26,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+  }
+  .topbar-title { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--accent); letter-spacing: -0.5px; }
+  .topbar-subtitle { font-size: 11px; color: var(--text3); font-weight: 400; }
+  .topbar-value { text-align: right; }
+  .topbar-value .val { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--green); }
+  .topbar-value .lbl { font-size: 10px; color: var(--text3); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(15,15,26,0.95);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    display: flex;
+  }
+  .nav-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; border: none; background: none; color: var(--text3);
+    font-family: var(--font-body); font-size: 10px; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn svg { width: 22px; height: 22px; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 72px 16px calc(var(--nav-h) + 16px); min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap { position: relative; margin-bottom: 16px; }
+  .search-wrap input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 50px; padding: 12px 16px 12px 44px;
+    color: var(--text); font-family: var(--font-body); font-size: 15px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: var(--font-display); font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3);
+    margin: 20px 0 10px;
+  }
+
+  /* ── SET GRID ── */
+  .set-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .set-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px; cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 90px;
+  }
+  .set-card:active { transform: scale(0.97); }
+  .set-card:hover { border-color: var(--border2); }
+  .set-card img { width: 48px; height: 30px; object-fit: contain; }
+  .set-name { font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--text); }
+  .set-meta { font-size: 10px; color: var(--text3); }
+
+  /* ── CARD GRID ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .poke-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s; position: relative;
+  }
+  .poke-card:active { transform: scale(0.97); }
+  .poke-card img { width: 100%; aspect-ratio: 3/4; object-fit: contain; background: var(--surface2); display: block; }
+  .poke-card-info { padding: 8px 10px; }
+  .poke-card-name { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .poke-card-num { font-size: 10px; color: var(--text3); }
+  .poke-card.in-collection { border-color: var(--accent); }
+  .in-badge {
+    position: absolute; top: 6px; right: 6px;
+    background: var(--accent); color: #1a1200;
+    font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 20px;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: none; color: var(--text2);
+    font-family: var(--font-body); font-size: 14px; cursor: pointer;
+    padding: 0; margin-bottom: 16px;
+  }
+
+  /* ── PILL TABS ── */
+  .pills { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .pill {
+    padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 500;
+    border: 1px solid var(--border2); background: none; color: var(--text2);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .pill.active { background: var(--accent); border-color: var(--accent); color: #1a1200; }
+
+  /* ── DETAIL OVERLAY ── */
+  .overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    align-items: flex-end; justify-content: center;
+  }
+  .overlay.open { display: flex; }
+  .overlay-sheet {
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    padding: 20px 20px 40px;
+    width: 100%; max-height: 88vh; overflow-y: auto;
+  }
+  .overlay-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 20px; }
+  .overlay-img { width: 140px; display: block; margin: 0 auto 16px; border-radius: 10px; }
+  .overlay-name { font-family: var(--font-display); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 4px; }
+  .overlay-set { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 20px; }
+  .overlay-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .overlay-row-label { font-size: 13px; color: var(--text2); }
+  .overlay-row-val { font-size: 14px; font-weight: 500; }
+
+  /* Language toggle */
+  .lang-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; width: fit-content; }
+  .lang-btn { padding: 6px 14px; font-size: 13px; font-weight: 500; background: none; border: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .lang-btn.active { background: var(--accent); color: #1a1200; }
+
+  /* Price input */
+  .price-wrap { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .price-input {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); padding: 8px 12px;
+    color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .price-input:focus { border-color: var(--accent); }
+
+  /* Buttons */
+  .btn {
+    padding: 12px 20px; border-radius: var(--radius-sm);
+    font-family: var(--font-display); font-weight: 700; font-size: 14px;
+    cursor: pointer; border: none; transition: all 0.15s; text-align: center;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #1a1200; width: 100%; margin-top: 12px; }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); width: 100%; margin-top: 8px; }
+  .btn-danger { background: none; color: var(--red); border: 1px solid var(--red); width: 100%; margin-top: 8px; }
+  .btn-cm { background: var(--surface3); color: var(--blue); border: 1px solid var(--border2); display: flex; align-items: center; gap: 6px; justify-content: center; width: 100%; margin-top: 8px; }
+
+  /* ── COLLECTION SCREEN ── */
+  .collection-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px;
+    display: flex; gap: 12px; align-items: center;
+    margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s;
+  }
+  .collection-item:hover { border-color: var(--border2); }
+  .collection-item img { width: 48px; height: 64px; object-fit: contain; border-radius: 6px; background: var(--surface2); flex-shrink: 0; }
+  .ci-info { flex: 1; min-width: 0; }
+  .ci-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ci-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .ci-price { text-align: right; flex-shrink: 0; }
+  .ci-price .amount { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--green); }
+  .ci-price .lang-tag { font-size: 10px; color: var(--text3); }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+  .empty-state .big { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+
+  .total-bar {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .total-bar .lbl { font-size: 13px; color: var(--text2); }
+  .total-bar .val { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--green); }
+
+  /* Loading spinner */
+  .spinner { display: flex; justify-content: center; padding: 40px; }
+  .spinner-ring { width: 32px; height: 32px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: calc(var(--nav-h) + 12px); left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface3); border: 1px solid var(--border2);
+    color: var(--text); padding: 10px 18px; border-radius: 50px;
+    font-size: 13px; opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 500;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Photo screen */
+  .photo-section { background: var(--surface); border: 1px dashed var(--border2); border-radius: var(--radius); padding: 32px 20px; text-align: center; margin-top: 8px; }
+  .photo-icon { font-size: 40px; margin-bottom: 10px; }
+  .photo-label { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .photo-coming { display: inline-block; margin-top: 12px; padding: 4px 12px; background: var(--surface2); border-radius: 20px; font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.5px; }
+
+  .screen-title { font-family: var(--font-display); font-size: 26px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
+  .screen-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
+
+  .no-results { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; }
+
+  /* ── API KEY SETUP SCREEN ── */
+  #setup-screen {
+    position: fixed; inset: 0; z-index: 999;
+    background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 32px 24px;
+  }
+  .setup-logo { font-family: var(--font-display); font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
+  .setup-tagline { font-size: 13px; color: var(--text3); margin-bottom: 40px; }
+  .setup-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 24px; width: 100%; max-width: 380px; }
+  .setup-card h2 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .setup-card p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
+  .setup-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .setup-step { display: flex; gap: 10px; align-items: flex-start; }
+  .setup-step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #1a1200; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .setup-step-txt { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .setup-step-txt a { color: var(--blue); text-decoration: none; }
+  .setup-input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 14px; outline: none; margin-bottom: 10px; transition: border-color 0.2s; }
+  .setup-input:focus { border-color: var(--accent); }
+  .setup-input::placeholder { color: var(--text3); }
+  .setup-error { font-size: 12px; color: var(--red); margin-bottom: 8px; display: none; }
+  .setup-note { font-size: 11px; color: var(--text3); margin-top: 10px; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- API Key Setup Screen -->
+<div id="setup-screen">
+  <div class="setup-logo">PokeWaarde</div>
+  <div class="setup-tagline">Jouw Pokémon collectiebeheerder</div>
+  <div class="setup-card">
+    <h2>Gratis API-sleutel nodig</h2>
+    <p>Om kaartdata op te halen heb je een gratis sleutel nodig van de Pokémon TCG API. Dit duurt ongeveer 1 minuut.</p>
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="setup-step-num">1</div>
+        <div class="setup-step-txt">Ga naar <a href="https://dev.pokemontcg.io" target="_blank">dev.pokemontcg.io</a> en maak een gratis account aan</div>
+      </div>
+      <div class="setup-step">
+        <div class="setup-step-num">2</div>
+        <div class="setup-step-txt">Kopieer je API-sleutel van het dashboard</div>
+      </div>
+      <div class="setup-step">
+        <div class="setup-step-num">3</div>
+        <div class="setup-step-txt">Plak hem hieronder en tik op Opslaan</div>
+      </div>
+    </div>
+    <input class="setup-input" id="api-key-input" type="text" placeholder="Plak je API-sleutel hier…" autocomplete="off" spellcheck="false">
+    <div class="setup-error" id="setup-error">Ongeldige sleutel. Controleer of je de juiste sleutel hebt geplakt.</div>
+    <button class="btn btn-primary" id="setup-save-btn" style="margin-top:0;">Opslaan &amp; starten</button>
+    <div class="setup-note">Je sleutel wordt lokaal opgeslagen. Upload de app naar Netlify voor het beste resultaat.</div>
+  </div>
+</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div>
+    <div class="topbar-title">PokeWaarde</div>
+    <div class="topbar-subtitle">Mijn collectie</div>
+  </div>
+  <div class="topbar-value">
+    <div class="val" id="topbar-total">€0,00</div>
+    <div class="lbl">totale waarde</div>
+  </div>
+</div>
+
+<!-- SCREEN: Browse -->
+<div class="screen active" id="screen-browse">
+  <div class="screen-title">Bladeren</div>
+  <div class="screen-sub">Zoek of kies een set</div>
+
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </span>
+    <input type="text" id="search-input" placeholder="Zoek een kaart (bv. Charizard)…" autocomplete="off">
+  </div>
+
+  <!-- Search results -->
+  <div id="search-results-wrap" style="display:none">
+    <div class="section-label">Zoekresultaten</div>
+    <div class="card-grid" id="search-results"></div>
+    <div class="no-results" id="search-no-results" style="display:none">Geen kaarten gevonden.</div>
+    <div class="spinner" id="search-spinner" style="display:none"><div class="spinner-ring"></div></div>
+  </div>
+
+  <!-- Sets view -->
+  <div id="sets-view">
+    <div class="section-label">Alle sets</div>
+    <div class="spinner" id="sets-spinner"><div class="spinner-ring"></div></div>
+    <div class="set-grid" id="set-grid"></div>
+  </div>
+
+  <!-- Cards in set view -->
+  <div id="set-cards-view" style="display:none">
+    <button class="back-btn" id="back-to-sets">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Alle sets
+    </button>
+    <div id="set-cards-title" class="screen-title" style="font-size:18px;margin-bottom:2px;"></div>
+    <div id="set-cards-meta" class="screen-sub"></div>
+    <div class="spinner" id="cards-spinner"><div class="spinner-ring"></div></div>
+    <div class="card-grid" id="cards-in-set"></div>
+  </div>
+</div>
+
+<!-- SCREEN: Collection -->
+<div class="screen" id="screen-collection">
+  <div class="screen-title">Collectie</div>
+  <div class="screen-sub">Jouw kaarten & waarden</div>
+
+  <div class="pills" id="coll-filter">
+    <button class="pill active" data-filter="all">Alles</button>
+    <button class="pill" data-filter="NL">Nederlands</button>
+    <button class="pill" data-filter="EN">Engels</button>
+  </div>
+
+  <div id="collection-total" class="total-bar" style="display:none">
+    <div class="lbl">Totale waarde</div>
+    <div class="val" id="coll-total-val">€0,00</div>
+  </div>
+
+  <div id="collection-list"></div>
+
+  <div class="empty-state" id="coll-empty">
+    <div class="big">📦</div>
+    <p>Nog geen kaarten in je collectie.<br>Ga naar <strong>Bladeren</strong> om kaarten toe te voegen.</p>
+  </div>
+</div>
+
+<!-- SCREEN: Scan -->
+<div class="screen" id="screen-scan">
+  <div class="screen-title">Foto scannen</div>
+  <div class="screen-sub">Kaartconditie beoordelen met AI</div>
+
+  <div class="photo-section">
+    <div class="photo-icon">📷</div>
+    <div class="photo-label">Maak een foto van je kaart om de conditie automatisch te laten beoordelen door AI (Mint, Near Mint, Excellent, enz.)</div>
+    <div class="photo-coming">Binnenkort beschikbaar</div>
+  </div>
+
+  <div class="section-label" style="margin-top:24px;">Hoe het werkt</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">1</div>
+      <div style="font-size:13px;color:var(--text2);padding-top:4px;">Maak een duidelijke foto van je kaart, voor- en achterkant</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">2</div>
+      <div style="font-size:13px;color:var(--text2);padding-top:4px;">AI analyseert hoeken, krassen en slijtage</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">3</div>
+      <div style="font-size:13px;color:var(--text2);padding-top:4px;">De conditie wordt opgeslagen bij je kaart in de collectie</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom nav -->
+<nav>
+  <button class="nav-btn active" data-screen="browse">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    Bladeren
+  </button>
+  <button class="nav-btn" data-screen="collection">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M19 11H5M19 11a2 2 0 010 4H5a2 2 0 010-4M19 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4M5 15v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg>
+    Collectie
+  </button>
+  <button class="nav-btn" data-screen="scan">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    Scannen
+  </button>
+</nav>
+
+<!-- Card detail overlay -->
+<div class="overlay" id="card-overlay">
+  <div class="overlay-sheet">
+    <div class="overlay-handle"></div>
+    <img id="ov-img" class="overlay-img" src="" alt="">
+    <div class="overlay-name" id="ov-name"></div>
+    <div class="overlay-set" id="ov-set"></div>
+
+    <div class="overlay-row">
+      <span class="overlay-row-label">Set</span>
+      <span class="overlay-row-val" id="ov-setname"></span>
+    </div>
+    <div class="overlay-row">
+      <span class="overlay-row-label">Nummer</span>
+      <span class="overlay-row-val" id="ov-num"></span>
+    </div>
+    <div class="overlay-row">
+      <span class="overlay-row-label">Zeldzaamheid</span>
+      <span class="overlay-row-val" id="ov-rarity"></span>
+    </div>
+    <div class="overlay-row" style="border-bottom:none">
+      <span class="overlay-row-label">Type</span>
+      <span class="overlay-row-val" id="ov-type"></span>
+    </div>
+
+    <div class="section-label" style="margin-top:16px;">Taal</div>
+    <div class="lang-toggle" id="lang-toggle">
+      <button class="lang-btn active" data-lang="NL">🇳🇱 NL</button>
+      <button class="lang-btn" data-lang="EN">🇬🇧 EN</button>
+    </div>
+
+    <div class="section-label" style="margin-top:16px;">Prijs (Cardmarket)</div>
+    <div class="price-wrap">
+      <span style="color:var(--text2);font-size:18px;">€</span>
+      <input type="number" class="price-input" id="ov-price" placeholder="0,00" min="0" step="0.01">
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:6px;">Voer de prijs handmatig in van Cardmarket</div>
+
+    <button class="btn btn-cm" id="ov-cm-btn">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      Open op Cardmarket
+    </button>
+
+    <div id="ov-action-add">
+      <button class="btn btn-primary" id="ov-add-btn">+ Toevoegen aan collectie</button>
+    </div>
+    <div id="ov-action-remove" style="display:none">
+      <button class="btn btn-primary" id="ov-save-btn">Wijzigingen opslaan</button>
+      <button class="btn btn-danger" id="ov-remove-btn">Verwijder uit collectie</button>
+    </div>
+    <button class="btn btn-secondary" id="ov-close-btn">Sluiten</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://api.pokemontcg.io/v2';
+let sets = [];
+let currentCard = null;
+let selectedLang = 'NL';
+let collFilter = 'all';
+let API_KEY = localStorage.getItem('ptcg_api_key') || '';
+
+function apiFetch(url) {
+  return fetch(url, { headers: API_KEY ? { 'X-Api-Key': API_KEY } : {} });
+}
+
+// ── SETUP SCREEN ──
+function checkSetup() {
+  if (!API_KEY) {
+    document.getElementById('setup-screen').style.display = 'flex';
+  } else {
+    document.getElementById('setup-screen').style.display = 'none';
+    loadSets();
+  }
+}
+
+document.getElementById('setup-save-btn').addEventListener('click', async () => {
+  const key = document.getElementById('api-key-input').value.trim();
+  const errEl = document.getElementById('setup-error');
+  if (!key || key.length < 10) {
+    errEl.textContent = 'Voer een geldige sleutel in.';
+    errEl.style.display = 'block';
+    return;
+  }
+  // Save immediately — CORS blocks live validation from file:// and many hosts.
+  // The app will show a clear error if the key turns out to be wrong when loading sets.
+  API_KEY = key;
+  localStorage.setItem('ptcg_api_key', key);
+  errEl.style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'none';
+  loadSets();
+});
+
+// Collection stored in localStorage
+function getCollection() {
+  try { return JSON.parse(localStorage.getItem('pokecoll') || '[]'); } catch { return []; }
+}
+function saveCollection(coll) {
+  localStorage.setItem('pokecoll', JSON.stringify(coll));
+}
+function isInCollection(cardId) {
+  return getCollection().some(c => c.id === cardId);
+}
+function getCollectionItem(cardId) {
+  return getCollection().find(c => c.id === cardId);
+}
+
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// Total value
+function calcTotal() {
+  const coll = getCollection();
+  return coll.reduce((s, c) => s + (parseFloat(c.price) || 0), 0);
+}
+function updateTopbarTotal() {
+  document.getElementById('topbar-total').textContent = '€' + calcTotal().toFixed(2).replace('.', ',');
+}
+
+// Nav
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('screen-' + btn.dataset.screen).classList.add('active');
+    if (btn.dataset.screen === 'collection') renderCollection();
+  });
+});
+
+// ── SETS ──
+async function loadSets() {
+  try {
+    const r = await apiFetch(`${API}/sets?orderBy=-releaseDate&pageSize=250`);
+    const d = await r.json();
+    sets = d.data || [];
+    renderSets(sets);
+  } catch(e) {
+    document.getElementById('sets-spinner').innerHTML = `<div style="padding:20px;text-align:center">
+  <p style="color:var(--red);font-size:13px;margin-bottom:12px;">Sets konden niet worden geladen.</p>
+  <p style="color:var(--text3);font-size:12px;line-height:1.6;margin-bottom:14px;">Mogelijke oorzaken: ongeldige API-sleutel, of de app wordt lokaal geopend (file://) in plaats van via een webserver.</p>
+  <button onclick="localStorage.removeItem('ptcg_api_key');location.reload()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;">Andere sleutel invoeren</button>
+</div>`
+  }
+}
+
+function renderSets(data) {
+  const spinner = document.getElementById('sets-spinner');
+  spinner.style.display = 'none';
+  const grid = document.getElementById('set-grid');
+  grid.innerHTML = data.map(s => `
+    <div class="set-card" data-id="${s.id}">
+      <img src="${s.images?.symbol || ''}" alt="${s.name}" onerror="this.style.display='none'">
+      <div class="set-name">${s.name}</div>
+      <div class="set-meta">${s.series} · ${s.printedTotal || s.total || '?'} kaarten · ${s.releaseDate?.slice(0,4) || ''}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.set-card').forEach(el => {
+    el.addEventListener('click', () => openSet(el.dataset.id));
+  });
+}
+
+function openSet(setId) {
+  const set = sets.find(s => s.id === setId);
+  if (!set) return;
+  document.getElementById('sets-view').style.display = 'none';
+  document.getElementById('search-results-wrap').style.display = 'none';
+  document.getElementById('set-cards-view').style.display = 'block';
+  document.getElementById('set-cards-title').textContent = set.name;
+  document.getElementById('set-cards-meta').textContent = `${set.series} · ${set.releaseDate || ''}`;
+  document.getElementById('cards-spinner').style.display = 'flex';
+  document.getElementById('cards-in-set').innerHTML = '';
+  loadCardsInSet(setId);
+}
+
+async function loadCardsInSet(setId) {
+  try {
+    const r = await apiFetch(`${API}/cards?q=set.id:${setId}&orderBy=number&pageSize=250`);
+    const d = await r.json();
+    document.getElementById('cards-spinner').style.display = 'none';
+    renderCardGrid(d.data || [], document.getElementById('cards-in-set'));
+  } catch(e) {
+    document.getElementById('cards-spinner').innerHTML = '<p style="color:var(--text3);font-size:13px;">Kon kaarten niet laden.</p>';
+  }
+}
+
+document.getElementById('back-to-sets').addEventListener('click', () => {
+  document.getElementById('set-cards-view').style.display = 'none';
+  document.getElementById('sets-view').style.display = 'block';
+});
+
+// ── SEARCH ──
+let searchTimeout;
+document.getElementById('search-input').addEventListener('input', e => {
+  const q = e.target.value.trim();
+  clearTimeout(searchTimeout);
+  if (!q) {
+    document.getElementById('search-results-wrap').style.display = 'none';
+    document.getElementById('sets-view').style.display = 'block';
+    document.getElementById('set-cards-view').style.display = 'none';
+    return;
+  }
+  document.getElementById('sets-view').style.display = 'none';
+  document.getElementById('set-cards-view').style.display = 'none';
+  document.getElementById('search-results-wrap').style.display = 'block';
+  document.getElementById('search-results').innerHTML = '';
+  document.getElementById('search-no-results').style.display = 'none';
+  document.getElementById('search-spinner').style.display = 'flex';
+  searchTimeout = setTimeout(() => doSearch(q), 400);
+});
+
+async function doSearch(q) {
+  try {
+    const r = await apiFetch(`${API}/cards?q=name:"${encodeURIComponent(q)}"&pageSize=30&orderBy=-set.releaseDate`);
+    const d = await r.json();
+    document.getElementById('search-spinner').style.display = 'none';
+    const cards = d.data || [];
+    if (!cards.length) { document.getElementById('search-no-results').style.display = 'block'; return; }
+    renderCardGrid(cards, document.getElementById('search-results'));
+  } catch {
+    document.getElementById('search-spinner').style.display = 'none';
+    document.getElementById('search-no-results').style.display = 'block';
+  }
+}
+
+// ── CARD GRID RENDER ──
+function renderCardGrid(cards, container) {
+  const coll = getCollection();
+  container.innerHTML = cards.map(c => {
+    const inColl = coll.some(x => x.id === c.id);
+    const img = c.images?.small || '';
+    return `<div class="poke-card ${inColl ? 'in-collection' : ''}" data-id="${c.id}">
+      ${inColl ? '<div class="in-badge">✓ In collectie</div>' : ''}
+      <img src="${img}" alt="${c.name}" loading="lazy">
+      <div class="poke-card-info">
+        <div class="poke-card-name">${c.name}</div>
+        <div class="poke-card-num">${c.set?.name || ''} · #${c.number || '?'}</div>
+      </div>
+    </div>`;
+  }).join('');
+  container.querySelectorAll('.poke-card').forEach(el => {
+    el.addEventListener('click', () => {
+      const card = cards.find(c => c.id === el.dataset.id);
+      if (card) openCardDetail(card);
+    });
+  });
+}
+
+// ── CARD DETAIL OVERLAY ──
+function openCardDetail(card) {
+  currentCard = card;
+  const existing = getCollectionItem(card.id);
+  selectedLang = existing ? existing.lang : 'NL';
+
+  document.getElementById('ov-img').src = card.images?.large || card.images?.small || '';
+  document.getElementById('ov-name').textContent = card.name;
+  document.getElementById('ov-set').textContent = `${card.set?.name || ''} · #${card.number || '?'}`;
+  document.getElementById('ov-setname').textContent = card.set?.name || '-';
+  document.getElementById('ov-num').textContent = `${card.number || '?'} / ${card.set?.printedTotal || card.set?.total || '?'}`;
+  document.getElementById('ov-rarity').textContent = card.rarity || '-';
+  document.getElementById('ov-type').textContent = (card.types || []).join(', ') || (card.supertype || '-');
+  document.getElementById('ov-price').value = existing ? (existing.price || '') : '';
+
+  // Lang toggle
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === selectedLang);
+    b.onclick = () => {
+      selectedLang = b.dataset.lang;
+      document.querySelectorAll('.lang-btn').forEach(x => x.classList.toggle('active', x.dataset.lang === selectedLang));
+    };
+  });
+
+  // Cardmarket link
+  document.getElementById('ov-cm-btn').onclick = () => {
+    const name = card.name.replace(/ /g, '+');
+    const lang = selectedLang === 'NL' ? '&language=7' : '&language=1';
+    const url = `https://www.cardmarket.com/nl/Pokemon/Products/Search?searchString=${name}${lang}`;
+    window.open(url, '_blank');
+  };
+
+  if (existing) {
+    document.getElementById('ov-action-add').style.display = 'none';
+    document.getElementById('ov-action-remove').style.display = 'block';
+  } else {
+    document.getElementById('ov-action-add').style.display = 'block';
+    document.getElementById('ov-action-remove').style.display = 'none';
+  }
+
+  document.getElementById('card-overlay').classList.add('open');
+}
+
+document.getElementById('ov-add-btn').addEventListener('click', () => {
+  if (!currentCard) return;
+  const price = parseFloat(document.getElementById('ov-price').value) || 0;
+  const coll = getCollection();
+  coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', number: currentCard.number || '', img: currentCard.images?.small || '', lang: selectedLang, price, rarity: currentCard.rarity || '' });
+  saveCollection(coll);
+  updateTopbarTotal();
+  closeOverlay();
+  showToast('✓ Kaart toegevoegd aan collectie');
+  refreshGridBadges();
+});
+
+document.getElementById('ov-save-btn').addEventListener('click', () => {
+  if (!currentCard) return;
+  const price = parseFloat(document.getElementById('ov-price').value) || 0;
+  const coll = getCollection();
+  const idx = coll.findIndex(c => c.id === currentCard.id);
+  if (idx >= 0) { coll[idx].price = price; coll[idx].lang = selectedLang; }
+  saveCollection(coll);
+  updateTopbarTotal();
+  closeOverlay();
+  showToast('✓ Wijzigingen opgeslagen');
+  if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
+});
+
+document.getElementById('ov-remove-btn').addEventListener('click', () => {
+  if (!currentCard) return;
+  const coll = getCollection().filter(c => c.id !== currentCard.id);
+  saveCollection(coll);
+  updateTopbarTotal();
+  closeOverlay();
+  showToast('Kaart verwijderd uit collectie');
+  if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
+  refreshGridBadges();
+});
+
+document.getElementById('ov-close-btn').addEventListener('click', closeOverlay);
+document.getElementById('card-overlay').addEventListener('click', e => { if (e.target === document.getElementById('card-overlay')) closeOverlay(); });
+
+function closeOverlay() {
+  document.getElementById('card-overlay').classList.remove('open');
+  currentCard = null;
+}
+
+function refreshGridBadges() {
+  // Re-render current grid to update badges without full reload
+  const containers = ['search-results', 'cards-in-set', 'set-grid'];
+  // Just re-fetch collection and update DOM badges
+  const coll = getCollection();
+  document.querySelectorAll('.poke-card').forEach(el => {
+    const inColl = coll.some(x => x.id === el.dataset.id);
+    el.classList.toggle('in-collection', inColl);
+    const existing = el.querySelector('.in-badge');
+    if (inColl && !existing) {
+      const b = document.createElement('div'); b.className = 'in-badge'; b.textContent = '✓ In collectie';
+      el.prepend(b);
+    } else if (!inColl && existing) { existing.remove(); }
+  });
+}
+
+// ── COLLECTION SCREEN ──
+document.getElementById('coll-filter').querySelectorAll('.pill').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('#coll-filter .pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    collFilter = p.dataset.filter;
+    renderCollection();
+  });
+});
+
+function renderCollection() {
+  let coll = getCollection();
+  if (collFilter !== 'all') coll = coll.filter(c => c.lang === collFilter);
+
+  const totalBar = document.getElementById('collection-total');
+  const empty = document.getElementById('coll-empty');
+  const list = document.getElementById('collection-list');
+
+  if (!coll.length) {
+    totalBar.style.display = 'none';
+    empty.style.display = 'block';
+    list.innerHTML = '';
+    return;
+  }
+
+  empty.style.display = 'none';
+  totalBar.style.display = 'flex';
+
+  const total = coll.reduce((s, c) => s + (parseFloat(c.price) || 0), 0);
+  document.getElementById('coll-total-val').textContent = '€' + total.toFixed(2).replace('.', ',');
+
+  list.innerHTML = coll.map(c => `
+    <div class="collection-item" data-id="${c.id}">
+      <img src="${c.img}" alt="${c.name}" onerror="this.src=''">
+      <div class="ci-info">
+        <div class="ci-name">${c.name}</div>
+        <div class="ci-meta">${c.set} · #${c.number}</div>
+        <div class="ci-meta" style="margin-top:3px;">${c.rarity || ''}</div>
+      </div>
+      <div class="ci-price">
+        <div class="amount">${c.price ? '€' + parseFloat(c.price).toFixed(2).replace('.', ',') : '—'}</div>
+        <div class="lang-tag">${c.lang === 'NL' ? '🇳🇱 NL' : '🇬🇧 EN'}</div>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.collection-item').forEach(el => {
+    el.addEventListener('click', async () => {
+      const allColl = getCollection();
+      const item = allColl.find(c => c.id === el.dataset.id);
+      if (!item) return;
+      // Fetch full card data then open overlay
+      try {
+        const r = await apiFetch(`${API}/cards/${item.id}`);
+        const d = await r.json();
+        if (d.data) openCardDetail(d.data);
+      } catch { showToast('Kon kaartdetails niet laden'); }
+    });
+  });
+}
+
+// Init
+updateTopbarTotal();
+checkSetup();
+</script>
+</body>
+</html>
