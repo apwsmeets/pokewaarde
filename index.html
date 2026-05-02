@@ -767,12 +767,15 @@ function openCardDetail(card) {
 
   // Cardmarket link
   document.getElementById('ov-cm-btn').onclick = () => {
-    // Cardmarket's own help docs say: search "CardName setCode+number" e.g. "Charizard bs4"
-    // The set id from pokemontcg.io (e.g. "base1") maps to a ptcgoCode (e.g. "BS") on the set object
-    // We combine name + number for a precise search, language param: 7=NL, 1=EN
-    const langParam = selectedLang === 'NL' ? '&language=7' : '&language=1';
-    const searchTerm = encodeURIComponent(`${card.name} ${card.number}`);
-    const url = `https://www.cardmarket.com/en/Pokemon/Products/Search?searchString=${searchTerm}${langParam}`;
+    // Use the Cardmarket Species page — shows all printings of a card, always works,
+    // and the URL is simply the card name with spaces replaced by hyphens.
+    // e.g. "Charizard ex" -> /Species/Charizard-ex
+    const langPath = selectedLang === 'NL' ? 'nl' : 'en';
+    const species = card.name
+      .replace(/[^a-zA-Z0-9 \-]/g, '')
+      .trim()
+      .replace(/ +/g, '-');
+    const url = `https://www.cardmarket.com/${langPath}/Pokemon/Species/${species}`;
     window.open(url, '_blank');
   };
 
