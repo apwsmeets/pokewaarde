@@ -575,9 +575,13 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
 // ── SETS ──
 async function loadSets() {
   try {
-    const r = await apiFetch(`${API}/sets?orderBy=releaseDate&pageSize=250`);
+    const r = await apiFetch(`${API}/sets?pageSize=250`);
     const d = await r.json();
-    sets = d.data || [];
+    sets = (d.data || []).sort((a, b) => {
+      const da = a.releaseDate || '0000/00/00';
+      const db = b.releaseDate || '0000/00/00';
+      return da.localeCompare(db);
+    });
     renderSets(sets);
   } catch(e) {
     document.getElementById('sets-spinner').innerHTML = `<div style="padding:20px;text-align:center">
@@ -703,20 +707,23 @@ async function fetchCardmarketPrice(card) {
     const r = await fetch(`https://api.tcgdex.net/v2/en/cards/${tcgdexId}`);
     if (!r.ok) throw new Error('not found');
     const d = await r.json();
-    const cm = d.market?.cardmarket;
+    // TCGdex stores pricing under d.pricing.cardmarket
+    const cm = d.pricing?.cardmarket;
     if (!cm) throw new Error('no cardmarket data');
 
-    // Use trend price as the best single value, fall back to avg
+    // trend is the best single value; fall back through avg, low
     const price = cm.trend ?? cm.avg ?? cm.low ?? null;
     if (price === null) throw new Error('no price value');
 
-    // Only auto-fill if there is no existing manual price
+    // Only auto-fill if there is no existing manual price saved
     const existing = getCollectionItem(card.id);
     if (!existing || !existing.price) {
       priceEl.value = price.toFixed(2);
     }
     statusEl.style.color = 'var(--green)';
-    statusEl.textContent = `Cardmarket: trend €${price.toFixed(2)} · gem. 7d €${(cm.avg7 ?? cm.avg ?? price).toFixed(2)} · gem. 30d €${(cm.avg30 ?? cm.avg ?? price).toFixed(2)}`;
+    const avg7  = cm.avg7  ?? cm.avg ?? price;
+    const avg30 = cm.avg30 ?? cm.avg ?? price;
+    statusEl.textContent = `Cardmarket: trend €${price.toFixed(2)} · gem. 7d €${avg7.toFixed(2)} · gem. 30d €${avg30.toFixed(2)}`;
   } catch(e) {
     statusEl.style.color = 'var(--text3)';
     statusEl.textContent = 'Geen automatische prijs beschikbaar — voer handmatig in.';
@@ -760,9 +767,14 @@ function openCardDetail(card) {
 
   // Cardmarket link
   document.getElementById('ov-cm-btn').onclick = () => {
-    const name = card.name.replace(/ /g, '+');
-    const lang = selectedLang === 'NL' ? '&language=7' : '&language=1';
-    const url = `https://www.cardmarket.com/nl/Pokemon/Products/Search?searchString=${name}${lang}`;
+    // Cardmarket card pages use hyphenated card names, e.g. /Cards/Charizard-ex
+    // For Dutch we use /nl/, for English /en/
+    const langPath = selectedLang === 'NL' ? 'nl' : 'en';
+    const cardSlug = card.name
+      .replace(/[^a-zA-Z0-9 ]/g, '')  // strip special chars
+      .trim()
+      .replace(/ +/g, '-');            // spaces to hyphens
+    const url = `https://www.cardmarket.com/${langPath}/Pokemon/Cards/${cardSlug}`;
     window.open(url, '_blank');
   };
 
