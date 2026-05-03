@@ -845,7 +845,7 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M19 11H5M19 11a2 2 0 010 4H5a2 2 0 010-4M19 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4M5 15v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg>
     Collectie
   </button>
-  <button class="nav-btn" data-screen="scan">
+  <button class="nav-btn" id="nav-scan-btn" data-screen="scan" style="display:none;">
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
     Scannen
   </button>
@@ -961,12 +961,12 @@ let currentCard = null;
 let selectedVariant = 'standard';
 let selectedLang = 'NL';
 let selectedQty = 1;
-let selectedPaid = 0;
 let collFilter = 'all';
 let collSort = 'date';
 let collSortAsc = false;
 let collSearch = '';
 let selectedCondition = '';
+let selectedPaid = 0;
 // Scan-to-add: temporary values set by the scanner before opening the overlay
 let _scanDetectedLang = null;
 let _scanDetectedCondition = null;
@@ -974,9 +974,7 @@ let _scanDetectedCondition = null;
 const cardCache = new Map();
 
 // ── MULTI-COLLECTION STORAGE ──
-function getCollections() {
-  try { return JSON.parse(localStorage.getItem('coll_index') || 'null'); } catch { return null; }
-}
+
 function initCollections() {
   let index = getCollections();
   if (!index) {
@@ -984,17 +982,34 @@ function initCollections() {
     const legacy = localStorage.getItem('pokecoll');
     const legacyHist = localStorage.getItem('pokehist');
     index = [{ id: defaultId, name: 'Mijn collectie', createdAt: Date.now() }];
-    localStorage.setItem('coll_index', JSON.stringify(index));
-    localStorage.setItem('active_coll_id', defaultId);
+    localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
+    setActiveCollId(defaultId);
     if (legacy) { localStorage.setItem('coll_' + defaultId, legacy); localStorage.removeItem('pokecoll'); }
     if (legacyHist) { localStorage.setItem('hist_' + defaultId, legacyHist); localStorage.removeItem('pokehist'); }
   }
-  if (!localStorage.getItem('active_coll_id') || !index.find(c => c.id === localStorage.getItem('active_coll_id'))) {
-    localStorage.setItem('active_coll_id', index[0].id);
+  if (!activeCollId() || !index.find(c => c.id === activeCollId())) {
+    setActiveCollId(index[0].id);
   }
   return index;
 }
-function activeCollId() { return localStorage.getItem('active_coll_id') || ''; }
+// Cache active collection ID and index in memory
+let _activeCollId = '';
+let _collIndex    = null;  // cached collections index
+
+function activeCollId() {
+  if (!_activeCollId) _activeCollId = localStorage.getItem('active_coll_id') || '';
+  return _activeCollId;
+}
+function setActiveCollId(id) {
+  _activeCollId = id;
+  localStorage.setItem('active_coll_id', id);
+}
+function getCollections() {
+  if (_collIndex) return _collIndex;
+  try { _collIndex = JSON.parse(localStorage.getItem('coll_index') || 'null'); } catch { _collIndex = null; }
+  return _collIndex;
+}
+function invalidateCollIndex() { _collIndex = null; }
 function activeCollName() {
   const idx = getCollections() || [];
   const active = idx.find(c => c.id === activeCollId());
@@ -1017,7 +1032,7 @@ function recordSnapshot(total) {
 }
 const FIRST_ED_SETS = new Set([
   'base1','jungle','fossil','teamrocket','gym1','gym2',
-  'neo1','neo2','neo3','neo4','si1','np'
+  'neo1','neo2','neo3','neo4','si1','basep'
 ]);
 const SHADOWLESS_SETS = new Set(['base1']);
 let API_KEY       = localStorage.getItem('ptcg_api_key') || '';
@@ -1069,6 +1084,7 @@ document.getElementById('setup-save-btn').addEventListener('click', async () => 
 
   document.getElementById('setup-screen').style.display = 'none';
   loadSets();
+  updateScanTabVisibility();
 });
 
 // Collection stored in localStorage — keyed by active collection ID
@@ -1085,12 +1101,14 @@ function updateTopbarCollName() {
   if (el) el.textContent = activeCollName();
 }
 function switchCollection(id) {
-  localStorage.setItem('active_coll_id', id);
+  setActiveCollId(id);
   updateTopbarCollName();
   cardCache.clear();
+  const switchColl = getCollection();
+  const switchTotal = calcTotal(switchColl);
+  updateTopbarTotal(switchColl);
+  recordSnapshot(switchTotal);
   renderCollection();
-  updateTopbarTotal();
-  recordSnapshot();
   renderCollectionsManager();
   showToast('✓ Gewisseld naar: ' + activeCollName());
 }
@@ -1100,7 +1118,7 @@ function createCollection(name) {
   const index = getCollections() || [];
   const id = 'coll_' + Date.now();
   index.push({ id, name, createdAt: Date.now() });
-  localStorage.setItem('coll_index', JSON.stringify(index));
+  localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
   switchCollection(id);
 }
 function renameCollection(id, newName) {
@@ -1109,7 +1127,7 @@ function renameCollection(id, newName) {
   const entry = index.find(c => c.id === id);
   if (!entry) return;
   entry.name = newName.trim();
-  localStorage.setItem('coll_index', JSON.stringify(index));
+  localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
   if (id === activeCollId()) updateTopbarCollName();
   renderCollectionsManager();
   showToast('✓ Naam gewijzigd');
@@ -1198,13 +1216,16 @@ async function sbPull() {
     if (!r.ok) throw new Error(await r.text());
     const rows = await r.json();
     if (!rows.length) {
-      // Nothing in Supabase yet — push current local data
+      // Nothing in Supabase yet — push all local collections directly
       const index = getCollections() || [];
       for (const c of index) {
-        const prevActive = activeCollId();
-        localStorage.setItem('active_coll_id', c.id);
-        await sbPush(c.id);
-        localStorage.setItem('active_coll_id', prevActive);
+        // Read each collection's data directly without changing active_coll_id
+        const cards = (() => { try { return JSON.parse(localStorage.getItem('coll_' + c.id) || '[]'); } catch { return []; } })();
+        const hist  = (() => { try { return JSON.parse(localStorage.getItem('hist_'  + c.id) || '[]'); } catch { return []; } })();
+        await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
+          method: 'POST', headers: sbHeaders(),
+          body: JSON.stringify({ id: c.id, name: c.name, cards, history: hist, updated_at: new Date().toISOString() })
+        }).catch(() => {});
       }
       if (sbStatus) { sbStatus.style.color = 'var(--green)'; sbStatus.textContent = '✓ Lokale data geüpload naar Supabase'; }
       return true;
@@ -1229,7 +1250,7 @@ async function sbPull() {
       }
     }
     if (changed) {
-      localStorage.setItem('coll_index', JSON.stringify(index));
+      localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
       updateTopbarCollName();
       renderCollection();
       updateTopbarTotal();
@@ -1245,14 +1266,53 @@ async function sbPull() {
 
 // Supabase auto-push is called explicitly after each save (see save/add/remove handlers)
 
-// Wire collections create button
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('new-coll-btn');
-  if (btn) btn.addEventListener('click', () => {
-    const inp = document.getElementById('new-coll-input');
-    if (inp && inp.value.trim()) { createCollection(inp.value); inp.value = ''; }
-  });
+// Wire collections create button (script is at bottom of body, DOM already ready)
+const _newCollBtn = document.getElementById('new-coll-btn');
+if (_newCollBtn) _newCollBtn.addEventListener('click', () => {
+  const inp = document.getElementById('new-coll-input');
+  if (inp && inp.value.trim()) { createCollection(inp.value); inp.value = ''; }
 });
+
+// ── POST-SAVE HELPER ──
+// Called after every add/save/remove to update UI consistently
+function afterSave(coll, toastMsg, doRenderCollection) {
+  saveCollection(coll);
+  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
+  const t = calcTotal(coll);
+  updateTopbarTotal(coll);
+  recordSnapshot(t);
+  closeOverlay();
+  showToast(toastMsg);
+  if (doRenderCollection && document.getElementById('screen-collection').classList.contains('active')) renderCollection();
+  refreshGridBadges();
+}
+
+// ── QTY BUTTON INIT ──
+function initQtyButtons() {
+  document.getElementById('qty-minus').addEventListener('click', () => {
+    if (selectedQty > 1) { selectedQty--; document.getElementById('qty-display').textContent = selectedQty; }
+  });
+  document.getElementById('qty-plus').addEventListener('click', () => {
+    selectedQty++; document.getElementById('qty-display').textContent = selectedQty;
+  });
+}
+
+// ── SCAN TAB VISIBILITY ──
+function updateScanTabVisibility() {
+  const btn = document.getElementById('nav-scan-btn');
+  if (!btn) return;
+  btn.style.display = ANTHROPIC_KEY ? 'flex' : 'none';
+  // If currently on scan screen with no key, redirect to browse
+  if (!ANTHROPIC_KEY) {
+    const scanScreen = document.getElementById('screen-scan');
+    if (scanScreen && scanScreen.classList.contains('active')) {
+      (_navBtns || document.querySelectorAll('.nav-btn')).forEach(b => b.classList.remove('active'));
+      (_navScreens || document.querySelectorAll('.screen')).forEach(s => s.classList.remove('active'));
+      document.querySelector('[data-screen="browse"]').classList.add('active');
+      document.getElementById('screen-browse').classList.add('active');
+    }
+  }
+}
 
 // Toast
 function showToast(msg) {
@@ -1272,11 +1332,13 @@ function updateTopbarTotal(coll) {
   document.getElementById('topbar-total').textContent = '€' + calcTotal(coll).toFixed(2).replace('.', ',');
 }
 
-// Nav
-document.querySelectorAll('.nav-btn').forEach(btn => {
+// Nav — cache NodeLists once
+const _navBtns    = document.querySelectorAll('.nav-btn');
+const _navScreens = document.querySelectorAll('.screen');
+_navBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    _navBtns.forEach(b => b.classList.remove('active'));
+    _navScreens.forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('screen-' + btn.dataset.screen).classList.add('active');
     if (btn.dataset.screen === 'collection') renderCollection();
@@ -1373,8 +1435,8 @@ function openSet(setId) {
         varBar.querySelectorAll('.variant-btn').forEach(x => x.classList.remove('active'));
         b.classList.add('active');
         currentVariant = b.dataset.variant;
-        renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
-        updateSetProgress(currentSetCards);
+        const vc = renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
+        updateSetProgress(currentSetCards, vc);
       });
     });
   }
@@ -1387,8 +1449,8 @@ async function loadCardsInSet(setId) {
     const d = await r.json();
     currentSetCards = d.data || [];
     document.getElementById('cards-spinner').style.display = 'none';
-    renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
-    updateSetProgress(currentSetCards);
+    const gridColl = renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
+    updateSetProgress(currentSetCards, gridColl);
   } catch(e) {
     document.getElementById('cards-spinner').innerHTML = '<p style="color:var(--text3);font-size:13px;">Kon kaarten niet laden.</p>';
   }
@@ -1421,10 +1483,17 @@ document.getElementById('search-input').addEventListener('input', e => {
 
 async function doSearch(q) {
   try {
-    const r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`"${q}"`)}&pageSize=30&orderBy=-set.releaseDate`);
-    const d = await r.json();
+    // First try exact match (quoted), then fall back to prefix match if no results
+    let r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`"${q}"`)}&pageSize=30&orderBy=-set.releaseDate`);
+    let d = await r.json();
+    let cards = d.data || [];
+    if (!cards.length) {
+      // Fallback: prefix/wildcard match — catches "Ancient Mew" and unusual promos
+      r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`${q}*`)}&pageSize=30&orderBy=-set.releaseDate`);
+      d = await r.json();
+      cards = d.data || [];
+    }
     document.getElementById('search-spinner').style.display = 'none';
-    const cards = d.data || [];
     if (!cards.length) { document.getElementById('search-no-results').style.display = 'block'; return; }
     renderCardGrid(cards, document.getElementById('search-results'), 'standard');
   } catch {
@@ -1434,8 +1503,9 @@ async function doSearch(q) {
 }
 
 // ── CARD GRID RENDER ──
-function updateSetProgress(cards) {
-  const coll = getCollection();
+function updateSetProgress(cards, coll) {
+  // Accept pre-read collection to avoid an extra localStorage call
+  if (!coll) coll = getCollection();
   const total = cards.length;
   if (!total) return;
   const owned = cards.filter(c => coll.some(x => x.id === c.id)).length;
@@ -1477,169 +1547,184 @@ function renderCardGrid(cards, container, forVariant = 'standard') {
       if (card) openCardDetail(card, el.dataset.variant || 'standard');
     });
   });
+  // Return coll so callers can pass it to updateSetProgress without re-reading
+  return coll;
 }
 
 // ── CARDMARKET URL BUILDER ──
 // Maps pokemontcg.io set IDs to Cardmarket's URL set slug and card code prefix.
 // Format: { setSlug: 'Base-Set', code: 'BS' }
-// Card URL pattern: /Products/Singles/{setSlug}/{CardName}-V1-{code}{number}
-// V1/V2 etc. is a version suffix Cardmarket adds when multiple cards share a name+number.
-// We always use V1 as first attempt; if that 404s the user can adjust manually.
+// Card URL strategy:
+//   - base1: direct link with V1/V2/V3 by print run (always reliable)
+//   - promo sets with numPrefix (bwp, smp, swshp, svp): direct link (always reliable)
+//   - Celebrations (swsh75): direct link with CELBS-{n} pattern (confirmed)
+//   - All other sets: search URL within the set — V prefix is per-card and unguessable
+//   - CM_CARD_OVERRIDES: explicit overrides for cards with unusual numbering (e.g. Ancient Mew)
 const CM_SET_MAP = {
   // ── WotC era ──
   'base1':       { slug: 'Base-Set',              code: 'BS'    },
-  'base2':       { slug: 'Base-Set-2',            code: 'B2'    },
-  'jungle':      { slug: 'Jungle',                code: 'JU'    },
-  'fossil':      { slug: 'Fossil',                code: 'FO'    },
-  'teamrocket':  { slug: 'Team-Rocket',           code: 'TR'    },
-  'gym1':        { slug: 'Gym-Heroes',            code: 'G1'    },
-  'gym2':        { slug: 'Gym-Challenge',         code: 'G2'    },
-  'neo1':        { slug: 'Neo-Genesis',           code: 'N1'    },
-  'neo2':        { slug: 'Neo-Discovery',         code: 'N2'    },
-  'neo3':        { slug: 'Neo-Revelation',        code: 'N3'    },
-  'neo4':        { slug: 'Neo-Destiny',           code: 'N4'    },
-  'si1':         { slug: 'Southern-Islands',      code: 'SI'    },
-  'lc':          { slug: 'Legendary-Collection',  code: 'LC'    },
+  'base2':       { slug: 'Base-Set-2',            code: 'B2',  v: false },
+  'jungle':      { slug: 'Jungle',                code: 'JU',  v: false },
+  'fossil':      { slug: 'Fossil',                code: 'FO',  v: false },
+  'teamrocket':  { slug: 'Team-Rocket',           code: 'TR',  v: false },
+  'gym1':        { slug: 'Gym-Heroes',            code: 'G1',  v: false },
+  'gym2':        { slug: 'Gym-Challenge',         code: 'G2',  v: false },
+  'neo1':        { slug: 'Neo-Genesis',           code: 'N1',  v: false },
+  'neo2':        { slug: 'Neo-Discovery',         code: 'N2',  v: false },
+  'neo3':        { slug: 'Neo-Revelation',        code: 'N3',  v: false },
+  'neo4':        { slug: 'Neo-Destiny',           code: 'N4',  v: false },
+  'si1':         { slug: 'Southern-Islands',      code: 'SI',  v: false },
+  'lc':          { slug: 'Legendary-Collection',  code: 'LC',  v: false },
   // ── e-Card era ──
-  'ecard1':      { slug: 'Expedition-Base-Set',   code: 'EX'    },
-  'ecard2':      { slug: 'Aquapolis',             code: 'AQ'    },
-  'ecard3':      { slug: 'Skyridge',              code: 'SK'    },
+  'ecard1':      { slug: 'Expedition-Base-Set',   code: 'EX',  v: false },
+  'ecard2':      { slug: 'Aquapolis',             code: 'AQ',  v: false },
+  'ecard3':      { slug: 'Skyridge',              code: 'SK',  v: false },
   // ── EX era ──
-  'ex1':         { slug: 'EX-Ruby-Sapphire',           code: 'RS'  },
-  'ex2':         { slug: 'EX-Sandstorm',               code: 'SS'  },
-  'ex3':         { slug: 'EX-Dragon',                  code: 'DR'  },
-  'ex4':         { slug: 'EX-Team-Magma-vs-Team-Aqua', code: 'MA'  },
-  'ex5':         { slug: 'EX-Hidden-Legends',          code: 'HL'  },
-  'ex6':         { slug: 'EX-FireRed-LeafGreen',       code: 'FL'  },
-  'ex7':         { slug: 'EX-Team-Rocket-Returns',     code: 'TRR' },
-  'ex8':         { slug: 'EX-Deoxys',                  code: 'DX'  },
-  'ex9':         { slug: 'EX-Emerald',                 code: 'EM'  },
-  'ex10':        { slug: 'EX-Unseen-Forces',           code: 'UF'  },
-  'ex11':        { slug: 'EX-Delta-Species',           code: 'DS'  },
-  'ex12':        { slug: 'EX-Legend-Maker',            code: 'LM'  },
-  'ex13':        { slug: 'EX-Holon-Phantoms',          code: 'HP'  },
-  'ex14':        { slug: 'EX-Crystal-Guardians',       code: 'CG'  },
-  'ex15':        { slug: 'EX-Dragon-Frontiers',        code: 'DF'  },
-  'ex16':        { slug: 'EX-Power-Keepers',           code: 'PK'  },
+  'ex1':         { slug: 'EX-Ruby-Sapphire',           code: 'RS',  v: false },
+  'ex2':         { slug: 'EX-Sandstorm',               code: 'SS',  v: false },
+  'ex3':         { slug: 'EX-Dragon',                  code: 'DR',  v: false },
+  'ex4':         { slug: 'EX-Team-Magma-vs-Team-Aqua', code: 'MA',  v: false },
+  'ex5':         { slug: 'EX-Hidden-Legends',          code: 'HL',  v: false },
+  'ex6':         { slug: 'EX-FireRed-LeafGreen',       code: 'FL',  v: false },
+  'ex7':         { slug: 'EX-Team-Rocket-Returns',     code: 'TRR', v: false },
+  'ex8':         { slug: 'EX-Deoxys',                  code: 'DX',  v: false },
+  'ex9':         { slug: 'EX-Emerald',                 code: 'EM',  v: false },
+  'ex10':        { slug: 'EX-Unseen-Forces',           code: 'UF',  v: false },
+  'ex11':        { slug: 'EX-Delta-Species',           code: 'DS',  v: false },
+  'ex12':        { slug: 'EX-Legend-Maker',            code: 'LM',  v: false },
+  'ex13':        { slug: 'EX-Holon-Phantoms',          code: 'HP',  v: false },
+  'ex14':        { slug: 'EX-Crystal-Guardians',       code: 'CG',  v: false },
+  'ex15':        { slug: 'EX-Dragon-Frontiers',        code: 'DF',  v: false },
+  'ex16':        { slug: 'EX-Power-Keepers',           code: 'PK',  v: false },
   // ── Diamond & Pearl era ──
-  'dp1':         { slug: 'Diamond-Pearl',              code: 'DP'  },
-  'dp2':         { slug: 'Mysterious-Treasures',       code: 'MT'  },
-  'dp3':         { slug: 'Secret-Wonders',             code: 'SW'  },
-  'dp4':         { slug: 'Great-Encounters',           code: 'GE'  },
-  'dp5':         { slug: 'Majestic-Dawn',              code: 'MD'  },
-  'dp6':         { slug: 'Legends-Awakened',           code: 'LA'  },
-  'dp7':         { slug: 'Stormfront',                 code: 'SF'  },
+  'dp1':         { slug: 'Diamond-Pearl',              code: 'DP',  v: false },
+  'dp2':         { slug: 'Mysterious-Treasures',       code: 'MT',  v: false },
+  'dp3':         { slug: 'Secret-Wonders',             code: 'SW',  v: false },
+  'dp4':         { slug: 'Great-Encounters',           code: 'GE',  v: false },
+  'dp5':         { slug: 'Majestic-Dawn',              code: 'MD',  v: false },
+  'dp6':         { slug: 'Legends-Awakened',           code: 'LA',  v: false },
+  'dp7':         { slug: 'Stormfront',                 code: 'SF',  v: false },
   // ── Platinum era ──
-  'pl1':         { slug: 'Platinum',                   code: 'PL'  },
-  'pl2':         { slug: 'Rising-Rivals',              code: 'RR'  },
-  'pl3':         { slug: 'Supreme-Victors',            code: 'SV'  },
-  'pl4':         { slug: 'Arceus',                     code: 'AR'  },
+  'pl1':         { slug: 'Platinum',                   code: 'PL',  v: false },
+  'pl2':         { slug: 'Rising-Rivals',              code: 'RR',  v: false },
+  'pl3':         { slug: 'Supreme-Victors',            code: 'SV',  v: false },
+  'pl4':         { slug: 'Arceus',                     code: 'AR',  v: false },
   // ── HeartGold SoulSilver era ──
-  'hgss1':       { slug: 'HeartGold-SoulSilver',       code: 'HS'  },
-  'hgss2':       { slug: 'Unleashed',                  code: 'UL'  },
-  'hgss3':       { slug: 'Undaunted',                  code: 'UD'  },
-  'hgss4':       { slug: 'Triumphant',                 code: 'TM'  },
-  'col1':        { slug: 'Call-of-Legends',            code: 'CL'  },
+  'hgss1':       { slug: 'HeartGold-SoulSilver',       code: 'HS',  v: false },
+  'hgss2':       { slug: 'Unleashed',                  code: 'UL',  v: false },
+  'hgss3':       { slug: 'Undaunted',                  code: 'UD',  v: false },
+  'hgss4':       { slug: 'Triumphant',                 code: 'TM',  v: false },
+  'col1':        { slug: 'Call-of-Legends',            code: 'CL',  v: false },
   // ── Black & White era ──
-  'bw1':         { slug: 'Black-White',                code: 'BW'  },
-  'bw2':         { slug: 'Emerging-Powers',            code: 'EP'  },
-  'bw3':         { slug: 'Noble-Victories',            code: 'NV'  },
-  'bw4':         { slug: 'Next-Destinies',             code: 'ND'  },
-  'bw5':         { slug: 'Dark-Explorers',             code: 'DE'  },
-  'bw6':         { slug: 'Dragons-Exalted',            code: 'DRX' },
-  'bw7':         { slug: 'Boundaries-Crossed',         code: 'BC'  },
-  'bw8':         { slug: 'Plasma-Storm',               code: 'PS'  },
-  'bw9':         { slug: 'Plasma-Freeze',              code: 'PF'  },
-  'bw10':        { slug: 'Plasma-Blast',               code: 'PB'  },
-  'bw11':        { slug: 'Legendary-Treasures',        code: 'LT'  },
+  'bw1':         { slug: 'Black-White',                code: 'BW',  v: false },
+  'bw2':         { slug: 'Emerging-Powers',            code: 'EP',  v: false },
+  'bw3':         { slug: 'Noble-Victories',            code: 'NV',  v: false },
+  'bw4':         { slug: 'Next-Destinies',             code: 'ND',  v: false },
+  'bw5':         { slug: 'Dark-Explorers',             code: 'DE',  v: false },
+  'bw6':         { slug: 'Dragons-Exalted',            code: 'DRX', v: false },
+  'bw7':         { slug: 'Boundaries-Crossed',         code: 'BC',  v: false },
+  'bw8':         { slug: 'Plasma-Storm',               code: 'PS',  v: false },
+  'bw9':         { slug: 'Plasma-Freeze',              code: 'PF',  v: false },
+  'bw10':        { slug: 'Plasma-Blast',               code: 'PB',  v: false },
+  'bw11':        { slug: 'Legendary-Treasures',        code: 'LT',  v: false },
   // ── XY era ──
-  'xy1':         { slug: 'XY',                         code: 'XY'  },
-  'xy2':         { slug: 'Flashfire',                  code: 'FF'  },
-  'xy3':         { slug: 'Furious-Fists',              code: 'FUF' },
-  'xy4':         { slug: 'Phantom-Forces',             code: 'PHF' },
-  'xy5':         { slug: 'Primal-Clash',               code: 'PRC' },
-  'xy6':         { slug: 'Roaring-Skies',              code: 'ROS' },
-  'xy7':         { slug: 'Ancient-Origins',            code: 'AOR' },
-  'xy8':         { slug: 'BREAKthrough',               code: 'BKT' },
-  'xy9':         { slug: 'BREAKpoint',                 code: 'BKP' },
-  'xy10':        { slug: 'Fates-Collide',              code: 'FCO' },
-  'xy11':        { slug: 'Steam-Siege',                code: 'STS' },
-  'xy12':        { slug: 'Evolutions',                 code: 'EVO' },
+  'xy1':         { slug: 'XY',                         code: 'XY',  v: false },
+  'xy2':         { slug: 'Flashfire',                  code: 'FF',  v: false },
+  'xy3':         { slug: 'Furious-Fists',              code: 'FUF',v: false },
+  'xy4':         { slug: 'Phantom-Forces',             code: 'PHF',v: false },
+  'xy5':         { slug: 'Primal-Clash',               code: 'PRC',v: false },
+  'xy6':         { slug: 'Roaring-Skies',              code: 'ROS',v: false },
+  'xy7':         { slug: 'Ancient-Origins',            code: 'AOR',v: false },
+  'xy8':         { slug: 'BREAKthrough',               code: 'BKT',v: false },
+  'xy9':         { slug: 'BREAKpoint',                 code: 'BKP',v: false },
+  'xy10':        { slug: 'Fates-Collide',              code: 'FCO',v: false },
+  'xy11':        { slug: 'Steam-Siege',                code: 'STS',v: false },
+  'xy12':        { slug: 'Evolutions',                 code: 'EVO',v: false },
   // ── Sun & Moon era ──
-  'sm1':         { slug: 'Sun-Moon',                   code: 'SUM' },
-  'sm2':         { slug: 'Guardians-Rising',           code: 'GRI' },
-  'sm3':         { slug: 'Burning-Shadows',            code: 'BUS' },
-  'sm35':        { slug: 'Shining-Legends',            code: 'SLG' },
-  'sm4':         { slug: 'Crimson-Invasion',           code: 'CIN' },
-  'sm5':         { slug: 'Ultra-Prism',                code: 'UPR' },
-  'sm6':         { slug: 'Forbidden-Light',            code: 'FLI' },
-  'sm7':         { slug: 'Celestial-Storm',            code: 'CES' },
-  'sm75':        { slug: 'Dragon-Majesty',             code: 'DRM' },
-  'sm8':         { slug: 'Lost-Thunder',               code: 'LOT' },
-  'sm9':         { slug: 'Team-Up',                    code: 'TEU' },
-  'sm10':        { slug: 'Unbroken-Bonds',             code: 'UNB' },
-  'sm11':        { slug: 'Unified-Minds',              code: 'UNM' },
-  'sm115':       { slug: 'Hidden-Fates',               code: 'HIF' },
-  'sm12':        { slug: 'Cosmic-Eclipse',             code: 'CEC' },
+  'sm1':         { slug: 'Sun-Moon',                   code: 'SUM',v: false },
+  'sm2':         { slug: 'Guardians-Rising',           code: 'GRI',v: false },
+  'sm3':         { slug: 'Burning-Shadows',            code: 'BUS',v: false },
+  'sm35':        { slug: 'Shining-Legends',            code: 'SLG',v: false },
+  'sm4':         { slug: 'Crimson-Invasion',           code: 'CIN',v: false },
+  'sm5':         { slug: 'Ultra-Prism',                code: 'UPR',v: false },
+  'sm6':         { slug: 'Forbidden-Light',            code: 'FLI',v: false },
+  'sm7':         { slug: 'Celestial-Storm',            code: 'CES',v: false },
+  'sm75':        { slug: 'Dragon-Majesty',             code: 'DRM', v: false },
+  'sm8':         { slug: 'Lost-Thunder',               code: 'LOT',v: false },
+  'sm9':         { slug: 'Team-Up',                    code: 'TEU',v: false },
+  'sm10':        { slug: 'Unbroken-Bonds',             code: 'UNB',v: false },
+  'sm11':        { slug: 'Unified-Minds',              code: 'UNM',v: false },
+  'sm115':       { slug: 'Hidden-Fates',               code: 'HIF', v: false },
+  'sm12':        { slug: 'Cosmic-Eclipse',             code: 'CEC',v: false },
   // ── Sword & Shield era ──
-  'swsh1':       { slug: 'Sword-Shield',               code: 'SSH' },
-  'swsh2':       { slug: 'Rebel-Clash',                code: 'RCL' },
-  'swsh3':       { slug: 'Darkness-Ablaze',            code: 'DAA' },
-  'swsh35':      { slug: 'Champions-Path',             code: 'CPA' },
-  'swsh4':       { slug: 'Vivid-Voltage',              code: 'VIV' },
-  'swsh45':      { slug: 'Shining-Fates',              code: 'SHF' },
-  'swsh5':       { slug: 'Battle-Styles',              code: 'BST' },
-  'swsh6':       { slug: 'Chilling-Reign',             code: 'CRE' },
-  'swsh7':       { slug: 'Evolving-Skies',             code: 'EVS' },
-  'swsh75':      { slug: 'Celebrations',               code: 'CEL' },
-  'swsh8':       { slug: 'Fusion-Strike',              code: 'FST' },
-  'swsh9':       { slug: 'Brilliant-Stars',            code: 'BRS' },
-  'swsh10':      { slug: 'Astral-Radiance',            code: 'ASR' },
-  'swsh105':     { slug: 'Pokemon-GO',                 code: 'PGO' },
-  'swsh11':      { slug: 'Lost-Origin',                code: 'LOR' },
-  'swsh12':      { slug: 'Silver-Tempest',             code: 'SIT' },
-  'swsh125':     { slug: 'Crown-Zenith',               code: 'CRZ' },
+  'swsh1':       { slug: 'Sword-Shield',               code: 'SSH',v: false },
+  'swsh2':       { slug: 'Rebel-Clash',                code: 'RCL',v: false },
+  'swsh3':       { slug: 'Darkness-Ablaze',            code: 'DAA',v: false },
+  'swsh35':      { slug: 'Champions-Path',             code: 'CPA',v: false },
+  'swsh4':       { slug: 'Vivid-Voltage',              code: 'VIV',v: false },
+  'swsh45':      { slug: 'Shining-Fates',              code: 'SHF',v: false },
+  'swsh5':       { slug: 'Battle-Styles',              code: 'BST',v: false },
+  'swsh6':       { slug: 'Chilling-Reign',             code: 'CRE',v: false },
+  'swsh7':       { slug: 'Evolving-Skies',             code: 'EVS',v: false },
+  'swsh75':      { slug: 'Celebrations',               code: 'CELBS', v: true,  numPrefix: false, sep: '-' },
+  'swsh8':       { slug: 'Fusion-Strike',              code: 'FST',v: false },
+  'swsh9':       { slug: 'Brilliant-Stars',            code: 'BRS',v: false },
+  'swsh10':      { slug: 'Astral-Radiance',            code: 'ASR',v: false },
+  'swsh105':     { slug: 'Pokemon-GO',                 code: 'PGO',v: false },
+  'swsh11':      { slug: 'Lost-Origin',                code: 'LOR',v: false },
+  'swsh12':      { slug: 'Silver-Tempest',             code: 'SIT',v: false },
+  'swsh125':     { slug: 'Crown-Zenith',               code: 'CRZ',v: false },
   // ── Scarlet & Violet era ──
-  'sv1':         { slug: 'Scarlet-Violet',             code: 'SVI' },
-  'sv2':         { slug: 'Paldea-Evolved',             code: 'PAL' },
-  'sv3':         { slug: 'Obsidian-Flames',            code: 'OBF' },
-  'sv3pt5':      { slug: 'Pokemon-151',                code: 'MEW' },
-  'sv4':         { slug: 'Paradox-Rift',               code: 'PAR' },
-  'sv4pt5':      { slug: 'Paldean-Fates',             code: 'PAF' },
-  'sv5':         { slug: 'Temporal-Forces',            code: 'TEF' },
-  'sv6':         { slug: 'Twilight-Masquerade',        code: 'TWM' },
-  'sv6pt5':      { slug: 'Shrouded-Fable',             code: 'SFA' },
-  'sv7':         { slug: 'Stellar-Crown',              code: 'SCR' },
-  'sv8':         { slug: 'Surging-Sparks',             code: 'SSP' },
-  'sv8pt5':      { slug: 'Prismatic-Evolutions',       code: 'PRE' },
-  'sv9':         { slug: 'Journey-Together',           code: 'JTG' },
-  'sv9pt5':      { slug: 'Destined-Rivals',            code: 'DRI' },
+  'sv1':         { slug: 'Scarlet-Violet',             code: 'SVI',v: false },
+  'sv2':         { slug: 'Paldea-Evolved',             code: 'PAL',v: false },
+  'sv3':         { slug: 'Obsidian-Flames',            code: 'OBF',v: false },
+  'sv3pt5':      { slug: 'Pokemon-151',                code: 'MEW',v: false },
+  'sv4':         { slug: 'Paradox-Rift',               code: 'PAR',v: false },
+  'sv4pt5':      { slug: 'Paldean-Fates',             code: 'PAF', v: false },
+  'sv5':         { slug: 'Temporal-Forces',            code: 'TEF',v: false },
+  'sv6':         { slug: 'Twilight-Masquerade',        code: 'TWM',v: false },
+  'sv6pt5':      { slug: 'Shrouded-Fable',             code: 'SFA',v: false },
+  'sv7':         { slug: 'Stellar-Crown',              code: 'SCR',v: false },
+  'sv8':         { slug: 'Surging-Sparks',             code: 'SSP',v: false },
+  'sv8pt5':      { slug: 'Prismatic-Evolutions',       code: 'PRE',v: false },
+  'sv9':         { slug: 'Journey-Together',           code: 'JTG',v: false },
+  'sv9pt5':      { slug: 'Destined-Rivals',            code: 'DRI',v: false },
   // ── Promos ──
-  'np':          { slug: 'Wizards-Black-Star-Promos',  code: 'WP'   },
-  'xy0':         { slug: 'XY-Black-Star-Promos',       code: 'XYPR' },
-  'bwp':         { slug: 'BW-Black-Star-Promos',       code: 'BWP'  },
-  'smp':         { slug: 'SM-Black-Star-Promos',       code: 'SMP'  },
-  'swshp':       { slug: 'SWSH-Black-Star-Promos',     code: 'SWSH' },
-  'svp':         { slug: 'SV-Black-Star-Promos',       code: 'SVP'  },
+  // Format notes: v=true → adds V1- prefix; numPrefix=true → number already has set code prefix
+  // 'basep' is the correct pokemontcg.io ID for Wizards Black Star Promos
+  'basep':       { slug: 'Wizards-Black-Star-Promos',  code: 'WP',   v: false, numPrefix: false },
+  'bwp':         { slug: 'BW-Black-Star-Promos',       code: 'BW',   v: false, numPrefix: true  },
+  'xy0':         { slug: 'XY-Black-Star-Promos',       code: 'XY',   v: true,  numPrefix: false },
+  'smp':         { slug: 'SM-Black-Star-Promos',       code: 'SM',   v: true,  numPrefix: true  },
+  'swshp':       { slug: 'SWSH-Black-Star-Promos',     code: 'SWSH', v: true,  numPrefix: true  },
+  'svp':         { slug: 'SV-Black-Star-Promos',       code: 'SVP',  v: true,  numPrefix: true  },
   // ── Movie & special promos ──
-  'mpr':         { slug: 'Promos',                     code: 'PR'   },
-  'xyp':         { slug: 'XY-Promos',                  code: 'XYP'  },
+  'mpr':         { slug: 'Promos',                     code: 'PR',   v: false, numPrefix: false },
+  'xyp':         { slug: 'XY-Promos',                  code: 'XYP',  v: false, numPrefix: false },
   // ── POP series (Player Reward packs) ──
-  'pop1':        { slug: 'POP-Series-1',               code: 'POP1' },
-  'pop2':        { slug: 'POP-Series-2',               code: 'POP2' },
-  'pop3':        { slug: 'POP-Series-3',               code: 'POP3' },
-  'pop4':        { slug: 'POP-Series-4',               code: 'POP4' },
-  'pop5':        { slug: 'POP-Series-5',               code: 'POP5' },
-  'pop6':        { slug: 'POP-Series-6',               code: 'POP6' },
-  'pop7':        { slug: 'POP-Series-7',               code: 'POP7' },
-  'pop8':        { slug: 'POP-Series-8',               code: 'POP8' },
-  'pop9':        { slug: 'POP-Series-9',               code: 'POP9' },
+  'pop1':        { slug: 'POP-Series-1',               code: 'POP1',v: false },
+  'pop2':        { slug: 'POP-Series-2',               code: 'POP2',v: false },
+  'pop3':        { slug: 'POP-Series-3',               code: 'POP3',v: false },
+  'pop4':        { slug: 'POP-Series-4',               code: 'POP4',v: false },
+  'pop5':        { slug: 'POP-Series-5',               code: 'POP5',v: false },
+  'pop6':        { slug: 'POP-Series-6',               code: 'POP6',v: false },
+  'pop7':        { slug: 'POP-Series-7',               code: 'POP7',v: false },
+  'pop8':        { slug: 'POP-Series-8',               code: 'POP8',v: false },
+  'pop9':        { slug: 'POP-Series-9',               code: 'POP9',v: false },
   // ── Other special sets ──
-  'dpp':         { slug: 'DP-Promos',                  code: 'DPP'  },
-  'hsp':         { slug: 'HGSS-Promos',                code: 'HSP'  },
-  'det1':        { slug: 'Detective-Pikachu',           code: 'DET'  },
-  'swsh45sv':    { slug: 'Shining-Fates-Shiny-Vault',  code: 'SHF'  },
-  'swsh12pt5gg': { slug: 'Crown-Zenith-Galarian-Gallery', code: 'CRZ'},
+  'dpp':         { slug: 'DP-Promos',                  code: 'DPP', v: false },
+  'hsp':         { slug: 'HGSS-Promos',                code: 'HSP', v: false },
+  'det1':        { slug: 'Detective-Pikachu',           code: 'DET', v: false },
+  'swsh45sv':    { slug: 'Shining-Fates-Shiny-Vault',  code: 'SHF', v: false },
+  'swsh12pt5gg': { slug: 'Crown-Zenith-Galarian-Gallery', code: 'CRZ',v: false },
+};
+
+// Per-card Cardmarket overrides — for cards where pokemontcg.io set/number
+// doesn't match Cardmarket's grouping or numbering.
+// Key: pokemontcg.io card ID  Value: { slug, code, number } to use in URL
+const CM_CARD_OVERRIDES = {
+  // Ancient Mew: pokemontcg.io basep-ANME → Cardmarket Promos/Ancient-Mew-PR11
+  'basep-ANME': { slug: 'Promos', code: 'PR', number: '11' },
 };
 
 // Cardmarket version numbers for Base Set print runs:
@@ -1649,41 +1734,65 @@ const CM_SET_MAP = {
 // All other sets have only one version per card number, so no Vn suffix is used.
 const BASE1_VERSION = { standard: 'V1', shadowless: 'V2', first_ed: 'V3' };
 
+// Build a Cardmarket set-level search URL — reliable fallback when direct card URL is uncertain
+function cmSearchUrl(langPath, name, setSlug, langParam, countryParam) {
+  const searchTerm = encodeURIComponent(name);
+  const params = [langParam, countryParam].filter(Boolean).join('');
+  const query = `?searchString=${searchTerm}` + (params || '');
+  return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}${query}`;
+}
+
 function buildCardmarketUrl(card, langPath, langParam, countryParam, variant) {
-  const setId  = card.set?.id || '';
-  const name   = card.name || '';
-  const number = card.number || '';
+  const setId    = card.set?.id || '';
+  const name     = card.name || '';
+  const number   = card.number || '';
+  const nameSlug = name.replace(/[^a-zA-Z0-9 \-]/g, '').trim().replace(/ +/g, '-');
+  const params   = [langParam, countryParam].filter(Boolean).join('');
+  const query    = params ? '?' + params.replace(/^&/, '') : '';
+
+  // Check per-card override first (handles unnumbered promos like Ancient Mew)
+  const cardId   = `${setId}-${number}`;
+  const override = CM_CARD_OVERRIDES[cardId];
+  if (override) {
+    const cardSlug = `${nameSlug}-${override.code}${override.number}`;
+    return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${override.slug}/${cardSlug}${query}`;
+  }
 
   const entry = CM_SET_MAP[setId];
 
   if (entry) {
-    // Slugify card name: remove special chars, replace spaces with hyphens
-    const nameSlug = name
-      .replace(/[^a-zA-Z0-9 \-]/g, '')
-      .trim()
-      .replace(/ +/g, '-');
-
-    let cardSlug;
     if (setId === 'base1') {
-      // Route to the correct Cardmarket version page based on print run
+      // Base Set: V1/V2/V3 maps exactly to Unlimited/Shadowless/1st Ed — always reliable
       const ver = BASE1_VERSION[variant || 'standard'] || 'V1';
-      cardSlug = `${nameSlug}-${ver}-${entry.code}${number}`;
-    } else {
-      // All other sets: no version suffix
-      cardSlug = `${nameSlug}-${entry.code}${number}`;
+      const cardSlug = `${nameSlug}-${ver}-${entry.code}${number}`;
+      return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
     }
 
-    const params = [langParam, countryParam].filter(Boolean).join('');
-    const query = params ? '?' + params.replace(/^&/, '') : '';
-    return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
+    if (entry.numPrefix) {
+      // Promo sets where the number already contains the set prefix (BW32, SM04, SWSH018…)
+      // The doubling pattern (BWBW32, SMSM04) is consistent across the whole set — reliable
+      const vPart    = entry.v ? 'V1-' : '';
+      const sep      = entry.sep || '';
+      const numPart  = `${entry.code}${number}`;
+      const cardSlug = `${nameSlug}-${vPart}${numPart}`;
+      return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
+    }
+
+    if (entry.sep) {
+      // Sets with a separator in the code (e.g. Celebrations: CELBS-4) — confirmed pattern
+      const vPart    = entry.v ? 'V1-' : '';
+      const numPart  = `${entry.code}${entry.sep}${number}`;
+      const cardSlug = `${nameSlug}-${vPart}${numPart}`;
+      return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
+    }
+
+    // All other sets: V prefix is per-card and unpredictable — use search URL
+    return cmSearchUrl(langPath, name, entry.slug, langParam, countryParam);
   }
 
-  // Fallback: set-level search filtered by card name + language + country
-  const searchTerm = encodeURIComponent(`${name} ${number}`);
+  // Set not in map: fall back to set name as slug
   const setSlug = (card.set?.name || '').replace(/[^a-zA-Z0-9\-]/g, '-').replace(/-+/g, '-');
-  const params = [langParam, countryParam].filter(Boolean).join('');
-  const query = `?searchString=${searchTerm}` + (params ? params : '');
-  return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}${query}`;
+  return cmSearchUrl(langPath, name, setSlug, langParam, countryParam);
 }
 
 // ── CARDMARKET PRICE FETCH (from pokemontcg.io card object) ──
@@ -1774,12 +1883,7 @@ function openCardDetail(card, variantHint = 'standard') {
   selectedQty = existing ? (existing.qty || 1) : 1;
   document.getElementById('qty-display').textContent = selectedQty;
   fetchCardmarketPrice(card, collSnap);
-  document.getElementById('qty-minus').onclick = () => {
-    if (selectedQty > 1) { selectedQty--; document.getElementById('qty-display').textContent = selectedQty; }
-  };
-  document.getElementById('qty-plus').onclick = () => {
-    selectedQty++; document.getElementById('qty-display').textContent = selectedQty;
-  };
+  // qty buttons wired once at startup via initQtyButtons()
 
   // Variant buttons: Standard always; 1st Ed for eligible sets; Shadowless for Base Set only
   const vBar = document.getElementById('ov-variant-bar');
@@ -1888,15 +1992,19 @@ document.getElementById('ov-add-btn').addEventListener('click', () => {
   if (!currentCard) return;
   const price = parseFloat(document.getElementById('ov-price').value) || 0;
   const coll = getCollection();
-  coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(document.getElementById('ov-paid').value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
-  saveCollection(coll);
-  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
-  const newTotal = calcTotal(coll);
-  updateTopbarTotal(coll);
-  recordSnapshot(newTotal);
-  closeOverlay();
-  showToast('✓ Kaart toegevoegd aan collectie');
-  refreshGridBadges();
+  const existIdx = coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
+  if (existIdx >= 0) {
+    // Card+variant already exists — update instead of creating duplicate
+    coll[existIdx].qty = (coll[existIdx].qty || 1) + selectedQty;
+    coll[existIdx].price = price;
+    coll[existIdx].pricePaid = parseFloat(document.getElementById('ov-paid').value) || 0;
+    coll[existIdx].lang = selectedLang;
+    coll[existIdx].condition = selectedCondition;
+    coll[existIdx].priceUpdated = Date.now();
+  } else {
+    coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(document.getElementById('ov-paid').value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
+  }
+  afterSave(coll, '✓ Kaart toegevoegd aan collectie', false);
 });
 
 document.getElementById('ov-save-btn').addEventListener('click', () => {
@@ -1905,28 +2013,13 @@ document.getElementById('ov-save-btn').addEventListener('click', () => {
   const coll = getCollection();
   const idx = coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
   if (idx >= 0) { coll[idx].price = price; coll[idx].pricePaid = parseFloat(document.getElementById('ov-paid').value)||0; coll[idx].variant = selectedVariant; coll[idx].lang = selectedLang; coll[idx].qty = selectedQty; coll[idx].condition = selectedCondition; coll[idx].priceUpdated = Date.now(); }
-  saveCollection(coll);
-  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
-  const newTotal2 = calcTotal(coll);
-  updateTopbarTotal(coll);
-  recordSnapshot(newTotal2);
-  closeOverlay();
-  showToast('✓ Wijzigingen opgeslagen');
-  if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
+  afterSave(coll, '✓ Wijzigingen opgeslagen', true);
 });
 
 document.getElementById('ov-remove-btn').addEventListener('click', () => {
   if (!currentCard) return;
   const coll = getCollection().filter(c => !(c.id === currentCard.id && (c.variant || 'standard') === selectedVariant));
-  saveCollection(coll);
-  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
-  const newTotal3 = calcTotal(coll);
-  updateTopbarTotal(coll);
-  recordSnapshot(newTotal3);
-  closeOverlay();
-  showToast('Kaart verwijderd uit collectie');
-  if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
-  refreshGridBadges();
+  afterSave(coll, 'Kaart verwijderd uit collectie', true);
 });
 
 document.getElementById('ov-close-btn').addEventListener('click', closeOverlay);
@@ -1976,7 +2069,7 @@ document.getElementById('coll-filter').querySelectorAll('.pill').forEach(p => {
 // WotC-era sets (higher vintage premium)
 const WOTC_SETS = new Set([
   'base1','base2','jungle','fossil','teamrocket','gym1','gym2',
-  'neo1','neo2','neo3','neo4','si1','lc','np','mpr',
+  'neo1','neo2','neo3','neo4','si1','lc','basep','mpr',
   'ecard1','ecard2','ecard3'
 ]);
 
@@ -1989,9 +2082,9 @@ function psaAdvice(item) {
 
   // ── Condition gate ──
   // Must be NM or better to have realistic shot at PSA 9-10
-  const condOk = ['M','NM'].includes(cond);
+  const condOk      = cond === 'M' || cond === 'NM';
+  const condBad     = cond === 'LP' || cond === 'MP' || cond === 'HP' || cond === 'DMG';
   const condUnknown = cond === '';
-  const condBad = ['LP','MP','HP','DMG'].includes(cond);
 
   // ── Era multiplier ──
   const isWotC    = WOTC_SETS.has(setId);
@@ -2059,9 +2152,8 @@ function psaAdvice(item) {
   return { level, verdict, detail, psaCostEur, psa10Est: level !== 'no' ? psa10Est : null };
 }
 
-function conditionClass(c) {
-  return {M:'cond-mint',NM:'cond-nm',LP:'cond-lp',MP:'cond-played',HP:'cond-hp',DMG:'cond-dmg'}[c] || 'cond-unknown';
-}
+const CONDITION_CLASS = {M:'cond-mint',NM:'cond-nm',LP:'cond-lp',MP:'cond-played',HP:'cond-hp',DMG:'cond-dmg'};
+function conditionClass(c) { return CONDITION_CLASS[c] || 'cond-unknown'; }
 
 // ── Named helpers for renderCollection ──
 function roiHtml(c) {
@@ -2183,6 +2275,29 @@ function renderCollection() {
   });
 }
 
+// Shared Anthropic API request headers
+function anthropicHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'x-api-key': ANTHROPIC_KEY,
+    'anthropic-version': '2023-06-01',
+    'anthropic-dangerous-direct-browser-access': 'true'
+  };
+}
+
+// Grade score bar — used in condition grading result display
+function gradeScoreBar(label, score) {
+  const w   = Math.round((score / 10) * 100);
+  const col = score >= 9 ? 'var(--green)' : score >= 7 ? 'var(--accent)' : score >= 5 ? '#ffa050' : 'var(--red)';
+  return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+    <div style="width:70px;font-size:11px;color:var(--text3);">${label}</div>
+    <div style="flex:1;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;">
+      <div style="width:${w}%;height:100%;background:${col};border-radius:3px;"></div>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:${col};width:16px;text-align:right;">${score}</div>
+  </div>`;
+}
+
 // ── SCAN / FILE HELPERS ──
 function fileToB64(file) {
   return new Promise((res, rej) => {
@@ -2203,10 +2318,10 @@ document.getElementById('scan-tabs').querySelectorAll('.pill').forEach(p => {
     document.getElementById('scan-tab-identify').style.display  = p.dataset.tab === 'identify'  ? 'block' : 'none';
     document.getElementById('scan-tab-grade').style.display     = p.dataset.tab === 'grade'     ? 'block' : 'none';
     document.getElementById('scan-tab-appraise').style.display  = p.dataset.tab === 'appraise'  ? 'block' : 'none';
-    // Hide stale results when switching tabs
-    if (p.dataset.tab === 'identify')  document.getElementById('identify-result').style.display  = 'none';
-    if (p.dataset.tab === 'grade')     document.getElementById('condition-result').style.display = 'none';
-    if (p.dataset.tab === 'appraise') { document.getElementById('appraise-result').style.display = 'none'; document.getElementById('appraise-error').style.display = 'none'; }
+    // Hide stale results and reset scan state when switching tabs
+    if (p.dataset.tab === 'identify')  { document.getElementById('identify-result').style.display  = 'none'; photoIdentifyB64 = null; }
+    if (p.dataset.tab === 'grade')     { document.getElementById('condition-result').style.display = 'none'; photoFrontB64 = null; photoBackB64 = null; document.getElementById('scan-btn').disabled = true; }
+    if (p.dataset.tab === 'appraise')  { document.getElementById('appraise-result').style.display = 'none'; document.getElementById('appraise-error').style.display = 'none'; photoAppraiseB64 = null; }
   });
 });
 
@@ -2217,7 +2332,9 @@ document.getElementById('photo-identify').addEventListener('change', async e => 
   const file = e.target.files[0]; if (!file) return;
   photoIdentifyB64 = await fileToB64(file);
   const img = document.getElementById('preview-identify');
-  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
+  img._objUrl = URL.createObjectURL(file);
+  img.src = img._objUrl; img.style.display = 'block';
   document.getElementById('identify-btn').disabled = false;
   document.getElementById('identify-result').style.display = 'none';
 });
@@ -2234,12 +2351,7 @@ document.getElementById('identify-btn').addEventListener('click', async () => {
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: anthropicHeaders(),
       body: JSON.stringify({
         model: 'claude-opus-4-7',
         max_tokens: 300,
@@ -2329,8 +2441,8 @@ document.getElementById('identify-direct-btn').addEventListener('click', async (
 document.getElementById('identify-search-btn').addEventListener('click', () => {
   const name = document.getElementById('identify-search-btn').dataset.name;
   if (!name) return;
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  _navBtns.forEach(b => b.classList.remove('active'));
+  _navScreens.forEach(s => s.classList.remove('active'));
   document.querySelector('[data-screen="browse"]').classList.add('active');
   document.getElementById('screen-browse').classList.add('active');
   const input = document.getElementById('search-input');
@@ -2345,7 +2457,9 @@ document.getElementById('photo-appraise').addEventListener('change', async e => 
   const file = e.target.files[0]; if (!file) return;
   photoAppraiseB64 = await fileToB64(file);
   const img = document.getElementById('preview-appraise');
-  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
+  img._objUrl = URL.createObjectURL(file);
+  img.src = img._objUrl; img.style.display = 'block';
   document.getElementById('appraise-btn').disabled = false;
   document.getElementById('appraise-result').style.display = 'none';
   document.getElementById('appraise-error').style.display = 'none';
@@ -2363,12 +2477,7 @@ document.getElementById('appraise-btn').addEventListener('click', async () => {
     // Step 1: identify the card with Opus 4.7
     const aiResp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: anthropicHeaders(),
       body: JSON.stringify({
         model: 'claude-opus-4-7',
         max_tokens: 200,
@@ -2456,7 +2565,9 @@ document.getElementById('photo-front').addEventListener('change', async e => {
   const file = e.target.files[0]; if (!file) return;
   photoFrontB64 = await fileToB64(file);
   const img = document.getElementById('preview-front');
-  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
+  img._objUrl = URL.createObjectURL(file);
+  img.src = img._objUrl; img.style.display = 'block';
   document.getElementById('scan-btn').disabled = !(photoFrontB64 && photoBackB64);
 });
 
@@ -2464,7 +2575,9 @@ document.getElementById('photo-back').addEventListener('change', async e => {
   const file = e.target.files[0]; if (!file) return;
   photoBackB64 = await fileToB64(file);
   const img = document.getElementById('preview-back');
-  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
+  img._objUrl = URL.createObjectURL(file);
+  img.src = img._objUrl; img.style.display = 'block';
   document.getElementById('scan-btn').disabled = !(photoFrontB64 && photoBackB64);
 });
 
@@ -2477,12 +2590,7 @@ document.getElementById('scan-btn').addEventListener('click', async () => {
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: anthropicHeaders(),
       body: JSON.stringify({
         model: 'claude-opus-4-7',
         max_tokens: 600,
@@ -2503,23 +2611,12 @@ document.getElementById('scan-btn').addEventListener('click', async () => {
     document.getElementById('cond-grade').innerHTML = `<span class="condition-badge ${gradeClass}">${parsed.grade}</span> ${parsed.label}`;
     // Show criteria scores if available
     const hasScores = parsed.centering && parsed.corners && parsed.edges && parsed.surface;
-    const scoreBar = score => {
-      const w = Math.round((score / 10) * 100);
-      const col = score >= 9 ? 'var(--green)' : score >= 7 ? 'var(--accent)' : score >= 5 ? '#ffa050' : 'var(--red)';
-      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
-        <div style="width:70px;font-size:11px;color:var(--text3);">{label}</div>
-        <div style="flex:1;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;">
-          <div style="width:${w}%;height:100%;background:${col};border-radius:3px;"></div>
-        </div>
-        <div style="font-size:11px;font-weight:700;color:${col};width:16px;text-align:right;">${score}</div>
-      </div>`.replace('{label}', '{lbl}');
-    };
     document.getElementById('cond-desc').innerHTML = hasScores
       ? `<div style="margin-bottom:10px;">
-          ${scoreBar(parsed.centering).replace('{lbl}','Centrering')}
-          ${scoreBar(parsed.corners).replace('{lbl}','Hoeken')}
-          ${scoreBar(parsed.edges).replace('{lbl}','Randen')}
-          ${scoreBar(parsed.surface).replace('{lbl}','Oppervlak')}
+          ${gradeScoreBar('Centrering', parsed.centering)}
+          ${gradeScoreBar('Hoeken',     parsed.corners)}
+          ${gradeScoreBar('Randen',     parsed.edges)}
+          ${gradeScoreBar('Oppervlak',  parsed.surface)}
         </div><div style="font-size:13px;color:var(--text2);line-height:1.6;">${parsed.summary}</div>`
       : `<div style="font-size:13px;color:var(--text2);line-height:1.6;">${parsed.summary}</div>`;
     result.style.display = 'block';
@@ -2562,14 +2659,15 @@ function exportCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = 'pokewaarde-collectie.csv';
-  a.click(); URL.revokeObjectURL(url);
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
   showToast('✓ CSV geëxporteerd');
 }
 
 // ── STATS SCREEN ──
 function renderStats() {
   const coll = getCollection();
-  const total = calcTotal();
+  const total = calcTotal(coll);
   const cardCount = coll.reduce((s, c) => s + (c.qty || 1), 0);
   document.getElementById('stats-total').textContent = '€' + total.toFixed(2).replace('.', ',');
   const totalPaid = coll.reduce((s,c) => s + (parseFloat(c.pricePaid)||0)*(c.qty||1), 0);
@@ -2613,10 +2711,10 @@ function renderStats() {
   coll.forEach(c => { if (!bySet[c.set]) bySet[c.set] = 0; bySet[c.set] += (c.qty || 1); });
   if (!Object.keys(bySet).length) {
     setsEl.innerHTML = '<div style="color:var(--text3);font-size:13px;">Nog geen kaarten in collectie.</div>';
-    return;
+  } else {
+    setsEl.innerHTML = Object.entries(bySet).sort((a, b) => b[1] - a[1])
+      .map(([s, n]) => `<div class="set-row"><div class="set-row-name">${s}</div><div class="set-row-count">${n} kaart${n!==1?'en':''}</div></div>`).join('');
   }
-  setsEl.innerHTML = Object.entries(bySet).sort((a, b) => b[1] - a[1])
-    .map(([s, n]) => `<div class="set-row"><div class="set-row-name">${s}</div><div class="set-row-count">${n} kaart${n!==1?'en':''}</div></div>`).join('');
 
   // Pre-fill settings inputs with current (masked) keys
   const ptcgInput = document.getElementById('settings-ptcg-key');
@@ -2632,18 +2730,27 @@ function renderStats() {
   const sbStatus   = document.getElementById('sb-status');
   if (sbUrlInput && SB_URL) sbUrlInput.placeholder = SB_URL;
   if (sbKeyInput && SB_KEY) sbKeyInput.placeholder  = SB_KEY.slice(0,12) + '••••••••';
-  if (sbSaveBtn) sbSaveBtn.onclick = () => {
-    const url = sbUrlInput?.value.trim() || '';
-    const key = sbKeyInput?.value.trim() || '';
+  // Note: sbSaveBtn and sbSyncBtn are wired once at startup (see initSupabaseButtons)
+}
+
+function initSupabaseButtons() {
+  const sbSaveBtn  = document.getElementById('sb-save-btn');
+  const sbSyncBtn  = document.getElementById('sb-sync-btn');
+  if (sbSaveBtn) sbSaveBtn.addEventListener('click', () => {
+    const sbStatus   = document.getElementById('sb-status');
+    const url = document.getElementById('settings-sb-url')?.value.trim() || '';
+    const key = document.getElementById('settings-sb-key')?.value.trim() || '';
     if (!url || !url.startsWith('https://')) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='Voer een geldige URL in (https://…)';} return; }
     if (!key || key.length < 20) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='Voer een geldige publishable key in (sb_publishable_… of eyJ…)';} return; }
     SB_URL = url; SB_KEY = key;
     localStorage.setItem('sb_url', url); localStorage.setItem('sb_key', key);
-    if(sbUrlInput) { sbUrlInput.value=''; sbUrlInput.placeholder=url; }
-    if(sbKeyInput) { sbKeyInput.value=''; sbKeyInput.placeholder=key.slice(0,16)+'••••••••'; }
+    document.getElementById('settings-sb-url').value = '';
+    document.getElementById('settings-sb-url').placeholder = url;
+    document.getElementById('settings-sb-key').value = '';
+    document.getElementById('settings-sb-key').placeholder = key.slice(0,16) + '••••••••';
     if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent='✓ Supabase instellingen opgeslagen';}
-  };
-  if (sbSyncBtn) sbSyncBtn.onclick = () => sbPull();
+  });
+  if (sbSyncBtn) sbSyncBtn.addEventListener('click', () => sbPull());
 }
 
 function saveSettingsKey(type) {
@@ -2662,6 +2769,7 @@ function saveSettingsKey(type) {
     localStorage.setItem('anthropic_api_key', val);
     document.getElementById('settings-anthropic-key').value = '';
     document.getElementById('settings-anthropic-key').placeholder = val.slice(0,10) + '••••••••' + val.slice(-4);
+    updateScanTabVisibility();
     showToast('✓ Anthropic sleutel opgeslagen');
   }
 }
@@ -2703,9 +2811,10 @@ async function updateCollectionPrices() {
 
   if (anyUpdated) {
     saveCollection(coll);
+    if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
     updateTopbarTotal();
     recordSnapshot();
-    showToast(`✓ Prijzen bijgewerkt`);
+    showToast('✓ Prijzen bijgewerkt');
   }
 }
 
@@ -2714,7 +2823,10 @@ updateTopbarTotal();
 recordSnapshot();
 initCollections();
 updateTopbarCollName();
+initSupabaseButtons();
+initQtyButtons();
 checkSetup();
+updateScanTabVisibility();
 setTimeout(updateCollectionPrices, 3000);
 </script>
 </body>
