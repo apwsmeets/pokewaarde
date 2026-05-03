@@ -1028,9 +1028,6 @@ function apiFetch(url) {
 }
 
 // ── SETUP SCREEN ──
-initCollections();
-updateTopbarCollName();
-
 function checkSetup() {
   if (!API_KEY) {
     document.getElementById('setup-screen').style.display = 'flex';
@@ -1246,12 +1243,7 @@ async function sbPull() {
   }
 }
 
-// Auto-push to Supabase after every save — called from saveCollection wrapper
-const _origSaveCollection = saveCollection;
-function saveCollection(coll) {
-  _origSaveCollection(coll);
-  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
-}
+// Supabase auto-push is called explicitly after each save (see save/add/remove handlers)
 
 // Wire collections create button
 document.addEventListener('DOMContentLoaded', () => {
@@ -1898,6 +1890,7 @@ document.getElementById('ov-add-btn').addEventListener('click', () => {
   const coll = getCollection();
   coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(document.getElementById('ov-paid').value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
   saveCollection(coll);
+  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
   const newTotal = calcTotal(coll);
   updateTopbarTotal(coll);
   recordSnapshot(newTotal);
@@ -1913,6 +1906,7 @@ document.getElementById('ov-save-btn').addEventListener('click', () => {
   const idx = coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
   if (idx >= 0) { coll[idx].price = price; coll[idx].pricePaid = parseFloat(document.getElementById('ov-paid').value)||0; coll[idx].variant = selectedVariant; coll[idx].lang = selectedLang; coll[idx].qty = selectedQty; coll[idx].condition = selectedCondition; coll[idx].priceUpdated = Date.now(); }
   saveCollection(coll);
+  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
   const newTotal2 = calcTotal(coll);
   updateTopbarTotal(coll);
   recordSnapshot(newTotal2);
@@ -1925,6 +1919,7 @@ document.getElementById('ov-remove-btn').addEventListener('click', () => {
   if (!currentCard) return;
   const coll = getCollection().filter(c => !(c.id === currentCard.id && (c.variant || 'standard') === selectedVariant));
   saveCollection(coll);
+  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
   const newTotal3 = calcTotal(coll);
   updateTopbarTotal(coll);
   recordSnapshot(newTotal3);
@@ -2717,6 +2712,8 @@ async function updateCollectionPrices() {
 // Init
 updateTopbarTotal();
 recordSnapshot();
+initCollections();
+updateTopbarCollName();
 checkSetup();
 setTimeout(updateCollectionPrices, 3000);
 </script>
