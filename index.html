@@ -352,6 +352,32 @@
 
   .no-results { text-align: center; padding: 48px 20px; color: var(--text3); font-size: 14px; }
 
+  /* Collections manager */
+  .coll-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .coll-row:last-child { border-bottom: none; }
+  .coll-row-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--text); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .coll-row-active { color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; }
+  .coll-row-btn { background: var(--surface2); border: 1px solid var(--border2); color: var(--text2); border-radius: 8px; padding: 5px 10px; font-size: 11px; cursor: pointer; flex-shrink: 0; transition: border-color 0.15s; }
+  .coll-row-btn:hover { border-color: var(--border-accent); color: var(--text); }
+  .coll-row-btn.danger { color: var(--red); border-color: rgba(255,107,107,0.3); }
+  .coll-row-btn.danger:hover { border-color: var(--red); }
+
+  /* Variant stamp overlay on card grid images */
+  .variant-stamp {
+    position: absolute; top: 7px; left: 7px; z-index: 2;
+    font-size: 8px; font-weight: 900; line-height: 1.2; text-align: center;
+    padding: 3px 5px; border-radius: 5px;
+    pointer-events: none; text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .stamp-1ed {
+    background: linear-gradient(135deg, #f7c948, #e8a020);
+    color: #1a1000; box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+  .stamp-sl {
+    background: linear-gradient(135deg, #c0c0d0, #8888aa);
+    color: #0b0b14; box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+
   /* Photo upload button (scan screen) */
   .photo-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface2); border: 2px dashed var(--border2); border-radius: var(--radius); padding: 20px; cursor: pointer; color: var(--text2); font-size: 14px; transition: all 0.2s; width: 100%; font-weight: 500; }
   .photo-upload-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
@@ -477,7 +503,7 @@
     </svg>
     <div>
       <div class="topbar-title">PokeWaarde</div>
-      <div class="topbar-subtitle">Mijn collectie</div>
+      <div class="topbar-subtitle" id="topbar-coll-name">Mijn collectie</div>
     </div>
   </div>
   <div class="topbar-value">
@@ -729,6 +755,20 @@
   </div>
 
   <div class="stat-card" style="margin-top:8px;">
+    <div class="stat-card-title">Collecties</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Elke collectie heeft een eigen kaartlijst en prijsgeschiedenis.</div>
+    <div id="collections-manager"></div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <input id="new-coll-input" type="text" placeholder="Naam nieuwe collectie…"
+        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
+      <button onclick="createCollection(document.getElementById('new-coll-input').value);document.getElementById('new-coll-input').value='';"
+        style="background:var(--accent);border:none;color:#1a1000;border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;">
+        + Nieuw
+      </button>
+    </div>
+  </div>
+
+  <div class="stat-card" style="margin-top:8px;">
     <div class="stat-card-title">Instellingen</div>
     <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">API-sleutels bijwerken</div>
 
@@ -780,6 +820,7 @@
   <div class="overlay-sheet">
     <div class="overlay-handle"></div>
     <img id="ov-img" class="overlay-img" src="" alt="">
+    <div id="ov-img-note" style="display:none;font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:8px;text-align:center;line-height:1.5;"></div>
     <div class="overlay-name" id="ov-name"></div>
     <div class="overlay-set" id="ov-set"></div>
 
@@ -892,11 +933,37 @@ let _scanDetectedCondition = null;
 // Card detail cache — avoids re-fetching the same card from the API on repeated taps
 const cardCache = new Map();
 
+// ── MULTI-COLLECTION STORAGE ──
+function getCollections() {
+  try { return JSON.parse(localStorage.getItem('coll_index') || 'null'); } catch { return null; }
+}
+function initCollections() {
+  let index = getCollections();
+  if (!index) {
+    const defaultId = 'coll_' + Date.now();
+    const legacy = localStorage.getItem('pokecoll');
+    const legacyHist = localStorage.getItem('pokehist');
+    index = [{ id: defaultId, name: 'Mijn collectie', createdAt: Date.now() }];
+    localStorage.setItem('coll_index', JSON.stringify(index));
+    localStorage.setItem('active_coll_id', defaultId);
+    if (legacy) { localStorage.setItem('coll_' + defaultId, legacy); localStorage.removeItem('pokecoll'); }
+    if (legacyHist) { localStorage.setItem('hist_' + defaultId, legacyHist); localStorage.removeItem('pokehist'); }
+  }
+  if (!localStorage.getItem('active_coll_id') || !index.find(c => c.id === localStorage.getItem('active_coll_id'))) {
+    localStorage.setItem('active_coll_id', index[0].id);
+  }
+  return index;
+}
+function activeCollId() { return localStorage.getItem('active_coll_id') || ''; }
+function activeCollName() {
+  const idx = getCollections() || [];
+  const active = idx.find(c => c.id === activeCollId());
+  return active ? active.name : 'Collectie';
+}
 function getHistory() {
-  try { return JSON.parse(localStorage.getItem('pokehist') || '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem('hist_' + activeCollId()) || '[]'); } catch { return []; }
 }
 function recordSnapshot(total) {
-  // Accept pre-computed total to avoid an extra localStorage round-trip
   const hist = getHistory();
   const today = new Date().toISOString().slice(0, 10);
   if (total === undefined) total = calcTotal();
@@ -906,7 +973,7 @@ function recordSnapshot(total) {
     hist.push({ date: today, value: total });
   }
   if (hist.length > 90) hist.splice(0, hist.length - 90);
-  localStorage.setItem('pokehist', JSON.stringify(hist));
+  localStorage.setItem('hist_' + activeCollId(), JSON.stringify(hist));
 }
 const FIRST_ED_SETS = new Set([
   'base1','jungle','fossil','teamrocket','gym1','gym2',
@@ -921,6 +988,9 @@ function apiFetch(url) {
 }
 
 // ── SETUP SCREEN ──
+initCollections();
+updateTopbarCollName();
+
 function checkSetup() {
   if (!API_KEY) {
     document.getElementById('setup-screen').style.display = 'flex';
@@ -962,12 +1032,82 @@ document.getElementById('setup-save-btn').addEventListener('click', async () => 
   loadSets();
 });
 
-// Collection stored in localStorage
+// Collection stored in localStorage — keyed by active collection ID
 function getCollection() {
-  try { return JSON.parse(localStorage.getItem('pokecoll') || '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem('coll_' + activeCollId()) || '[]'); } catch { return []; }
 }
 function saveCollection(coll) {
-  localStorage.setItem('pokecoll', JSON.stringify(coll));
+  localStorage.setItem('coll_' + activeCollId(), JSON.stringify(coll));
+}
+
+// ── COLLECTION MANAGEMENT ──
+function updateTopbarCollName() {
+  const el = document.getElementById('topbar-coll-name');
+  if (el) el.textContent = activeCollName();
+}
+function switchCollection(id) {
+  localStorage.setItem('active_coll_id', id);
+  updateTopbarCollName();
+  cardCache.clear();
+  renderCollection();
+  updateTopbarTotal();
+  recordSnapshot();
+  renderCollectionsManager();
+  showToast('✓ Gewisseld naar: ' + activeCollName());
+}
+function createCollection(name) {
+  if (!name || !name.trim()) return;
+  name = name.trim();
+  const index = getCollections() || [];
+  const id = 'coll_' + Date.now();
+  index.push({ id, name, createdAt: Date.now() });
+  localStorage.setItem('coll_index', JSON.stringify(index));
+  switchCollection(id);
+}
+function renameCollection(id, newName) {
+  if (!newName || !newName.trim()) return;
+  const index = getCollections() || [];
+  const entry = index.find(c => c.id === id);
+  if (!entry) return;
+  entry.name = newName.trim();
+  localStorage.setItem('coll_index', JSON.stringify(index));
+  if (id === activeCollId()) updateTopbarCollName();
+  renderCollectionsManager();
+  showToast('✓ Naam gewijzigd');
+}
+function deleteCollection(id) {
+  const index = getCollections() || [];
+  if (index.length <= 1) { showToast('⚠️ Laatste collectie kan niet verwijderd worden'); return; }
+  const name = (index.find(c => c.id === id) || {}).name || '';
+  if (!confirm('Weet je zeker dat je "' + name + '" wilt verwijderen? Dit kan niet ongedaan worden gemaakt.')) return;
+  const newIndex = index.filter(c => c.id !== id);
+  localStorage.setItem('coll_index', JSON.stringify(newIndex));
+  localStorage.removeItem('coll_' + id);
+  localStorage.removeItem('hist_' + id);
+  if (activeCollId() === id) switchCollection(newIndex[0].id);
+  else renderCollectionsManager();
+  showToast('Collectie verwijderd');
+}
+function promptRename(id, currentName) {
+  const newName = prompt('Nieuwe naam:', currentName);
+  if (newName) renameCollection(id, newName);
+}
+function renderCollectionsManager() {
+  const el = document.getElementById('collections-manager');
+  if (!el) return;
+  const index = getCollections() || [];
+  const activeId = activeCollId();
+  el.innerHTML = index.map(c => {
+    const safeName = c.name.replace(/'/g, "\'");
+    return '<div class="coll-row">'
+      + '<div class="coll-row-name" title="' + c.name + '">' + c.name + '</div>'
+      + (c.id === activeId
+          ? '<div class="coll-row-active">Actief</div>'
+          : '<button class="coll-row-btn" onclick="switchCollection('' + c.id + '')">Activeer</button>')
+      + '<button class="coll-row-btn" onclick="promptRename('' + c.id + '','' + safeName + '')" title="Naam wijzigen">✏️</button>'
+      + '<button class="coll-row-btn danger" onclick="deleteCollection('' + c.id + '')" title="Verwijderen">🗑</button>'
+      + '</div>';
+  }).join('');
 }
 
 // Toast
@@ -996,7 +1136,7 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.classList.add('active');
     document.getElementById('screen-' + btn.dataset.screen).classList.add('active');
     if (btn.dataset.screen === 'collection') renderCollection();
-    if (btn.dataset.screen === 'stats') renderStats();
+    if (btn.dataset.screen === 'stats') { renderStats(); renderCollectionsManager(); }
   });
 });
 
@@ -1172,8 +1312,14 @@ function renderCardGrid(cards, container, forVariant = 'standard') {
     const img = c.images?.small || '';
     const variantLabel = forVariant === 'first_ed' ? '🥇 1e Ed' : forVariant === 'shadowless' ? '✨ Shadowless' : '';
     const qtyLabel = collEntry && (collEntry.qty || 1) > 1 ? ` ×${collEntry.qty}` : '';
+    const variantStamp = forVariant === 'first_ed'
+      ? `<div class="variant-stamp stamp-1ed">1st<br>Ed.</div>`
+      : forVariant === 'shadowless'
+        ? `<div class="variant-stamp stamp-sl">Shadow<br>less</div>`
+        : '';
     return `<div class="poke-card ${inColl ? 'in-collection' : ''}" data-id="${c.id}" data-variant="${forVariant}">
       ${inColl ? `<div class="in-badge">✓ ${variantLabel || 'In collectie'}${qtyLabel}</div>` : (anyEntry ? '<div class="in-badge" style="background:var(--surface3);color:var(--text2);">✓ Andere variant</div>' : '')}
+      ${variantStamp}
       <img src="${img}" alt="${c.name}" loading="lazy">
       <div class="poke-card-info">
         <div class="poke-card-name">${c.name}</div>
@@ -1325,15 +1471,41 @@ const CM_SET_MAP = {
   'sv9':         { slug: 'Journey-Together',           code: 'JTG' },
   'sv9pt5':      { slug: 'Destined-Rivals',            code: 'DRI' },
   // ── Promos ──
-  'np':          { slug: 'Wizards-Black-Star-Promos',  code: 'WP'  },
-  'xy0':         { slug: 'XY-Black-Star-Promos',       code: 'XYPR'},
-  'bwp':         { slug: 'BW-Black-Star-Promos',       code: 'BWP' },
-  'smp':         { slug: 'SM-Black-Star-Promos',       code: 'SMP' },
-  'swshp':       { slug: 'SWSH-Black-Star-Promos',     code: 'SWSH'},
-  'svp':         { slug: 'SV-Black-Star-Promos',       code: 'SVP' },
+  'np':          { slug: 'Wizards-Black-Star-Promos',  code: 'WP'   },
+  'xy0':         { slug: 'XY-Black-Star-Promos',       code: 'XYPR' },
+  'bwp':         { slug: 'BW-Black-Star-Promos',       code: 'BWP'  },
+  'smp':         { slug: 'SM-Black-Star-Promos',       code: 'SMP'  },
+  'swshp':       { slug: 'SWSH-Black-Star-Promos',     code: 'SWSH' },
+  'svp':         { slug: 'SV-Black-Star-Promos',       code: 'SVP'  },
+  // ── Movie & special promos ──
+  'mpr':         { slug: 'Promos',                     code: 'PR'   },
+  'xyp':         { slug: 'XY-Promos',                  code: 'XYP'  },
+  // ── POP series (Player Reward packs) ──
+  'pop1':        { slug: 'POP-Series-1',               code: 'POP1' },
+  'pop2':        { slug: 'POP-Series-2',               code: 'POP2' },
+  'pop3':        { slug: 'POP-Series-3',               code: 'POP3' },
+  'pop4':        { slug: 'POP-Series-4',               code: 'POP4' },
+  'pop5':        { slug: 'POP-Series-5',               code: 'POP5' },
+  'pop6':        { slug: 'POP-Series-6',               code: 'POP6' },
+  'pop7':        { slug: 'POP-Series-7',               code: 'POP7' },
+  'pop8':        { slug: 'POP-Series-8',               code: 'POP8' },
+  'pop9':        { slug: 'POP-Series-9',               code: 'POP9' },
+  // ── Other special sets ──
+  'dpp':         { slug: 'DP-Promos',                  code: 'DPP'  },
+  'hsp':         { slug: 'HGSS-Promos',                code: 'HSP'  },
+  'det1':        { slug: 'Detective-Pikachu',           code: 'DET'  },
+  'swsh45sv':    { slug: 'Shining-Fates-Shiny-Vault',  code: 'SHF'  },
+  'swsh12pt5gg': { slug: 'Crown-Zenith-Galarian-Gallery', code: 'CRZ'},
 };
 
-function buildCardmarketUrl(card, langPath, langParam, countryParam) {
+// Cardmarket version numbers for Base Set print runs:
+//   V1 = Unlimited (most common)
+//   V2 = Shadowless
+//   V3 = 1st Edition
+// All other sets have only one version per card number, so no Vn suffix is used.
+const BASE1_VERSION = { standard: 'V1', shadowless: 'V2', first_ed: 'V3' };
+
+function buildCardmarketUrl(card, langPath, langParam, countryParam, variant) {
   const setId  = card.set?.id || '';
   const name   = card.name || '';
   const number = card.number || '';
@@ -1341,20 +1513,33 @@ function buildCardmarketUrl(card, langPath, langParam, countryParam) {
   const entry = CM_SET_MAP[setId];
 
   if (entry) {
-    // Slugify card name: keep letters, digits, spaces, hyphens; replace spaces with hyphens
+    // Slugify card name: remove special chars, replace spaces with hyphens
     const nameSlug = name
       .replace(/[^a-zA-Z0-9 \-]/g, '')
       .trim()
       .replace(/ +/g, '-');
-    // Pad number to avoid e.g. "1" matching "10" — Cardmarket uses unpadded numbers
-    const cardSlug = `${nameSlug}-V1-${entry.code}${number}`;
-    return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}`;
+
+    let cardSlug;
+    if (setId === 'base1') {
+      // Route to the correct Cardmarket version page based on print run
+      const ver = BASE1_VERSION[variant || 'standard'] || 'V1';
+      cardSlug = `${nameSlug}-${ver}-${entry.code}${number}`;
+    } else {
+      // All other sets: no version suffix
+      cardSlug = `${nameSlug}-${entry.code}${number}`;
+    }
+
+    const params = [langParam, countryParam].filter(Boolean).join('');
+    const query = params ? '?' + params.replace(/^&/, '') : '';
+    return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
   }
 
-  // Fallback: search URL with card name + number + language + country filter
+  // Fallback: set-level search filtered by card name + language + country
   const searchTerm = encodeURIComponent(`${name} ${number}`);
-  const setSlug = (card.set?.name || '').replace(/ /g, '-');
-  return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}?searchString=${searchTerm}${langParam}${countryParam}`;
+  const setSlug = (card.set?.name || '').replace(/[^a-zA-Z0-9\-]/g, '-').replace(/-+/g, '-');
+  const params = [langParam, countryParam].filter(Boolean).join('');
+  const query = `?searchString=${searchTerm}` + (params ? params : '');
+  return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}${query}`;
 }
 
 // ── CARDMARKET PRICE FETCH (from pokemontcg.io card object) ──
@@ -1389,7 +1574,21 @@ function fetchCardmarketPrice(card, collSnap) {
   const avg7  = cm.avg7  ?? price;
   const avg30 = cm.avg30 ?? price;
   statusEl.style.color = 'var(--green)';
-  statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
+
+  // For Base Set non-standard variants, the API returns a blended price across all
+  // print runs (Unlimited + Shadowless + 1st Edition listings combined).
+  // Warn the user and point them to the correct Cardmarket version page.
+  const isBase1AltVariant = (card.set?.id === 'base1') &&
+    (selectedVariant === 'first_ed' || selectedVariant === 'shadowless');
+  if (isBase1AltVariant) {
+    const varName    = selectedVariant === 'first_ed' ? '1e Editie' : 'Shadowless';
+    const verLabel   = selectedVariant === 'first_ed' ? 'V3' : 'V2';
+    statusEl.style.color = 'var(--accent)';
+    statusEl.textContent = `⚠️ Gemengde prijs (alle drukken) — trend €${price.toFixed(2)}. `
+      + `${varName} (${verLabel}) heeft een hogere marktprijs. Klik Cardmarket voor de echte ${varName}-prijs.`;
+  } else {
+    statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
+  }
 }
 
 // ── CARD DETAIL OVERLAY ──
@@ -1403,6 +1602,22 @@ function openCardDetail(card, variantHint = 'standard') {
   selectedVariant = existing ? (existing.variant || 'standard') : variantHint;
 
   document.getElementById('ov-img').src = card.images?.large || card.images?.small || '';
+
+  // Show disclaimer for WotC cards in a non-standard variant — pokemontcg.io only has
+  // one image per card regardless of print run (1st Ed / Shadowless / Unlimited look
+  // nearly identical in photos but differ subtly in border shadow and stamp).
+  const imgNote = document.getElementById('ov-img-note');
+  if (imgNote) {
+    const isWotCCard   = WOTC_SETS.has(card.set?.id || '');
+    const isAltVariant = selectedVariant === 'first_ed' || selectedVariant === 'shadowless';
+    if (isWotCCard && isAltVariant) {
+      const variantName = selectedVariant === 'first_ed' ? '1e Editie' : 'Shadowless';
+      imgNote.textContent = `⚠️ Afbeelding toont de Unlimited versie — geen aparte scans beschikbaar per druk. Kijk op de kaart zelf voor de ${variantName} kenmerken.`;
+      imgNote.style.display = 'block';
+    } else {
+      imgNote.style.display = 'none';
+    }
+  }
   document.getElementById('ov-name').textContent = card.name;
   document.getElementById('ov-set').textContent = `${card.set?.name || ''} · #${card.number || '?'}`;
   document.getElementById('ov-setname').textContent = card.set?.name || '-';
@@ -1441,6 +1656,15 @@ function openCardDetail(card, variantHint = 'standard') {
       const anyEntry = variantEntry; // same lookup, reuse result
       document.getElementById('ov-action-add').style.display = anyEntry ? 'none' : 'block';
       document.getElementById('ov-action-remove').style.display = anyEntry ? 'block' : 'none';
+      // Refresh price status + CM link for new variant
+      // (important for Base Set: disclaimer and V1/V2/V3 routing depend on selectedVariant)
+      fetchCardmarketPrice(card, collSnap);
+      const vLangPath     = selectedLang === 'NL' ? 'nl' : 'en';
+      const vLangParam    = selectedLang === 'NL' ? '&language=7' : '&language=1';
+      const vCountryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
+      document.getElementById('ov-cm-btn').onclick = () => {
+        window.open(buildCardmarketUrl(card, vLangPath, vLangParam, vCountryParam, selectedVariant), '_blank');
+      };
     };
   });
 
@@ -1478,7 +1702,7 @@ function openCardDetail(card, variantHint = 'standard') {
     const langPath = selectedLang === 'NL' ? 'nl' : 'en';
     const langParam = selectedLang === 'NL' ? '&language=7' : '&language=1';
     const countryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
-    const url = buildCardmarketUrl(card, langPath, langParam, countryParam);
+    const url = buildCardmarketUrl(card, langPath, langParam, countryParam, selectedVariant);
     window.open(url, '_blank');
   };
 
@@ -1605,7 +1829,8 @@ document.getElementById('coll-filter').querySelectorAll('.pill').forEach(p => {
 // WotC-era sets (higher vintage premium)
 const WOTC_SETS = new Set([
   'base1','base2','jungle','fossil','teamrocket','gym1','gym2',
-  'neo1','neo2','neo3','neo4','si1','lc','ecard1','ecard2','ecard3'
+  'neo1','neo2','neo3','neo4','si1','lc','np','mpr',
+  'ecard1','ecard2','ecard3'
 ]);
 
 function psaAdvice(item) {
