@@ -3,33 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#0b0b14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PokeWaarde — Mijn Collectie</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUG9rZVdhYXJkZSIsInNob3J0X25hbWUiOiJQb2tlV2FhcmRlIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjBmMWEiLCJ0aGVtZV9jb2xvciI6IiNmN2M5NDgiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQTFNVElnTlRFeUlqNEtJQ0E4Y21WamRDQjNhV1IwYUQwaU5URXlJaUJvWldsbmFIUTlJalV4TWlJZ2NuZzlJakV4TWlJZ1ptbHNiRDBpSXpCbU1HWXhZU0l2UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakkxTmlJZ1kzazlJakkxTmlJZ2NqMGlNVGd3SWlCbWFXeHNQU0p1YjI1bElpQnpkSEp2YTJVOUlpTm1OMk01TkRnaUlITjBjbTlyWlMxM2FXUjBhRDBpTWpnaUx6NEtJQ0E4YkdsdVpTQjRNVDBpTnpZaUlIa3hQU0l5TlRZaUlIZ3lQU0kwTXpZaUlIa3lQU0l5TlRZaUlITjBjbTlyWlQwaUkyWTNZemswT0NJZ2MzUnliMnRsTFhkcFpIUm9QU0l5T0NJdlBnb2dJRHhqYVhKamJHVWdZM2c5SWpJMU5pSWdZM2s5SWpJMU5pSWdjajBpTlRJaUlHWnBiR3c5SWlNd1pqQm1NV0VpSUhOMGNtOXJaVDBpSTJZM1l6azBPQ0lnYzNSeWIydGxMWGRwWkhSb1BTSXlOQ0l2UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakkxTmlJZ1kzazlJakkxTmlJZ2NqMGlNaklpSUdacGJHdzlJaU5tTjJNNU5EZ2lMejRLSUNBOGNHRjBhQ0JrUFNKTk1qVTJJRGMySUZFek1UQWdNVFl3SURJMU5pQXlNRFFpSUdacGJHdzlJbTV2Ym1VaUlITjBjbTlyWlQwaUkyWTNZemswT0NJZ2MzUnliMnRsTFhkcFpIUm9QU0l3SWk4K0NpQWdQSFJsZUhRZ2VEMGlNalUySWlCNVBTSTBPREFpSUdadmJuUXRabUZ0YVd4NVBTSnpZVzV6TFhObGNtbG1JaUJtYjI1MExYTnBlbVU5SWpjeUlpQm1iMjUwTFhkbGFXZG9kRDBpT1RBd0lnb2dJQ0FnWm1sc2JEMGlJMlkzWXprME9DSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0lnYkdWMGRHVnlMWE53WVdOcGJtYzlJaTB5SWo1UVZ6d3ZkR1Y0ZEQ0S1BDOXpkbWMrIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzBmMGYxYSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2M5NDgiIHN0cm9rZS13aWR0aD0iMjgiLz4KICA8bGluZSB4MT0iNzYiIHkxPSIyNTYiIHgyPSI0MzYiIHkyPSIyNTYiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyOCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNTIiIGZpbGw9IiMwZjBmMWEiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyNCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjIiIGZpbGw9IiNmN2M5NDgiLz4KICA8cGF0aCBkPSJNMjU2IDc2IFEzMTAgMTYwIDI1NiAyMDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIwIi8+CiAgPHRleHQgeD0iMjU2IiB5PSI0ODAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iOTAwIgogICAgZmlsbD0iI2Y3Yzk0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9Ii0yIj5QVzwvdGV4dD4KPC9zdmc+">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzBmMGYxYSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2M5NDgiIHN0cm9rZS13aWR0aD0iMjgiLz4KICA8bGluZSB4MT0iNzYiIHkxPSIyNTYiIHgyPSI0MzYiIHkyPSIyNTYiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyOCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNTIiIGZpbGw9IiMwZjBmMWEiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyNCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjIiIGZpbGw9IiNmN2M5NDgiLz4KICA8cGF0aCBkPSJNMjU2IDc2IFEzMTAgMTYwIDI1NiAyMDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIwIi8+CiAgPHRleHQgeD0iMjU2IiB5PSI0ODAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iOTAwIgogICAgZmlsbD0iI2Y3Yzk0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9Ii0yIj5QVzwvdGV4dD4KPC9zdmc+">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f1a;
-    --surface: #1a1a2e;
-    --surface2: #22223a;
-    --surface3: #2a2a45;
+    --bg: #0b0b14;
+    --surface: #141422;
+    --surface2: #1c1c30;
+    --surface3: #242440;
     --accent: #f7c948;
     --accent2: #e8a020;
-    --blue: #4fc3f7;
-    --green: #69db7c;
+    --accent-glow: rgba(247,201,72,0.18);
+    --blue: #60cdf7;
+    --green: #5ddb78;
     --red: #ff6b6b;
-    --text: #f0f0f8;
-    --text2: #9898b8;
-    --text3: #5e5e7e;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.15);
-    --radius: 14px;
-    --radius-sm: 8px;
+    --purple: #b48ef7;
+    --text: #eeeef8;
+    --text2: #9090b4;
+    --text3: #52527a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --border-accent: rgba(247,201,72,0.35);
+    --radius: 16px;
+    --radius-sm: 10px;
     --font-display: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
-    --nav-h: 64px;
+    --nav-h: 68px;
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
+    --shadow-accent: 0 0 20px rgba(247,201,72,0.15);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -46,233 +54,364 @@
   /* ── TOP BAR ── */
   .topbar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 56px;
-    background: rgba(15,15,26,0.92);
-    backdrop-filter: blur(16px);
+    height: 58px;
+    background: rgba(11,11,20,0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 16px;
+    padding: 0 18px;
   }
-  .topbar-title { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--accent); letter-spacing: -0.5px; }
-  .topbar-subtitle { font-size: 11px; color: var(--text3); font-weight: 400; }
+  .topbar-logo {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .topbar-pokeball {
+    width: 28px; height: 28px; flex-shrink: 0;
+  }
+  .topbar-title {
+    font-family: var(--font-display); font-weight: 800; font-size: 20px;
+    background: linear-gradient(135deg, #f7c948 0%, #ffb020 50%, #f7c948 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    letter-spacing: -0.5px;
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+  .topbar-subtitle { font-size: 10px; color: var(--text3); font-weight: 400; margin-top: 1px; }
   .topbar-value { text-align: right; }
-  .topbar-value .val { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--green); }
+  .topbar-value .val {
+    font-family: var(--font-display); font-size: 18px; font-weight: 700;
+    color: var(--green);
+    text-shadow: 0 0 12px rgba(93,219,120,0.4);
+  }
   .topbar-value .lbl { font-size: 10px; color: var(--text3); }
 
   /* ── NAV ── */
   nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     height: var(--nav-h);
-    background: rgba(15,15,26,0.95);
-    backdrop-filter: blur(16px);
+    background: rgba(11,11,20,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--border);
     display: flex;
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
   .nav-btn {
     flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 4px; border: none; background: none; color: var(--text3);
     font-family: var(--font-body); font-size: 10px; cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.2s; position: relative; padding-top: 6px;
+  }
+  .nav-btn::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 2px; background: var(--accent); border-radius: 0 0 2px 2px;
+    transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
   }
   .nav-btn.active { color: var(--accent); }
-  .nav-btn svg { width: 22px; height: 22px; }
+  .nav-btn.active::before { width: 28px; }
+  .nav-btn svg { width: 22px; height: 22px; transition: transform 0.2s; }
+  .nav-btn.active svg { transform: scale(1.1); }
 
   /* ── SCREENS ── */
-  .screen { display: none; padding: 72px 16px calc(var(--nav-h) + 16px); min-height: 100vh; }
-  .screen.active { display: block; }
+  .screen { display: none; padding: 74px 16px calc(var(--nav-h) + 20px); min-height: 100vh; }
+  .screen.active { display: block; animation: fadeUp 0.25s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ── SEARCH BAR ── */
   .search-wrap { position: relative; margin-bottom: 16px; }
   .search-wrap input {
-    width: 100%; background: var(--surface); border: 1px solid var(--border2);
-    border-radius: 50px; padding: 12px 16px 12px 44px;
+    width: 100%; background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 50px; padding: 13px 18px 13px 46px;
     color: var(--text); font-family: var(--font-body); font-size: 15px;
-    outline: none; transition: border-color 0.2s;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
   .search-wrap input::placeholder { color: var(--text3); }
-  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); }
+  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text3); }
 
   /* ── SECTION LABEL ── */
   .section-label {
-    font-family: var(--font-display); font-size: 11px; font-weight: 700;
-    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3);
-    margin: 20px 0 10px;
+    font-family: var(--font-display); font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--text3);
+    margin: 22px 0 10px;
   }
 
   /* ── SET GRID ── */
   .set-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .set-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px; cursor: pointer;
-    transition: border-color 0.2s, transform 0.15s;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px; cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
     display: flex; flex-direction: column; gap: 6px;
-    min-height: 90px;
+    min-height: 96px; position: relative; overflow: hidden;
+  }
+  .set-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.2s;
   }
   .set-card:active { transform: scale(0.97); }
-  .set-card:hover { border-color: var(--border2); }
-  .set-card img { width: 48px; height: 30px; object-fit: contain; }
-  .set-name { font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--text); }
-  .set-meta { font-size: 10px; color: var(--text3); }
+  .set-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-accent); }
+  .set-card:hover::after { opacity: 1; }
+  .set-card img { width: 48px; height: 30px; object-fit: contain; position: relative; z-index: 1; }
+  .set-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--text); position: relative; z-index: 1; }
+  .set-meta { font-size: 10px; color: var(--text3); position: relative; z-index: 1; }
 
   /* ── CARD GRID ── */
   .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .poke-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden; cursor: pointer;
-    transition: border-color 0.2s, transform 0.15s; position: relative;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s; position: relative;
   }
   .poke-card:active { transform: scale(0.97); }
-  .poke-card img { width: 100%; aspect-ratio: 3/4; object-fit: contain; background: var(--surface2); display: block; }
-  .poke-card-info { padding: 8px 10px; }
-  .poke-card-name { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .poke-card-num { font-size: 10px; color: var(--text3); }
-  .poke-card.in-collection { border-color: var(--accent); }
+  .poke-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-accent); }
+  .poke-card img { width: 100%; aspect-ratio: 3/4; object-fit: contain; background: var(--surface2); display: block; transition: transform 0.3s; }
+  .poke-card:hover img { transform: scale(1.03); }
+  .poke-card-info { padding: 8px 10px 10px; }
+  .poke-card-name { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .poke-card-num { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .poke-card.in-collection { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
   .in-badge {
-    position: absolute; top: 6px; right: 6px;
-    background: var(--accent); color: #1a1200;
-    font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 20px;
+    position: absolute; top: 7px; right: 7px;
+    background: var(--accent); color: #1a1000;
+    font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 20px;
+    letter-spacing: 0.3px;
   }
 
   /* ── BACK BUTTON ── */
   .back-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: none; border: none; color: var(--text2);
-    font-family: var(--font-body); font-size: 14px; cursor: pointer;
-    padding: 0; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 50px; color: var(--text2);
+    font-family: var(--font-body); font-size: 13px; cursor: pointer;
+    padding: 7px 14px 7px 10px; margin-bottom: 16px;
+    transition: border-color 0.2s;
   }
+  .back-btn:hover { border-color: var(--border-accent); color: var(--accent); }
 
   /* ── PILL TABS ── */
   .pills { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
   .pill {
-    padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 500;
+    padding: 7px 15px; border-radius: 50px; font-size: 12px; font-weight: 600;
     border: 1px solid var(--border2); background: none; color: var(--text2);
     cursor: pointer; transition: all 0.15s;
   }
-  .pill.active { background: var(--accent); border-color: var(--accent); color: #1a1200; }
+  .pill:hover { border-color: var(--border-accent); color: var(--text); }
+  .pill.active { background: var(--accent); border-color: var(--accent); color: #1a1000; }
 
   /* ── DETAIL OVERLAY ── */
   .overlay {
     display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     align-items: flex-end; justify-content: center;
   }
-  .overlay.open { display: flex; }
+  .overlay.open { display: flex; animation: overlayIn 0.2s ease; }
+  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
   .overlay-sheet {
-    background: var(--surface);
-    border-radius: 20px 20px 0 0;
-    padding: 20px 20px 40px;
-    width: 100%; max-height: 88vh; overflow-y: auto;
+    background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+    border-radius: 24px 24px 0 0;
+    padding: 8px 20px 40px;
+    width: 100%; max-height: 92vh; overflow-y: auto;
+    animation: sheetUp 0.28s cubic-bezier(0.34,1.2,0.64,1);
+    border-top: 1px solid var(--border2);
   }
-  .overlay-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 20px; }
-  .overlay-img { width: 140px; display: block; margin: 0 auto 16px; border-radius: 10px; }
+  @keyframes sheetUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .overlay-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 20px; }
+  .overlay-img {
+    width: 150px; display: block; margin: 0 auto 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+    transition: transform 0.3s;
+  }
+  .overlay-img:hover { transform: scale(1.03) rotate(-1deg); }
   .overlay-name { font-family: var(--font-display); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 4px; }
   .overlay-set { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 20px; }
-  .overlay-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .overlay-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border); }
   .overlay-row-label { font-size: 13px; color: var(--text2); }
-  .overlay-row-val { font-size: 14px; font-weight: 500; }
+  .overlay-row-val { font-size: 14px; font-weight: 600; }
 
   /* Language toggle */
-  .lang-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; width: fit-content; }
-  .lang-btn { padding: 6px 14px; font-size: 13px; font-weight: 500; background: none; border: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
-  .lang-btn.active { background: var(--accent); color: #1a1200; }
+  .lang-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; width: fit-content; }
+  .lang-btn { padding: 8px 16px; font-size: 13px; font-weight: 600; background: none; border: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .lang-btn.active { background: var(--accent); color: #1a1000; }
+
+  /* Variant buttons */
+  .variant-bar { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .variant-btn { padding: 7px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; border: 1px solid var(--border2); background: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .variant-btn:hover { border-color: var(--border-accent); }
+  .variant-btn.active { background: var(--accent); border-color: var(--accent); color: #1a1000; }
+
+  /* Quantity controls */
+  .qty-ctrl { display: flex; align-items: center; gap: 0; border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; width: fit-content; }
+  .qty-btn { width: 40px; height: 40px; background: var(--surface2); border: none; color: var(--text); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .qty-btn:active { background: var(--surface3); }
+  .qty-val { min-width: 44px; text-align: center; font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text); background: var(--surface); padding: 0 4px; line-height: 40px; }
+
+  /* Set completion progress */
+  .set-progress { margin-bottom: 10px; }
+  .set-progress-bar { height: 5px; background: var(--surface2); border-radius: 3px; margin-top: 5px; overflow: hidden; }
+  .set-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 3px; transition: width 0.5s cubic-bezier(0.34,1.2,0.64,1); }
+  .set-progress-label { font-size: 11px; color: var(--text3); font-weight: 500; }
 
   /* Price input */
   .price-wrap { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
   .price-input {
     flex: 1; background: var(--surface2); border: 1px solid var(--border2);
-    border-radius: var(--radius-sm); padding: 8px 12px;
-    color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none;
-    transition: border-color 0.2s;
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    color: var(--text); font-family: var(--font-body); font-size: 16px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .price-input:focus { border-color: var(--accent); }
+  .price-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 
   /* Buttons */
   .btn {
-    padding: 12px 20px; border-radius: var(--radius-sm);
+    padding: 14px 20px; border-radius: var(--radius-sm);
     font-family: var(--font-display); font-weight: 700; font-size: 14px;
     cursor: pointer; border: none; transition: all 0.15s; text-align: center;
+    letter-spacing: 0.2px;
   }
   .btn:active { transform: scale(0.97); }
-  .btn-primary { background: var(--accent); color: #1a1200; width: 100%; margin-top: 12px; }
+  .btn-primary {
+    background: linear-gradient(135deg, #f7c948, #e8a020);
+    color: #1a1000; width: 100%; margin-top: 12px;
+    box-shadow: 0 4px 16px rgba(247,201,72,0.25);
+  }
+  .btn-primary:hover { box-shadow: 0 4px 24px rgba(247,201,72,0.4); }
   .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); width: 100%; margin-top: 8px; }
-  .btn-danger { background: none; color: var(--red); border: 1px solid var(--red); width: 100%; margin-top: 8px; }
+  .btn-danger { background: none; color: var(--red); border: 1px solid rgba(255,107,107,0.4); width: 100%; margin-top: 8px; }
   .btn-cm { background: var(--surface3); color: var(--blue); border: 1px solid var(--border2); display: flex; align-items: center; gap: 6px; justify-content: center; width: 100%; margin-top: 8px; }
 
   /* ── COLLECTION SCREEN ── */
   .collection-item {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 12px 12px 16px;
     display: flex; gap: 12px; align-items: center;
-    margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s;
+    margin-bottom: 8px; cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    position: relative; overflow: hidden;
   }
-  .collection-item:hover { border-color: var(--border2); }
-  .collection-item img { width: 48px; height: 64px; object-fit: contain; border-radius: 6px; background: var(--surface2); flex-shrink: 0; }
+  .collection-item::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--border2); border-radius: 16px 0 0 16px;
+    transition: background 0.2s;
+  }
+  .collection-item.variant-first_ed::before { background: var(--accent); }
+  .collection-item.variant-shadowless::before { background: var(--purple); }
+  .collection-item:hover { border-color: var(--border2); box-shadow: var(--shadow-card); transform: translateX(2px); }
+  .collection-item img { width: 56px; height: 76px; object-fit: contain; border-radius: 6px; background: var(--surface2); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
   .ci-info { flex: 1; min-width: 0; }
-  .ci-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ci-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .ci-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ci-meta { font-size: 11px; color: var(--text3); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
   .ci-price { text-align: right; flex-shrink: 0; }
-  .ci-price .amount { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--green); }
-  .ci-price .lang-tag { font-size: 10px; color: var(--text3); }
+  .ci-price .amount { font-family: var(--font-display); font-size: 17px; font-weight: 800; color: var(--green); }
+  .ci-price .lang-tag { font-size: 10px; color: var(--text3); margin-top: 2px; }
 
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
-  .empty-state .big { font-size: 48px; margin-bottom: 12px; }
-  .empty-state p { font-size: 14px; line-height: 1.6; }
+  .empty-state { text-align: center; padding: 64px 20px; color: var(--text3); }
+  .empty-state .big { font-size: 56px; margin-bottom: 14px; filter: grayscale(0.3); }
+  .empty-state p { font-size: 14px; line-height: 1.7; }
 
   .total-bar {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(247,201,72,0.1) 0%, rgba(232,160,32,0.05) 100%);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius); padding: 16px 18px;
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 16px;
+    box-shadow: 0 0 30px var(--accent-glow);
   }
-  .total-bar .lbl { font-size: 13px; color: var(--text2); }
-  .total-bar .val { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--green); }
+  .total-bar .lbl { font-size: 12px; color: var(--text2); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+  .total-bar .val { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--accent); text-shadow: 0 0 20px rgba(247,201,72,0.4); }
 
   /* Loading spinner */
-  .spinner { display: flex; justify-content: center; padding: 40px; }
-  .spinner-ring { width: 32px; height: 32px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  .spinner { display: flex; justify-content: center; padding: 48px; }
+  .spinner-ring { width: 36px; height: 36px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; box-shadow: 0 0 12px var(--accent-glow); }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Toast */
   .toast {
-    position: fixed; bottom: calc(var(--nav-h) + 12px); left: 50%; transform: translateX(-50%) translateY(20px);
+    position: fixed; bottom: calc(var(--nav-h) + 16px); left: 50%; transform: translateX(-50%) translateY(20px);
     background: var(--surface3); border: 1px solid var(--border2);
-    color: var(--text); padding: 10px 18px; border-radius: 50px;
-    font-size: 13px; opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 500;
-    white-space: nowrap;
+    color: var(--text); padding: 11px 20px; border-radius: 50px;
+    font-size: 13px; font-weight: 500;
+    opacity: 0; transition: all 0.25s cubic-bezier(0.34,1.2,0.64,1); pointer-events: none; z-index: 500;
+    white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* Photo screen */
-  .photo-section { background: var(--surface); border: 1px dashed var(--border2); border-radius: var(--radius); padding: 32px 20px; text-align: center; margin-top: 8px; }
-  .photo-icon { font-size: 40px; margin-bottom: 10px; }
-  .photo-label { font-size: 14px; color: var(--text2); line-height: 1.6; }
-  .photo-coming { display: inline-block; margin-top: 12px; padding: 4px 12px; background: var(--surface2); border-radius: 20px; font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.5px; }
-
-  .screen-title { font-family: var(--font-display); font-size: 26px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
+  .screen-title { font-family: var(--font-display); font-size: 28px; font-weight: 800; margin-bottom: 4px; color: var(--text); letter-spacing: -0.5px; }
   .screen-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
 
-  .no-results { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; }
+  .no-results { text-align: center; padding: 48px 20px; color: var(--text3); font-size: 14px; }
+
+  /* Photo upload button (scan screen) */
+  .photo-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface2); border: 2px dashed var(--border2); border-radius: var(--radius); padding: 20px; cursor: pointer; color: var(--text2); font-size: 14px; transition: all 0.2s; width: 100%; font-weight: 500; }
+  .photo-upload-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
+  /* Condition badges */
+  .condition-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
+  .cond-mint    { background: rgba(93,219,120,0.15); color: #5ddb78; border: 1px solid rgba(93,219,120,0.3); }
+  .cond-nm      { background: rgba(93,219,120,0.12); color: #5ddb78; border: 1px solid rgba(93,219,120,0.25); }
+  .cond-lp      { background: rgba(247,201,72,0.12); color: #f7c948; border: 1px solid rgba(247,201,72,0.25); }
+  .cond-played  { background: rgba(255,160,80,0.12); color: #ffa050; border: 1px solid rgba(255,160,80,0.25); }
+  .cond-hp      { background: rgba(255,107,107,0.12); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.25); }
+  .cond-dmg     { background: rgba(255,107,107,0.18); color: #ff5555; border: 1px solid rgba(255,107,107,0.35); }
+  .cond-unknown { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+
+  /* PSA grading advice badge */
+  .psa-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
+  .psa-yes  { background: rgba(180,142,247,0.15); color: var(--purple); border: 1px solid rgba(180,142,247,0.35); }
+  .psa-maybe{ background: rgba(247,201,72,0.12);  color: var(--accent);  border: 1px solid rgba(247,201,72,0.25); }
+  .psa-no   { display: none; }
+
+  /* PSA section in overlay */
+  .psa-box { background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 14px; margin-top: 4px; }
+  .psa-verdict { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .psa-detail  { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .psa-est     { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; }
+  .psa-est-lbl { color: var(--text3); }
+  .psa-est-val { font-weight: 700; color: var(--text); }
+
+  /* Stats screen */
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; }
+  .stat-card-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 10px; }
+  .stat-big { font-family: var(--font-display); font-size: 36px; font-weight: 800; color: var(--accent); text-shadow: 0 0 24px rgba(247,201,72,0.35); }
+  .stat-sub { font-size: 13px; color: var(--text3); margin-top: 4px; }
+  .chart-wrap { width: 100%; height: 160px; position: relative; margin-top: 8px; }
+  .chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+  .chart-label { font-size: 10px; fill: var(--text3); font-family: var(--font-body); }
+  .set-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .set-row:last-child { border-bottom: none; }
+  .set-row-name { font-size: 13px; color: var(--text); font-weight: 500; }
+  .set-row-count { font-size: 12px; color: var(--text3); }
 
   /* ── API KEY SETUP SCREEN ── */
   #setup-screen {
     position: fixed; inset: 0; z-index: 999;
-    background: var(--bg);
+    background: radial-gradient(ellipse at 50% 30%, rgba(247,201,72,0.06) 0%, var(--bg) 60%);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 32px 24px;
   }
-  .setup-logo { font-family: var(--font-display); font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
+  .setup-logo { font-family: var(--font-display); font-size: 40px; font-weight: 800; color: var(--accent); margin-bottom: 6px; text-shadow: 0 0 32px rgba(247,201,72,0.4); }
   .setup-tagline { font-size: 13px; color: var(--text3); margin-bottom: 40px; }
-  .setup-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 24px; width: 100%; max-width: 380px; }
+  .setup-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 26px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
   .setup-card h2 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 8px; }
   .setup-card p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
   .setup-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
   .setup-step { display: flex; gap: 10px; align-items: flex-start; }
-  .setup-step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #1a1200; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-  .setup-step-txt { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .setup-step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #1a1000; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .setup-step-txt { font-size: 13px; color: var(--text2); line-height: 1.5; padding-top: 3px; }
   .setup-step-txt a { color: var(--blue); text-decoration: none; }
-  .setup-input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 14px; outline: none; margin-bottom: 10px; transition: border-color 0.2s; }
-  .setup-input:focus { border-color: var(--accent); }
+  .setup-input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 14px; outline: none; margin-bottom: 10px; transition: border-color 0.2s, box-shadow 0.2s; }
+  .setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
   .setup-input::placeholder { color: var(--text3); }
   .setup-error { font-size: 12px; color: var(--red); margin-bottom: 8px; display: none; }
   .setup-note { font-size: 11px; color: var(--text3); margin-top: 10px; text-align: center; }
@@ -285,34 +424,61 @@
   <div class="setup-logo">PokeWaarde</div>
   <div class="setup-tagline">Jouw Pokémon collectiebeheerder</div>
   <div class="setup-card">
-    <h2>Gratis API-sleutel nodig</h2>
-    <p>Om kaartdata op te halen heb je een gratis sleutel nodig van de Pokémon TCG API. Dit duurt ongeveer 1 minuut.</p>
-    <div class="setup-steps">
+    <h2>API-sleutels instellen</h2>
+    <p>De app heeft twee sleutels nodig: één voor kaartdata (verplicht) en één voor AI-scanning (optioneel).</p>
+
+    <div style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">① Pokémon TCG API — verplicht</div>
+    <div class="setup-steps" style="margin-bottom:12px;">
       <div class="setup-step">
         <div class="setup-step-num">1</div>
         <div class="setup-step-txt">Ga naar <a href="https://dev.pokemontcg.io" target="_blank">dev.pokemontcg.io</a> en maak een gratis account aan</div>
       </div>
       <div class="setup-step">
         <div class="setup-step-num">2</div>
-        <div class="setup-step-txt">Kopieer je API-sleutel van het dashboard</div>
+        <div class="setup-step-txt">Kopieer je sleutel van het dashboard en plak hieronder</div>
+      </div>
+    </div>
+    <input class="setup-input" id="api-key-input" type="text" placeholder="Pokémon TCG sleutel…" autocomplete="off" spellcheck="false">
+    <div class="setup-error" id="setup-error">Voer een geldige Pokémon TCG sleutel in.</div>
+
+    <div style="border-top:1px solid var(--border);margin:16px 0;"></div>
+
+    <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">② Anthropic API — voor AI-scanning</div>
+    <div class="setup-steps" style="margin-bottom:12px;">
+      <div class="setup-step">
+        <div class="setup-step-num">1</div>
+        <div class="setup-step-txt">Ga naar <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> en maak een account aan</div>
+      </div>
+      <div class="setup-step">
+        <div class="setup-step-num">2</div>
+        <div class="setup-step-txt">Voeg een betaalmethode toe — scanning kost ~€0,01–0,02 per foto. Nieuw account: $5 gratis tegoed.</div>
       </div>
       <div class="setup-step">
         <div class="setup-step-num">3</div>
-        <div class="setup-step-txt">Plak hem hieronder en tik op Opslaan</div>
+        <div class="setup-step-txt">Ga naar Settings → API Keys, maak een sleutel aan en plak hieronder</div>
       </div>
     </div>
-    <input class="setup-input" id="api-key-input" type="text" placeholder="Plak je API-sleutel hier…" autocomplete="off" spellcheck="false">
-    <div class="setup-error" id="setup-error">Ongeldige sleutel. Controleer of je de juiste sleutel hebt geplakt.</div>
+    <input class="setup-input" id="anthropic-key-input" type="text" placeholder="Anthropic sleutel (optioneel)…" autocomplete="off" spellcheck="false">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">Zonder Anthropic-sleutel werkt alles behalve de Scannen-functies.</div>
+
     <button class="btn btn-primary" id="setup-save-btn" style="margin-top:0;">Opslaan &amp; starten</button>
-    <div class="setup-note">Je sleutel wordt lokaal opgeslagen. Upload de app naar Netlify voor het beste resultaat.</div>
+    <div class="setup-note">Sleutels worden lokaal opgeslagen op dit apparaat. Je kunt ze later aanpassen via de Statistieken-tab.</div>
   </div>
 </div>
 
 <!-- Top bar -->
 <div class="topbar">
-  <div>
-    <div class="topbar-title">PokeWaarde</div>
-    <div class="topbar-subtitle">Mijn collectie</div>
+  <div class="topbar-logo">
+    <svg class="topbar-pokeball" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" stroke="#f7c948" stroke-width="8"/>
+      <path d="M4 50 Q4 50 96 50" stroke="#f7c948" stroke-width="8"/>
+      <circle cx="50" cy="50" r="14" fill="#0b0b14" stroke="#f7c948" stroke-width="7"/>
+      <circle cx="50" cy="50" r="6" fill="#f7c948"/>
+    </svg>
+    <div>
+      <div class="topbar-title">PokeWaarde</div>
+      <div class="topbar-subtitle">Mijn collectie</div>
+    </div>
   </div>
   <div class="topbar-value">
     <div class="val" id="topbar-total">€0,00</div>
@@ -355,6 +521,11 @@
     </button>
     <div id="set-cards-title" class="screen-title" style="font-size:18px;margin-bottom:2px;"></div>
     <div id="set-cards-meta" class="screen-sub"></div>
+    <div class="set-progress" id="set-progress" style="display:none">
+      <div class="set-progress-label" id="set-progress-label"></div>
+      <div class="set-progress-bar"><div class="set-progress-fill" id="set-progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="variant-bar" id="set-variant-bar" style="display:none"></div>
     <div class="spinner" id="cards-spinner"><div class="spinner-ring"></div></div>
     <div class="card-grid" id="cards-in-set"></div>
   </div>
@@ -363,17 +534,44 @@
 <!-- SCREEN: Collection -->
 <div class="screen" id="screen-collection">
   <div class="screen-title">Collectie</div>
-  <div class="screen-sub">Jouw kaarten & waarden</div>
+  <div class="screen-sub">Jouw kaarten &amp; waarden</div>
 
+  <!-- Search -->
+  <div class="search-wrap" style="margin-bottom:10px;">
+    <span class="search-icon">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </span>
+    <input type="text" id="coll-search" placeholder="Zoek in collectie…" autocomplete="off">
+  </div>
+
+  <!-- Filter pills -->
   <div class="pills" id="coll-filter">
     <button class="pill active" data-filter="all">Alles</button>
-    <button class="pill" data-filter="NL">Nederlands</button>
-    <button class="pill" data-filter="EN">Engels</button>
+    <button class="pill" data-filter="standard">Standaard</button>
+    <button class="pill" data-filter="first_ed">1e Editie</button>
+    <button class="pill" data-filter="shadowless">Shadowless</button>
+  </div>
+
+  <!-- Sort controls -->
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+    <span style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:1px;text-transform:uppercase;">Sorteer</span>
+    <div class="pills" id="coll-sort" style="margin-bottom:0;">
+      <button class="pill active" data-sort="date">Toegevoegd</button>
+      <button class="pill" data-sort="value">Waarde</button>
+      <button class="pill" data-sort="roi">ROI</button>
+      <button class="pill" data-sort="name">Naam</button>
+      <button class="pill" data-sort="set">Set</button>
+      <button class="pill" data-sort="psa">PSA</button>
+    </div>
+    <button id="sort-dir-btn" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer;" title="Omgekeerde volgorde">↓</button>
   </div>
 
   <div id="collection-total" class="total-bar" style="display:none">
-    <div class="lbl">Totale waarde</div>
-    <div class="val" id="coll-total-val">€0,00</div>
+    <div>
+      <div class="lbl">Totale waarde</div>
+      <div class="val" id="coll-total-val">€0,00</div>
+    </div>
+    <button onclick="exportCSV()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⬇ CSV</button>
   </div>
 
   <div id="collection-list"></div>
@@ -386,29 +584,174 @@
 
 <!-- SCREEN: Scan -->
 <div class="screen" id="screen-scan">
-  <div class="screen-title">Foto scannen</div>
-  <div class="screen-sub">Kaartconditie beoordelen met AI</div>
+  <div class="screen-title">AI Scanner</div>
+  <div class="screen-sub">Kaart herkennen of conditie beoordelen</div>
 
-  <div class="photo-section">
-    <div class="photo-icon">📷</div>
-    <div class="photo-label">Maak een foto van je kaart om de conditie automatisch te laten beoordelen door AI (Mint, Near Mint, Excellent, enz.)</div>
-    <div class="photo-coming">Binnenkort beschikbaar</div>
+  <!-- Tab switcher -->
+  <div class="pills" id="scan-tabs" style="margin-bottom:20px;">
+    <button class="pill active" data-tab="identify">🔍 Herkennen</button>
+    <button class="pill" data-tab="grade">📋 Conditie</button>
+    <button class="pill" data-tab="appraise">💰 Taxeren</button>
   </div>
 
-  <div class="section-label" style="margin-top:24px;">Hoe het werkt</div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;">
-    <div style="display:flex;gap:12px;align-items:flex-start;">
-      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">1</div>
-      <div style="font-size:13px;color:var(--text2);padding-top:4px;">Maak een duidelijke foto van je kaart, voor- en achterkant</div>
+  <!-- TAB: Identify card -->
+  <div id="scan-tab-identify">
+    <div class="section-label">Foto van de kaart</div>
+    <label class="photo-upload-btn" for="photo-identify">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Maak foto of kies afbeelding
+    </label>
+    <input type="file" id="photo-identify" accept="image/*" capture="environment" style="display:none">
+    <img id="preview-identify" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:280px;object-fit:contain;">
+    <button class="btn btn-primary" id="identify-btn" style="margin-top:16px;" disabled>Herken kaart met AI</button>
+    <div class="spinner" id="identify-spinner" style="display:none"><div class="spinner-ring"></div></div>
+    <div class="condition-result" id="identify-result" style="display:none;">
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:4px;" id="identify-name"></div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:12px;" id="identify-meta"></div>
+      <button class="btn btn-primary" id="identify-direct-btn" style="margin-top:0;display:none;">⚡ Direct toevoegen aan collectie</button>
+      <button class="btn btn-secondary" id="identify-search-btn" style="margin-top:8px;">🔍 Zoek op in bladeren</button>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px;">💡 Direct toevoegen opent de kaart meteen — Zoeken toont alle varianten in de bladeren-tab.</div>
     </div>
-    <div style="display:flex;gap:12px;align-items:flex-start;">
-      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">2</div>
-      <div style="font-size:13px;color:var(--text2);padding-top:4px;">AI analyseert hoeken, krassen en slijtage</div>
+  </div>
+
+  <!-- TAB: Grade condition -->
+  <div id="scan-tab-grade" style="display:none;">
+    <div class="section-label">Voorkant van de kaart</div>
+    <label class="photo-upload-btn" for="photo-front">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Kies of maak foto (voorkant)
+    </label>
+    <input type="file" id="photo-front" accept="image/*" capture="environment" style="display:none">
+    <img id="preview-front" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:260px;object-fit:contain;">
+    <div class="section-label" style="margin-top:16px;">Achterkant van de kaart</div>
+    <label class="photo-upload-btn" for="photo-back">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Kies of maak foto (achterkant)
+    </label>
+    <input type="file" id="photo-back" accept="image/*" capture="environment" style="display:none">
+    <img id="preview-back" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:260px;object-fit:contain;">
+    <button class="btn btn-primary" id="scan-btn" style="margin-top:20px;" disabled>Beoordeel conditie met AI</button>
+    <div class="spinner" id="scan-spinner" style="display:none"><div class="spinner-ring"></div></div>
+    <div class="condition-result" id="condition-result">
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:6px;" id="cond-grade"></div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;" id="cond-desc"></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px;">💡 Let op: voor de AI-scan is een Anthropic API-sleutel vereist.</div>
     </div>
-    <div style="display:flex;gap:12px;align-items:flex-start;">
-      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">3</div>
-      <div style="font-size:13px;color:var(--text2);padding-top:4px;">De conditie wordt opgeslagen bij je kaart in de collectie</div>
+  </div>
+
+  <!-- TAB: Quick appraise (no collection interaction) -->
+  <div id="scan-tab-appraise" style="display:none;">
+    <div style="background:var(--surface2);border:1px solid var(--border-accent);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.6;">
+      📸 Foto een kaart van iemand anders om de huidige Cardmarket-waarde te zien — zonder iets toe te voegen aan je collectie.
     </div>
+    <div class="section-label">Foto van de kaart</div>
+    <label class="photo-upload-btn" for="photo-appraise">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Maak foto of kies afbeelding
+    </label>
+    <input type="file" id="photo-appraise" accept="image/*" capture="environment" style="display:none">
+    <img id="preview-appraise" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:280px;object-fit:contain;">
+    <button class="btn btn-primary" id="appraise-btn" style="margin-top:16px;" disabled>💰 Taxeer met AI</button>
+    <div class="spinner" id="appraise-spinner" style="display:none"><div class="spinner-ring"></div></div>
+
+    <!-- Result card -->
+    <div id="appraise-result" style="display:none;margin-top:16px;">
+      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;">
+        <!-- Card image + identity -->
+        <div style="display:flex;gap:14px;padding:16px;align-items:flex-start;">
+          <img id="appraise-card-img" src="" alt="" style="width:72px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.4);flex-shrink:0;display:none;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:2px;" id="appraise-name">—</div>
+            <div style="font-size:12px;color:var(--text2);margin-bottom:2px;" id="appraise-set">—</div>
+            <div style="font-size:11px;color:var(--text3);" id="appraise-rarity">—</div>
+          </div>
+        </div>
+        <!-- Price breakdown -->
+        <div style="border-top:1px solid var(--border);padding:14px 16px;">
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:12px;">Cardmarket Prijzen (EUR)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--accent);" id="appraise-trend">—</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px;">Trend</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text);" id="appraise-avg7">—</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px;">7-daags gem.</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text);" id="appraise-low">—</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:2px;">Laagste</div>
+            </div>
+          </div>
+          <!-- NL Dutch price note -->
+          <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 10px;margin-bottom:12px;" id="appraise-note"></div>
+          <!-- Action buttons -->
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-cm" id="appraise-cm-btn" style="flex:1;margin-top:0;">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+              Cardmarket NL
+            </button>
+            <button class="btn btn-cm" id="appraise-mp-btn" style="flex:1;margin-top:0;color:var(--accent);">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+              Marktplaats
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px;text-align:center;">Prijzen zijn algemene Cardmarket EUR-trends. Klik Cardmarket NL voor Nederlandse aanbiedingen.</div>
+    </div>
+
+    <div id="appraise-error" style="display:none;margin-top:16px;background:var(--surface);border:1px solid rgba(255,107,107,0.3);border-radius:var(--radius-sm);padding:14px;">
+      <div style="font-size:14px;font-weight:600;color:var(--red);margin-bottom:4px;">Kon kaart niet herkennen</div>
+      <div style="font-size:12px;color:var(--text3);">Probeer een duidelijkere foto met goede belichting, rechthoekig op de kaart gericht.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: Stats -->
+<div class="screen" id="screen-stats">
+  <div class="screen-title">Statistieken</div>
+  <div class="screen-sub">Waarde &amp; voortgang</div>
+  <div class="stat-card">
+    <div class="stat-card-title">Totale waarde</div>
+    <div class="stat-big" id="stats-total">€0,00</div>
+    <div class="stat-sub" id="stats-count">0 kaarten</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-title">Waardegeschiedenis</div>
+    <div class="chart-wrap" id="chart-wrap">
+      <div style="color:var(--text3);font-size:13px;padding-top:40px;text-align:center;">Nog geen geschiedenis — open de app dagelijks om de grafiek op te bouwen.</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-title">Kaarten per set</div>
+    <div id="stats-sets"><div style="color:var(--text3);font-size:13px;">Nog geen kaarten in collectie.</div></div>
+  </div>
+
+  <div class="stat-card" style="margin-top:8px;">
+    <div class="stat-card-title">Instellingen</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">API-sleutels bijwerken</div>
+
+    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Pokémon TCG sleutel</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input id="settings-ptcg-key" type="text" placeholder="Huidige sleutel…" autocomplete="off" spellcheck="false"
+        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
+      <button onclick="saveSettingsKey('ptcg')"
+        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap;">
+        Opslaan
+      </button>
+    </div>
+
+    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Anthropic sleutel <span style="color:var(--text3);font-weight:400;">(voor AI-scanning)</span></div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <input id="settings-anthropic-key" type="text" placeholder="sk-ant-…" autocomplete="off" spellcheck="false"
+        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
+      <button onclick="saveSettingsKey('anthropic')"
+        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap;">
+        Opslaan
+      </button>
+    </div>
+    <div style="font-size:11px;color:var(--text3);">Sleutels worden alleen lokaal opgeslagen op dit apparaat. <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue);">console.anthropic.com</a></div>
   </div>
 </div>
 
@@ -425,6 +768,10 @@
   <button class="nav-btn" data-screen="scan">
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
     Scannen
+  </button>
+  <button class="nav-btn" data-screen="stats">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Statistieken
   </button>
 </nav>
 
@@ -459,23 +806,50 @@
       <button class="lang-btn" data-lang="EN">🇬🇧 EN</button>
     </div>
 
-    <div class="section-label" style="margin-top:16px;">Editie</div>
-    <div class="lang-toggle" id="edition-toggle">
-      <button class="lang-btn active" data-edition="0">Standaard</button>
-      <button class="lang-btn" data-edition="1">1e Editie</button>
-    </div>
+    <div class="section-label" style="margin-top:16px;">Variant</div>
+    <div class="variant-bar" id="ov-variant-bar"></div>
 
-    <div class="section-label" style="margin-top:16px;">Prijs (Cardmarket)</div>
+    <div class="section-label" style="margin-top:16px;">Huidige prijs (Cardmarket)</div>
     <div class="price-wrap">
       <span style="color:var(--text2);font-size:18px;">€</span>
       <input type="number" class="price-input" id="ov-price" placeholder="0,00" min="0" step="0.01">
     </div>
     <div style="font-size:11px;color:var(--text3);margin-top:6px;" id="ov-price-status">Prijs wordt opgehaald van Cardmarket…</div>
 
-    <button class="btn btn-cm" id="ov-cm-btn">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-      Open op Cardmarket
-    </button>
+    <div class="section-label" style="margin-top:14px;">Betaald (aankoopprijs)</div>
+    <div class="price-wrap">
+      <span style="color:var(--text2);font-size:18px;">€</span>
+      <input type="number" class="price-input" id="ov-paid" placeholder="0,00" min="0" step="0.01">
+    </div>
+
+    <div class="section-label" style="margin-top:16px;">Aantal</div>
+    <div class="qty-ctrl">
+      <button class="qty-btn" id="qty-minus">−</button>
+      <div class="qty-val" id="qty-display">1</div>
+      <button class="qty-btn" id="qty-plus">+</button>
+    </div>
+
+    <div class="section-label" style="margin-top:16px;">Conditie</div>
+    <div class="pills" id="ov-condition-pills" style="flex-wrap:wrap;gap:5px;margin-bottom:0;">
+      <button class="pill active" data-cond="">Onbekend</button>
+      <button class="pill" data-cond="M">Mint</button>
+      <button class="pill" data-cond="NM">Near Mint</button>
+      <button class="pill" data-cond="LP">Lightly Played</button>
+      <button class="pill" data-cond="MP">Mod. Played</button>
+      <button class="pill" data-cond="HP">Heavily Played</button>
+      <button class="pill" data-cond="DMG">Damaged</button>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="btn btn-cm" id="ov-cm-btn" style="flex:1;margin-top:0;">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        Cardmarket
+      </button>
+      <button class="btn btn-cm" id="ov-mp-btn" style="flex:1;margin-top:0;color:var(--accent);">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        Marktplaats
+      </button>
+    </div>
 
     <div id="ov-action-add">
       <button class="btn btn-primary" id="ov-add-btn">+ Toevoegen aan collectie</button>
@@ -483,6 +857,15 @@
     <div id="ov-action-remove" style="display:none">
       <button class="btn btn-primary" id="ov-save-btn">Wijzigingen opslaan</button>
       <button class="btn btn-danger" id="ov-remove-btn">Verwijder uit collectie</button>
+    </div>
+    <div class="section-label" style="margin-top:16px;">PSA Beoordeling</div>
+    <div class="psa-box" id="ov-psa-box">
+      <div class="psa-verdict" id="ov-psa-verdict">—</div>
+      <div class="psa-detail" id="ov-psa-detail"></div>
+      <div class="psa-est" id="ov-psa-est" style="display:none">
+        <div><div class="psa-est-lbl">Geschatte PSA kosten</div><div class="psa-est-val" id="ov-psa-cost">—</div></div>
+        <div style="text-align:right"><div class="psa-est-lbl">Geschatte PSA 10 waarde</div><div class="psa-est-val" id="ov-psa-val">—</div></div>
+      </div>
     </div>
     <button class="btn btn-secondary" id="ov-close-btn">Sluiten</button>
   </div>
@@ -494,10 +877,44 @@
 const API = 'https://api.pokemontcg.io/v2';
 let sets = [];
 let currentCard = null;
+let selectedVariant = 'standard';
 let selectedLang = 'NL';
-let selectedEdition = false;
+let selectedQty = 1;
+let selectedPaid = 0;
 let collFilter = 'all';
-let API_KEY = localStorage.getItem('ptcg_api_key') || '';
+let collSort = 'date';
+let collSortAsc = false;
+let collSearch = '';
+let selectedCondition = '';
+// Scan-to-add: temporary values set by the scanner before opening the overlay
+let _scanDetectedLang = null;
+let _scanDetectedCondition = null;
+// Card detail cache — avoids re-fetching the same card from the API on repeated taps
+const cardCache = new Map();
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('pokehist') || '[]'); } catch { return []; }
+}
+function recordSnapshot(total) {
+  // Accept pre-computed total to avoid an extra localStorage round-trip
+  const hist = getHistory();
+  const today = new Date().toISOString().slice(0, 10);
+  if (total === undefined) total = calcTotal();
+  if (hist.length && hist[hist.length - 1].date === today) {
+    hist[hist.length - 1].value = total;
+  } else {
+    hist.push({ date: today, value: total });
+  }
+  if (hist.length > 90) hist.splice(0, hist.length - 90);
+  localStorage.setItem('pokehist', JSON.stringify(hist));
+}
+const FIRST_ED_SETS = new Set([
+  'base1','jungle','fossil','teamrocket','gym1','gym2',
+  'neo1','neo2','neo3','neo4','si1','np'
+]);
+const SHADOWLESS_SETS = new Set(['base1']);
+let API_KEY       = localStorage.getItem('ptcg_api_key') || '';
+let ANTHROPIC_KEY = localStorage.getItem('anthropic_api_key') || '';
 
 function apiFetch(url) {
   return fetch(url, { headers: API_KEY ? { 'X-Api-Key': API_KEY } : {} });
@@ -509,23 +926,38 @@ function checkSetup() {
     document.getElementById('setup-screen').style.display = 'flex';
   } else {
     document.getElementById('setup-screen').style.display = 'none';
+    // Pre-fill existing keys if user reopens setup
+    if (ANTHROPIC_KEY) document.getElementById('anthropic-key-input').value = ANTHROPIC_KEY;
     loadSets();
   }
 }
 
 document.getElementById('setup-save-btn').addEventListener('click', async () => {
-  const key = document.getElementById('api-key-input').value.trim();
-  const errEl = document.getElementById('setup-error');
+  const key         = document.getElementById('api-key-input').value.trim();
+  const anthropicKey = document.getElementById('anthropic-key-input').value.trim();
+  const errEl       = document.getElementById('setup-error');
+
   if (!key || key.length < 10) {
-    errEl.textContent = 'Voer een geldige sleutel in.';
+    errEl.textContent = 'Voer een geldige Pokémon TCG sleutel in.';
     errEl.style.display = 'block';
     return;
   }
-  // Save immediately — CORS blocks live validation from file:// and many hosts.
-  // The app will show a clear error if the key turns out to be wrong when loading sets.
+  errEl.style.display = 'none';
+
+  // Save Pokémon TCG key
   API_KEY = key;
   localStorage.setItem('ptcg_api_key', key);
-  errEl.style.display = 'none';
+
+  // Save Anthropic key if provided (optional — scanning still works without it)
+  if (anthropicKey && anthropicKey.startsWith('sk-ant-')) {
+    ANTHROPIC_KEY = anthropicKey;
+    localStorage.setItem('anthropic_api_key', anthropicKey);
+  } else if (anthropicKey && anthropicKey.length > 10) {
+    // Accept any non-empty key that looks plausible (future-proofing)
+    ANTHROPIC_KEY = anthropicKey;
+    localStorage.setItem('anthropic_api_key', anthropicKey);
+  }
+
   document.getElementById('setup-screen').style.display = 'none';
   loadSets();
 });
@@ -537,12 +969,6 @@ function getCollection() {
 function saveCollection(coll) {
   localStorage.setItem('pokecoll', JSON.stringify(coll));
 }
-function isInCollection(cardId) {
-  return getCollection().some(c => c.id === cardId);
-}
-function getCollectionItem(cardId) {
-  return getCollection().find(c => c.id === cardId);
-}
 
 // Toast
 function showToast(msg) {
@@ -553,12 +979,13 @@ function showToast(msg) {
 }
 
 // Total value
-function calcTotal() {
-  const coll = getCollection();
-  return coll.reduce((s, c) => s + (parseFloat(c.price) || 0), 0);
+function calcTotal(coll) {
+  // Accept pre-read collection to avoid an extra localStorage round-trip
+  if (!coll) coll = getCollection();
+  return coll.reduce((s, c) => s + (parseFloat(c.price) || 0) * (c.qty || 1), 0);
 }
-function updateTopbarTotal() {
-  document.getElementById('topbar-total').textContent = '€' + calcTotal().toFixed(2).replace('.', ',');
+function updateTopbarTotal(coll) {
+  document.getElementById('topbar-total').textContent = '€' + calcTotal(coll).toFixed(2).replace('.', ',');
 }
 
 // Nav
@@ -569,10 +996,35 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.classList.add('active');
     document.getElementById('screen-' + btn.dataset.screen).classList.add('active');
     if (btn.dataset.screen === 'collection') renderCollection();
+    if (btn.dataset.screen === 'stats') renderStats();
   });
 });
 
+// ── COLLECTION CONTROLS ──
+document.getElementById('coll-search').addEventListener('input', e => {
+  collSearch = e.target.value.trim().toLowerCase();
+  renderCollection();
+});
+
+document.getElementById('coll-sort').querySelectorAll('.pill').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('#coll-sort .pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    collSort = p.dataset.sort;
+    renderCollection();
+  });
+});
+
+document.getElementById('sort-dir-btn').addEventListener('click', () => {
+  collSortAsc = !collSortAsc;
+  document.getElementById('sort-dir-btn').textContent = collSortAsc ? '↑' : '↓';
+  renderCollection();
+});
+
 // ── SETS ──
+let currentSetCards = [];
+let currentVariant = 'standard';
+
 async function loadSets() {
   try {
     const r = await apiFetch(`${API}/sets?pageSize=250`);
@@ -611,6 +1063,11 @@ function renderSets(data) {
 function openSet(setId) {
   const set = sets.find(s => s.id === setId);
   if (!set) return;
+  // Reset state for new set
+  currentVariant = 'standard';
+  currentSetCards = [];
+  document.getElementById('set-progress').style.display = 'none';
+  document.getElementById('set-variant-bar').style.display = 'none';
   document.getElementById('sets-view').style.display = 'none';
   document.getElementById('search-results-wrap').style.display = 'none';
   document.getElementById('set-cards-view').style.display = 'block';
@@ -618,6 +1075,25 @@ function openSet(setId) {
   document.getElementById('set-cards-meta').textContent = `${set.series} · ${set.releaseDate || ''}`;
   document.getElementById('cards-spinner').style.display = 'flex';
   document.getElementById('cards-in-set').innerHTML = '';
+
+  // Show variant buttons for eligible sets
+  const varBar = document.getElementById('set-variant-bar');
+  let vHtml = '<button class="variant-btn active" data-variant="standard">Standaard</button>';
+  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
+  if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
+  if (FIRST_ED_SETS.has(setId) || SHADOWLESS_SETS.has(setId)) {
+    varBar.innerHTML = vHtml;
+    varBar.style.display = 'flex';
+    varBar.querySelectorAll('.variant-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        varBar.querySelectorAll('.variant-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        currentVariant = b.dataset.variant;
+        renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
+        updateSetProgress(currentSetCards);
+      });
+    });
+  }
   loadCardsInSet(setId);
 }
 
@@ -625,8 +1101,10 @@ async function loadCardsInSet(setId) {
   try {
     const r = await apiFetch(`${API}/cards?q=set.id:${setId}&orderBy=number&pageSize=250`);
     const d = await r.json();
+    currentSetCards = d.data || [];
     document.getElementById('cards-spinner').style.display = 'none';
-    renderCardGrid(d.data || [], document.getElementById('cards-in-set'));
+    renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
+    updateSetProgress(currentSetCards);
   } catch(e) {
     document.getElementById('cards-spinner').innerHTML = '<p style="color:var(--text3);font-size:13px;">Kon kaarten niet laden.</p>';
   }
@@ -659,12 +1137,12 @@ document.getElementById('search-input').addEventListener('input', e => {
 
 async function doSearch(q) {
   try {
-    const r = await apiFetch(`${API}/cards?q=name:"${encodeURIComponent(q)}"&pageSize=30&orderBy=-set.releaseDate`);
+    const r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`"${q}"`)}&pageSize=30&orderBy=-set.releaseDate`);
     const d = await r.json();
     document.getElementById('search-spinner').style.display = 'none';
     const cards = d.data || [];
     if (!cards.length) { document.getElementById('search-no-results').style.display = 'block'; return; }
-    renderCardGrid(cards, document.getElementById('search-results'));
+    renderCardGrid(cards, document.getElementById('search-results'), 'standard');
   } catch {
     document.getElementById('search-spinner').style.display = 'none';
     document.getElementById('search-no-results').style.display = 'block';
@@ -672,13 +1150,30 @@ async function doSearch(q) {
 }
 
 // ── CARD GRID RENDER ──
-function renderCardGrid(cards, container) {
+function updateSetProgress(cards) {
+  const coll = getCollection();
+  const total = cards.length;
+  if (!total) return;
+  const owned = cards.filter(c => coll.some(x => x.id === c.id)).length;
+  const pct = Math.round((owned / total) * 100);
+  const prog = document.getElementById('set-progress');
+  if (!prog) return;
+  prog.style.display = 'block';
+  document.getElementById('set-progress-label').textContent = `${owned} / ${total} kaarten in collectie (${pct}%)`;
+  document.getElementById('set-progress-fill').style.width = pct + '%';
+}
+
+function renderCardGrid(cards, container, forVariant = 'standard') {
   const coll = getCollection();
   container.innerHTML = cards.map(c => {
-    const inColl = coll.some(x => x.id === c.id);
+    const collEntry = coll.find(x => x.id === c.id && (x.variant || 'standard') === forVariant);
+    const anyEntry  = coll.find(x => x.id === c.id);
+    const inColl = !!collEntry;
     const img = c.images?.small || '';
-    return `<div class="poke-card ${inColl ? 'in-collection' : ''}" data-id="${c.id}">
-      ${inColl ? `<div class="in-badge">✓ In collectie${(()=>{const x=coll.find(x=>x.id===c.id);return x&&x.firstEd?' · 1e Ed':'';})()}</div>` : ''}
+    const variantLabel = forVariant === 'first_ed' ? '🥇 1e Ed' : forVariant === 'shadowless' ? '✨ Shadowless' : '';
+    const qtyLabel = collEntry && (collEntry.qty || 1) > 1 ? ` ×${collEntry.qty}` : '';
+    return `<div class="poke-card ${inColl ? 'in-collection' : ''}" data-id="${c.id}" data-variant="${forVariant}">
+      ${inColl ? `<div class="in-badge">✓ ${variantLabel || 'In collectie'}${qtyLabel}</div>` : (anyEntry ? '<div class="in-badge" style="background:var(--surface3);color:var(--text2);">✓ Andere variant</div>' : '')}
       <img src="${img}" alt="${c.name}" loading="lazy">
       <div class="poke-card-info">
         <div class="poke-card-name">${c.name}</div>
@@ -689,53 +1184,223 @@ function renderCardGrid(cards, container) {
   container.querySelectorAll('.poke-card').forEach(el => {
     el.addEventListener('click', () => {
       const card = cards.find(c => c.id === el.dataset.id);
-      if (card) openCardDetail(card);
+      if (card) openCardDetail(card, el.dataset.variant || 'standard');
     });
   });
 }
 
-// ── CARDMARKET PRICE FETCH via TCGdex ──
-async function fetchCardmarketPrice(card) {
-  const statusEl = document.getElementById('ov-price-status');
-  const priceEl = document.getElementById('ov-price');
-  statusEl.style.color = 'var(--text3)';
-  statusEl.textContent = 'Prijs wordt opgehaald van Cardmarket…';
+// ── CARDMARKET URL BUILDER ──
+// Maps pokemontcg.io set IDs to Cardmarket's URL set slug and card code prefix.
+// Format: { setSlug: 'Base-Set', code: 'BS' }
+// Card URL pattern: /Products/Singles/{setSlug}/{CardName}-V1-{code}{number}
+// V1/V2 etc. is a version suffix Cardmarket adds when multiple cards share a name+number.
+// We always use V1 as first attempt; if that 404s the user can adjust manually.
+const CM_SET_MAP = {
+  // ── WotC era ──
+  'base1':       { slug: 'Base-Set',              code: 'BS'    },
+  'base2':       { slug: 'Base-Set-2',            code: 'B2'    },
+  'jungle':      { slug: 'Jungle',                code: 'JU'    },
+  'fossil':      { slug: 'Fossil',                code: 'FO'    },
+  'teamrocket':  { slug: 'Team-Rocket',           code: 'TR'    },
+  'gym1':        { slug: 'Gym-Heroes',            code: 'G1'    },
+  'gym2':        { slug: 'Gym-Challenge',         code: 'G2'    },
+  'neo1':        { slug: 'Neo-Genesis',           code: 'N1'    },
+  'neo2':        { slug: 'Neo-Discovery',         code: 'N2'    },
+  'neo3':        { slug: 'Neo-Revelation',        code: 'N3'    },
+  'neo4':        { slug: 'Neo-Destiny',           code: 'N4'    },
+  'si1':         { slug: 'Southern-Islands',      code: 'SI'    },
+  'lc':          { slug: 'Legendary-Collection',  code: 'LC'    },
+  // ── e-Card era ──
+  'ecard1':      { slug: 'Expedition-Base-Set',   code: 'EX'    },
+  'ecard2':      { slug: 'Aquapolis',             code: 'AQ'    },
+  'ecard3':      { slug: 'Skyridge',              code: 'SK'    },
+  // ── EX era ──
+  'ex1':         { slug: 'EX-Ruby-Sapphire',           code: 'RS'  },
+  'ex2':         { slug: 'EX-Sandstorm',               code: 'SS'  },
+  'ex3':         { slug: 'EX-Dragon',                  code: 'DR'  },
+  'ex4':         { slug: 'EX-Team-Magma-vs-Team-Aqua', code: 'MA'  },
+  'ex5':         { slug: 'EX-Hidden-Legends',          code: 'HL'  },
+  'ex6':         { slug: 'EX-FireRed-LeafGreen',       code: 'FL'  },
+  'ex7':         { slug: 'EX-Team-Rocket-Returns',     code: 'TRR' },
+  'ex8':         { slug: 'EX-Deoxys',                  code: 'DX'  },
+  'ex9':         { slug: 'EX-Emerald',                 code: 'EM'  },
+  'ex10':        { slug: 'EX-Unseen-Forces',           code: 'UF'  },
+  'ex11':        { slug: 'EX-Delta-Species',           code: 'DS'  },
+  'ex12':        { slug: 'EX-Legend-Maker',            code: 'LM'  },
+  'ex13':        { slug: 'EX-Holon-Phantoms',          code: 'HP'  },
+  'ex14':        { slug: 'EX-Crystal-Guardians',       code: 'CG'  },
+  'ex15':        { slug: 'EX-Dragon-Frontiers',        code: 'DF'  },
+  'ex16':        { slug: 'EX-Power-Keepers',           code: 'PK'  },
+  // ── Diamond & Pearl era ──
+  'dp1':         { slug: 'Diamond-Pearl',              code: 'DP'  },
+  'dp2':         { slug: 'Mysterious-Treasures',       code: 'MT'  },
+  'dp3':         { slug: 'Secret-Wonders',             code: 'SW'  },
+  'dp4':         { slug: 'Great-Encounters',           code: 'GE'  },
+  'dp5':         { slug: 'Majestic-Dawn',              code: 'MD'  },
+  'dp6':         { slug: 'Legends-Awakened',           code: 'LA'  },
+  'dp7':         { slug: 'Stormfront',                 code: 'SF'  },
+  // ── Platinum era ──
+  'pl1':         { slug: 'Platinum',                   code: 'PL'  },
+  'pl2':         { slug: 'Rising-Rivals',              code: 'RR'  },
+  'pl3':         { slug: 'Supreme-Victors',            code: 'SV'  },
+  'pl4':         { slug: 'Arceus',                     code: 'AR'  },
+  // ── HeartGold SoulSilver era ──
+  'hgss1':       { slug: 'HeartGold-SoulSilver',       code: 'HS'  },
+  'hgss2':       { slug: 'Unleashed',                  code: 'UL'  },
+  'hgss3':       { slug: 'Undaunted',                  code: 'UD'  },
+  'hgss4':       { slug: 'Triumphant',                 code: 'TM'  },
+  'col1':        { slug: 'Call-of-Legends',            code: 'CL'  },
+  // ── Black & White era ──
+  'bw1':         { slug: 'Black-White',                code: 'BW'  },
+  'bw2':         { slug: 'Emerging-Powers',            code: 'EP'  },
+  'bw3':         { slug: 'Noble-Victories',            code: 'NV'  },
+  'bw4':         { slug: 'Next-Destinies',             code: 'ND'  },
+  'bw5':         { slug: 'Dark-Explorers',             code: 'DE'  },
+  'bw6':         { slug: 'Dragons-Exalted',            code: 'DRX' },
+  'bw7':         { slug: 'Boundaries-Crossed',         code: 'BC'  },
+  'bw8':         { slug: 'Plasma-Storm',               code: 'PS'  },
+  'bw9':         { slug: 'Plasma-Freeze',              code: 'PF'  },
+  'bw10':        { slug: 'Plasma-Blast',               code: 'PB'  },
+  'bw11':        { slug: 'Legendary-Treasures',        code: 'LT'  },
+  // ── XY era ──
+  'xy1':         { slug: 'XY',                         code: 'XY'  },
+  'xy2':         { slug: 'Flashfire',                  code: 'FF'  },
+  'xy3':         { slug: 'Furious-Fists',              code: 'FUF' },
+  'xy4':         { slug: 'Phantom-Forces',             code: 'PHF' },
+  'xy5':         { slug: 'Primal-Clash',               code: 'PRC' },
+  'xy6':         { slug: 'Roaring-Skies',              code: 'ROS' },
+  'xy7':         { slug: 'Ancient-Origins',            code: 'AOR' },
+  'xy8':         { slug: 'BREAKthrough',               code: 'BKT' },
+  'xy9':         { slug: 'BREAKpoint',                 code: 'BKP' },
+  'xy10':        { slug: 'Fates-Collide',              code: 'FCO' },
+  'xy11':        { slug: 'Steam-Siege',                code: 'STS' },
+  'xy12':        { slug: 'Evolutions',                 code: 'EVO' },
+  // ── Sun & Moon era ──
+  'sm1':         { slug: 'Sun-Moon',                   code: 'SUM' },
+  'sm2':         { slug: 'Guardians-Rising',           code: 'GRI' },
+  'sm3':         { slug: 'Burning-Shadows',            code: 'BUS' },
+  'sm35':        { slug: 'Shining-Legends',            code: 'SLG' },
+  'sm4':         { slug: 'Crimson-Invasion',           code: 'CIN' },
+  'sm5':         { slug: 'Ultra-Prism',                code: 'UPR' },
+  'sm6':         { slug: 'Forbidden-Light',            code: 'FLI' },
+  'sm7':         { slug: 'Celestial-Storm',            code: 'CES' },
+  'sm75':        { slug: 'Dragon-Majesty',             code: 'DRM' },
+  'sm8':         { slug: 'Lost-Thunder',               code: 'LOT' },
+  'sm9':         { slug: 'Team-Up',                    code: 'TEU' },
+  'sm10':        { slug: 'Unbroken-Bonds',             code: 'UNB' },
+  'sm11':        { slug: 'Unified-Minds',              code: 'UNM' },
+  'sm115':       { slug: 'Hidden-Fates',               code: 'HIF' },
+  'sm12':        { slug: 'Cosmic-Eclipse',             code: 'CEC' },
+  // ── Sword & Shield era ──
+  'swsh1':       { slug: 'Sword-Shield',               code: 'SSH' },
+  'swsh2':       { slug: 'Rebel-Clash',                code: 'RCL' },
+  'swsh3':       { slug: 'Darkness-Ablaze',            code: 'DAA' },
+  'swsh35':      { slug: 'Champions-Path',             code: 'CPA' },
+  'swsh4':       { slug: 'Vivid-Voltage',              code: 'VIV' },
+  'swsh45':      { slug: 'Shining-Fates',              code: 'SHF' },
+  'swsh5':       { slug: 'Battle-Styles',              code: 'BST' },
+  'swsh6':       { slug: 'Chilling-Reign',             code: 'CRE' },
+  'swsh7':       { slug: 'Evolving-Skies',             code: 'EVS' },
+  'swsh75':      { slug: 'Celebrations',               code: 'CEL' },
+  'swsh8':       { slug: 'Fusion-Strike',              code: 'FST' },
+  'swsh9':       { slug: 'Brilliant-Stars',            code: 'BRS' },
+  'swsh10':      { slug: 'Astral-Radiance',            code: 'ASR' },
+  'swsh105':     { slug: 'Pokemon-GO',                 code: 'PGO' },
+  'swsh11':      { slug: 'Lost-Origin',                code: 'LOR' },
+  'swsh12':      { slug: 'Silver-Tempest',             code: 'SIT' },
+  'swsh125':     { slug: 'Crown-Zenith',               code: 'CRZ' },
+  // ── Scarlet & Violet era ──
+  'sv1':         { slug: 'Scarlet-Violet',             code: 'SVI' },
+  'sv2':         { slug: 'Paldea-Evolved',             code: 'PAL' },
+  'sv3':         { slug: 'Obsidian-Flames',            code: 'OBF' },
+  'sv3pt5':      { slug: 'Pokemon-151',                code: 'MEW' },
+  'sv4':         { slug: 'Paradox-Rift',               code: 'PAR' },
+  'sv4pt5':      { slug: 'Paldean-Fates',             code: 'PAF' },
+  'sv5':         { slug: 'Temporal-Forces',            code: 'TEF' },
+  'sv6':         { slug: 'Twilight-Masquerade',        code: 'TWM' },
+  'sv6pt5':      { slug: 'Shrouded-Fable',             code: 'SFA' },
+  'sv7':         { slug: 'Stellar-Crown',              code: 'SCR' },
+  'sv8':         { slug: 'Surging-Sparks',             code: 'SSP' },
+  'sv8pt5':      { slug: 'Prismatic-Evolutions',       code: 'PRE' },
+  'sv9':         { slug: 'Journey-Together',           code: 'JTG' },
+  'sv9pt5':      { slug: 'Destined-Rivals',            code: 'DRI' },
+  // ── Promos ──
+  'np':          { slug: 'Wizards-Black-Star-Promos',  code: 'WP'  },
+  'xy0':         { slug: 'XY-Black-Star-Promos',       code: 'XYPR'},
+  'bwp':         { slug: 'BW-Black-Star-Promos',       code: 'BWP' },
+  'smp':         { slug: 'SM-Black-Star-Promos',       code: 'SMP' },
+  'swshp':       { slug: 'SWSH-Black-Star-Promos',     code: 'SWSH'},
+  'svp':         { slug: 'SV-Black-Star-Promos',       code: 'SVP' },
+};
 
-  // TCGdex uses set id + local card number, e.g. "base1-4"
-  const tcgdexId = `${card.set?.id}-${card.number}`;
-  try {
-    const r = await fetch(`https://api.tcgdex.net/v2/en/cards/${tcgdexId}`);
-    if (!r.ok) throw new Error('not found');
-    const d = await r.json();
-    // TCGdex stores pricing under d.pricing.cardmarket
-    const cm = d.pricing?.cardmarket;
-    if (!cm) throw new Error('no cardmarket data');
+function buildCardmarketUrl(card, langPath, langParam, countryParam) {
+  const setId  = card.set?.id || '';
+  const name   = card.name || '';
+  const number = card.number || '';
 
-    // trend is the best single value; fall back through avg, low
-    const price = cm.trend ?? cm.avg ?? cm.low ?? null;
-    if (price === null) throw new Error('no price value');
+  const entry = CM_SET_MAP[setId];
 
-    // Only auto-fill if there is no existing manual price saved
-    const existing = getCollectionItem(card.id);
-    if (!existing || !existing.price) {
-      priceEl.value = price.toFixed(2);
-    }
-    statusEl.style.color = 'var(--green)';
-    const avg7  = cm.avg7  ?? cm.avg ?? price;
-    const avg30 = cm.avg30 ?? cm.avg ?? price;
-    statusEl.textContent = `Cardmarket: trend €${price.toFixed(2)} · gem. 7d €${avg7.toFixed(2)} · gem. 30d €${avg30.toFixed(2)}`;
-  } catch(e) {
-    statusEl.style.color = 'var(--text3)';
-    statusEl.textContent = 'Geen automatische prijs beschikbaar — voer handmatig in.';
+  if (entry) {
+    // Slugify card name: keep letters, digits, spaces, hyphens; replace spaces with hyphens
+    const nameSlug = name
+      .replace(/[^a-zA-Z0-9 \-]/g, '')
+      .trim()
+      .replace(/ +/g, '-');
+    // Pad number to avoid e.g. "1" matching "10" — Cardmarket uses unpadded numbers
+    const cardSlug = `${nameSlug}-V1-${entry.code}${number}`;
+    return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}`;
   }
+
+  // Fallback: search URL with card name + number + language + country filter
+  const searchTerm = encodeURIComponent(`${name} ${number}`);
+  const setSlug = (card.set?.name || '').replace(/ /g, '-');
+  return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}?searchString=${searchTerm}${langParam}${countryParam}`;
+}
+
+// ── CARDMARKET PRICE FETCH (from pokemontcg.io card object) ──
+function fetchCardmarketPrice(card, collSnap) {
+  // Prices are already on the card object from pokemontcg.io — no extra API call needed.
+  // Field: card.cardmarket.prices.{trendPrice, averageSellPrice, lowPrice, avg1, avg7, avg30}
+  const statusEl = document.getElementById('ov-price-status');
+  const priceEl  = document.getElementById('ov-price');
+
+  const cm = card.cardmarket?.prices;
+  if (!cm) {
+    statusEl.style.color = 'var(--text3)';
+    statusEl.textContent = 'Geen Cardmarket prijsdata beschikbaar.';
+    return;
+  }
+
+  // trendPrice is the best single reference value; fall back to averageSellPrice then lowPrice
+  const price = cm.trendPrice ?? cm.averageSellPrice ?? cm.lowPrice ?? null;
+  if (price === null) {
+    statusEl.style.color = 'var(--text3)';
+    statusEl.textContent = 'Geen Cardmarket prijsdata beschikbaar.';
+    return;
+  }
+
+  // Only auto-fill if there is no existing saved price for this card
+  // collSnap is already in scope from openCardDetail
+  const cmExisting = collSnap ? collSnap.find(c => c.id === card.id) : getCollection().find(c => c.id === card.id);
+  if (!cmExisting || !cmExisting.price) {
+    priceEl.value = price.toFixed(2);
+  }
+
+  const avg7  = cm.avg7  ?? price;
+  const avg30 = cm.avg30 ?? price;
+  statusEl.style.color = 'var(--green)';
+  statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
 }
 
 // ── CARD DETAIL OVERLAY ──
-function openCardDetail(card) {
+function openCardDetail(card, variantHint = 'standard') {
   currentCard = card;
-  const existing = getCollectionItem(card.id);
-  selectedLang = existing ? existing.lang : 'NL';
-  selectedEdition = existing ? (existing.firstEd || false) : false;
+  const setId = card.set?.id || '';
+  // Read collection once for this overlay — reused by all lookups below
+  const collSnap = getCollection();
+  const allEntries = collSnap.filter(c => c.id === card.id);
+  const existing = allEntries.find(c => c.variant === variantHint) || allEntries[0] || null;
+  selectedVariant = existing ? (existing.variant || 'standard') : variantHint;
 
   document.getElementById('ov-img').src = card.images?.large || card.images?.small || '';
   document.getElementById('ov-name').textContent = card.name;
@@ -745,9 +1410,54 @@ function openCardDetail(card) {
   document.getElementById('ov-rarity').textContent = card.rarity || '-';
   document.getElementById('ov-type').textContent = (card.types || []).join(', ') || (card.supertype || '-');
   document.getElementById('ov-price').value = existing ? (existing.price || '') : '';
-  fetchCardmarketPrice(card);
+  selectedPaid = existing ? (existing.pricePaid || 0) : 0;
+  document.getElementById('ov-paid').value = selectedPaid ? selectedPaid : '';
+  selectedQty = existing ? (existing.qty || 1) : 1;
+  document.getElementById('qty-display').textContent = selectedQty;
+  fetchCardmarketPrice(card, collSnap);
+  document.getElementById('qty-minus').onclick = () => {
+    if (selectedQty > 1) { selectedQty--; document.getElementById('qty-display').textContent = selectedQty; }
+  };
+  document.getElementById('qty-plus').onclick = () => {
+    selectedQty++; document.getElementById('qty-display').textContent = selectedQty;
+  };
 
-  // Lang toggle
+  // Variant buttons: Standard always; 1st Ed for eligible sets; Shadowless for Base Set only
+  const vBar = document.getElementById('ov-variant-bar');
+  let vHtml = '<button class="variant-btn" data-variant="standard">Standaard</button>';
+  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
+  if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
+  vBar.innerHTML = vHtml;
+  vBar.querySelectorAll('.variant-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.variant === selectedVariant);
+    b.onclick = () => {
+      selectedVariant = b.dataset.variant;
+      // Check if this variant is already in collection
+      // Use collSnap from outer openCardDetail scope — one localStorage read
+      const variantEntry = collSnap.find(c => c.id === card.id && c.variant === selectedVariant);
+      document.getElementById('ov-price').value = variantEntry ? (variantEntry.price || '') : '';
+      document.getElementById('ov-paid').value  = variantEntry ? (variantEntry.pricePaid || '') : '';
+      vBar.querySelectorAll('.variant-btn').forEach(x => x.classList.toggle('active', x.dataset.variant === selectedVariant));
+      const anyEntry = variantEntry; // same lookup, reuse result
+      document.getElementById('ov-action-add').style.display = anyEntry ? 'none' : 'block';
+      document.getElementById('ov-action-remove').style.display = anyEntry ? 'block' : 'none';
+    };
+  });
+
+  // Condition pills
+  selectedCondition = existing ? (existing.condition || '') : (_scanDetectedCondition || '');
+  if (_scanDetectedCondition) { _scanDetectedCondition = null; } // consume once
+  document.querySelectorAll('#ov-condition-pills .pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.cond === selectedCondition);
+    b.onclick = () => {
+      selectedCondition = b.dataset.cond;
+      document.querySelectorAll('#ov-condition-pills .pill').forEach(x => x.classList.toggle('active', x.dataset.cond === selectedCondition));
+    };
+  });
+
+  // Language toggle
+  selectedLang = existing ? (existing.lang || 'NL') : (_scanDetectedLang || 'NL');
+  if (_scanDetectedLang) { _scanDetectedLang = null; } // consume once
   document.querySelectorAll('#lang-toggle .lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === selectedLang);
     b.onclick = () => {
@@ -756,26 +1466,19 @@ function openCardDetail(card) {
     };
   });
 
-  // Edition toggle
-  document.querySelectorAll('#edition-toggle .lang-btn').forEach(b => {
-    b.classList.toggle('active', (b.dataset.edition === '1') === selectedEdition);
-    b.onclick = () => {
-      selectedEdition = b.dataset.edition === '1';
-      document.querySelectorAll('#edition-toggle .lang-btn').forEach(x => x.classList.toggle('active', (x.dataset.edition === '1') === selectedEdition));
-    };
-  });
+  // Marktplaats link
+  document.getElementById('ov-mp-btn').onclick = () => {
+    const q = encodeURIComponent(`Pokemon kaart ${card.name} ${card.set?.name || ''}`);
+    window.open(`https://www.marktplaats.nl/q/${q}/#sortBy:SORT_INDEX|sortOrder:DECREASING`, '_blank');
+  };
 
-  // Cardmarket link
+  // Cardmarket link — builds the most precise URL possible using a set slug mapping table.
+  // Falls back to a search URL if the set isn't in the mapping.
   document.getElementById('ov-cm-btn').onclick = () => {
-    // Use the Cardmarket Species page — shows all printings of a card, always works,
-    // and the URL is simply the card name with spaces replaced by hyphens.
-    // e.g. "Charizard ex" -> /Species/Charizard-ex
     const langPath = selectedLang === 'NL' ? 'nl' : 'en';
-    const species = card.name
-      .replace(/[^a-zA-Z0-9 \-]/g, '')
-      .trim()
-      .replace(/ +/g, '-');
-    const url = `https://www.cardmarket.com/${langPath}/Pokemon/Species/${species}`;
+    const langParam = selectedLang === 'NL' ? '&language=7' : '&language=1';
+    const countryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
+    const url = buildCardmarketUrl(card, langPath, langParam, countryParam);
     window.open(url, '_blank');
   };
 
@@ -787,6 +1490,29 @@ function openCardDetail(card) {
     document.getElementById('ov-action-remove').style.display = 'none';
   }
 
+  // PSA advice — only show if card is in collection (we need price + condition)
+  const psaItem = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
+  const psaBox  = document.getElementById('ov-psa-box');
+  const psaEst  = document.getElementById('ov-psa-est');
+  if (psaItem && psaItem.price) {
+    const adv = psaAdvice(psaItem);
+    document.getElementById('ov-psa-verdict').textContent = adv.verdict;
+    document.getElementById('ov-psa-detail').textContent  = adv.detail;
+    if (adv.psa10Est) {
+      document.getElementById('ov-psa-cost').textContent = `~€${adv.psaCostEur}`;
+      document.getElementById('ov-psa-val').textContent  = `~€${adv.psa10Est.toFixed(0)}`;
+      psaEst.style.display = 'flex';
+    } else {
+      psaEst.style.display = 'none';
+    }
+    psaBox.style.borderColor = adv.level === 'yes' ? 'rgba(180,142,247,0.4)' : adv.level === 'maybe' ? 'rgba(247,201,72,0.3)' : 'var(--border2)';
+  } else {
+    document.getElementById('ov-psa-verdict').textContent = '—';
+    document.getElementById('ov-psa-detail').textContent  = 'Voeg deze kaart toe aan je collectie met een prijs om een PSA beoordeling te zien.';
+    psaEst.style.display = 'none';
+    psaBox.style.borderColor = 'var(--border2)';
+  }
+
   document.getElementById('card-overlay').classList.add('open');
 }
 
@@ -794,9 +1520,11 @@ document.getElementById('ov-add-btn').addEventListener('click', () => {
   if (!currentCard) return;
   const price = parseFloat(document.getElementById('ov-price').value) || 0;
   const coll = getCollection();
-  coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', number: currentCard.number || '', img: currentCard.images?.small || '', lang: selectedLang, price, rarity: currentCard.rarity || '', firstEd: selectedEdition });
+  coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(document.getElementById('ov-paid').value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
   saveCollection(coll);
-  updateTopbarTotal();
+  const newTotal = calcTotal(coll);
+  updateTopbarTotal(coll);
+  recordSnapshot(newTotal);
   closeOverlay();
   showToast('✓ Kaart toegevoegd aan collectie');
   refreshGridBadges();
@@ -806,10 +1534,12 @@ document.getElementById('ov-save-btn').addEventListener('click', () => {
   if (!currentCard) return;
   const price = parseFloat(document.getElementById('ov-price').value) || 0;
   const coll = getCollection();
-  const idx = coll.findIndex(c => c.id === currentCard.id);
-  if (idx >= 0) { coll[idx].price = price; coll[idx].lang = selectedLang; coll[idx].firstEd = selectedEdition; }
+  const idx = coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
+  if (idx >= 0) { coll[idx].price = price; coll[idx].pricePaid = parseFloat(document.getElementById('ov-paid').value)||0; coll[idx].variant = selectedVariant; coll[idx].lang = selectedLang; coll[idx].qty = selectedQty; coll[idx].condition = selectedCondition; coll[idx].priceUpdated = Date.now(); }
   saveCollection(coll);
-  updateTopbarTotal();
+  const newTotal2 = calcTotal(coll);
+  updateTopbarTotal(coll);
+  recordSnapshot(newTotal2);
   closeOverlay();
   showToast('✓ Wijzigingen opgeslagen');
   if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
@@ -817,9 +1547,11 @@ document.getElementById('ov-save-btn').addEventListener('click', () => {
 
 document.getElementById('ov-remove-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const coll = getCollection().filter(c => c.id !== currentCard.id);
+  const coll = getCollection().filter(c => !(c.id === currentCard.id && (c.variant || 'standard') === selectedVariant));
   saveCollection(coll);
-  updateTopbarTotal();
+  const newTotal3 = calcTotal(coll);
+  updateTopbarTotal(coll);
+  recordSnapshot(newTotal3);
   closeOverlay();
   showToast('Kaart verwijderd uit collectie');
   if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
@@ -835,19 +1567,28 @@ function closeOverlay() {
 }
 
 function refreshGridBadges() {
-  // Re-render current grid to update badges without full reload
-  const containers = ['search-results', 'cards-in-set', 'set-grid'];
-  // Just re-fetch collection and update DOM badges
   const coll = getCollection();
   document.querySelectorAll('.poke-card').forEach(el => {
-    const inColl = coll.some(x => x.id === el.dataset.id);
-    el.classList.toggle('in-collection', inColl);
-    const existing = el.querySelector('.in-badge');
-    if (inColl && !existing) {
-      const b = document.createElement('div'); b.className = 'in-badge'; b.textContent = '✓ In collectie';
-      el.prepend(b);
-    } else if (!inColl && existing) { existing.remove(); }
+    const forVariant = el.dataset.variant || 'standard';
+    const collEntry = coll.find(x => x.id === el.dataset.id && (x.variant || 'standard') === forVariant);
+    const anyEntry  = coll.find(x => x.id === el.dataset.id);
+    el.classList.toggle('in-collection', !!collEntry);
+    let badge = el.querySelector('.in-badge');
+    if (collEntry) {
+      const variantLabel = forVariant === 'first_ed' ? '🥇 1e Ed' : forVariant === 'shadowless' ? '✨ Shadowless' : 'In collectie';
+      const qtyLabel = (collEntry.qty || 1) > 1 ? ` ×${collEntry.qty}` : '';
+      if (!badge) { badge = document.createElement('div'); badge.className = 'in-badge'; el.prepend(badge); }
+      badge.style.background = ''; badge.style.color = '';
+      badge.textContent = `✓ ${variantLabel}${qtyLabel}`;
+    } else if (anyEntry) {
+      if (!badge) { badge = document.createElement('div'); badge.className = 'in-badge'; el.prepend(badge); }
+      badge.style.background = 'var(--surface3)'; badge.style.color = 'var(--text2)';
+      badge.textContent = '✓ Andere variant';
+    } else if (badge) {
+      badge.remove();
+    }
   });
+  if (document.getElementById('set-progress')) updateSetProgress(currentSetCards);
 }
 
 // ── COLLECTION SCREEN ──
@@ -860,60 +1601,726 @@ document.getElementById('coll-filter').querySelectorAll('.pill').forEach(p => {
   });
 });
 
+// ── PSA GRADING ADVISOR ──
+// WotC-era sets (higher vintage premium)
+const WOTC_SETS = new Set([
+  'base1','base2','jungle','fossil','teamrocket','gym1','gym2',
+  'neo1','neo2','neo3','neo4','si1','lc','ecard1','ecard2','ecard3'
+]);
+
+function psaAdvice(item) {
+  const price   = parseFloat(item.price) || 0;
+  const cond    = item.condition || '';
+  const setId   = item.setId || '';
+  const variant = item.variant || 'standard';
+  const rarity  = (item.rarity || '').toLowerCase();
+
+  // ── Condition gate ──
+  // Must be NM or better to have realistic shot at PSA 9-10
+  const condOk = ['M','NM'].includes(cond);
+  const condUnknown = cond === '';
+  const condBad = ['LP','MP','HP','DMG'].includes(cond);
+
+  // ── Era multiplier ──
+  const isWotC    = WOTC_SETS.has(setId);
+  const isFirstEd = variant === 'first_ed';
+  const isShadowless = variant === 'shadowless';
+
+  // Estimated PSA 10 multiplier based on era + variant
+  let multiplier = 2.5; // modern baseline
+  if (isWotC) multiplier = isFirstEd ? 8 : isShadowless ? 6 : 4;
+  else if (isFirstEd) multiplier = 3.5;
+
+  // ── Rarity bonus ──
+  const isSecret = rarity.includes('secret') || rarity.includes('special') || rarity.includes('illustration');
+  const isUltra  = rarity.includes('ultra') || rarity.includes('rare ultra') || rarity.includes('rare rainbow');
+  if (isSecret || isUltra) multiplier *= 1.2;
+
+  // ── PSA cost estimate (Economy tier, EUR) ──
+  const psaCostEur = price >= 500 ? 75 : price >= 200 ? 50 : 30;
+
+  // ── Potential PSA 10 value ──
+  const psa10Est = price * multiplier;
+  const profit   = psa10Est - price - psaCostEur;
+
+  // ── Decision ──
+  let verdict, detail, level;
+
+  if (condBad) {
+    level   = 'no';
+    verdict = '❌ Niet de moeite waard';
+    detail  = `Conditie ${cond} is te slecht voor PSA — een hoge graad is onwaarschijnlijk en de kosten dekken de waardestijging niet.`;
+  } else if (price < 15) {
+    level   = 'no';
+    verdict = '❌ Niet de moeite waard';
+    detail  = `Huidige waarde (€${price.toFixed(2)}) is te laag. PSA kosten (~€30) zouden de potentiële winst overstijgen.`;
+  } else if (price < 50 && !isWotC) {
+    level   = 'no';
+    verdict = '❌ Grenseval — sla over';
+    detail  = `Waarde is te laag voor niet-vintage kaarten. Overweeg alleen als conditie perfect Mint is en je zeker weet dat het NM+ is.`;
+  } else if (condUnknown) {
+    level   = 'maybe';
+    verdict = '❓ Conditie onbekend';
+    detail  = `Gebruik de Conditie-scanner (Scannen-tab) om te bepalen of de kaart in aanmerking komt. Een PSA 10 zou circa €${psa10Est.toFixed(0)} kunnen opleveren.`;
+  } else if (!condOk) {
+    level   = 'no';
+    verdict = '❌ Conditie te laag';
+    detail  = `${cond} is onvoldoende voor een winstgevende PSA inzending. PSA 7 of lager verkoopt soms voor minder dan raw.`;
+  } else if (profit > 200 || (isWotC && profit > 50)) {
+    level   = 'yes';
+    verdict = '⭐ Sterk aanbevolen';
+    detail  = isFirstEd
+      ? `1e Editie vintage kaarten met goede conditie zijn ideaal voor PSA. Hoge multiplier (~${multiplier}×) en beperkte PSA 10 populatie drijven de premie op.`
+      : isWotC
+        ? `WotC-era kaart in goede conditie — vintage multiplier (~${multiplier}×) rechtvaardigt grading kosten ruimschoots.`
+        : `Hoge waarde en goede conditie. Potentieel ~${multiplier}× waardestijging in PSA 10.`;
+  } else if (profit > 30) {
+    level   = 'maybe';
+    verdict = '🤔 Mogelijk interessant';
+    detail  = `Winstpotentieel aanwezig maar niet zeker. Stuur alleen in als de kaart perfect gecentreerd is, geen hoekschade heeft en een schoon oppervlak.`;
+  } else {
+    level   = 'no';
+    verdict = '❌ Niet de moeite waard';
+    detail  = `Verwachte winst na PSA kosten (€${psaCostEur}) is te laag (€${profit.toFixed(0)}). Behoud de kaart als raw.`;
+  }
+
+  return { level, verdict, detail, psaCostEur, psa10Est: level !== 'no' ? psa10Est : null };
+}
+
+function conditionClass(c) {
+  return {M:'cond-mint',NM:'cond-nm',LP:'cond-lp',MP:'cond-played',HP:'cond-hp',DMG:'cond-dmg'}[c] || 'cond-unknown';
+}
+
+// ── Named helpers for renderCollection ──
+function roiHtml(c) {
+  const cur  = (parseFloat(c.price) || 0) * (c.qty || 1);
+  const paid = (parseFloat(c.pricePaid) || 0) * (c.qty || 1);
+  if (!paid || !c.price) return '';
+  const diff = cur - paid;
+  const pct  = Math.round((diff / paid) * 100);
+  const col  = diff >= 0 ? 'var(--green)' : 'var(--red)';
+  const sign = diff >= 0 ? '+' : '';
+  return `<div style="font-size:10px;color:${col};font-weight:700;">${sign}€${Math.abs(diff).toFixed(2).replace('.',',')} (${sign}${pct}%)</div>`;
+}
+
+function variantLabel(variant) {
+  return variant === 'first_ed' ? '1e Editie' : variant === 'shadowless' ? 'Shadowless' : 'Standaard';
+}
+
+function collectionItemHtml(c, psaCache) {
+  const v          = c.variant || 'standard';
+  const condBadge  = c.condition ? `<span class="condition-badge ${conditionClass(c.condition)}">${c.condition}</span>` : '';
+  const psaAdv     = psaCache.get(c.id + v) || psaAdvice(c);
+  const psaBadge   = psaAdv.level !== 'no' ? `<span class="psa-badge psa-${psaAdv.level}">PSA${psaAdv.level === 'yes' ? '⭐' : '?'}</span>` : '';
+  const priceStr   = c.price ? '€' + parseFloat(c.price).toFixed(2).replace('.', ',') : '—';
+  const langFlag   = c.lang === 'NL' ? '🇳🇱' : '🇬🇧';
+  return `<div class="collection-item variant-${v}" data-id="${c.id}" data-variant="${v}">
+    <img src="${c.img}" alt="${c.name}" onerror="this.src=''">
+    <div class="ci-info">
+      <div class="ci-name">${c.name}${(c.qty||1)>1?` <span style="font-size:11px;color:var(--text3);">×${c.qty}</span>`:''}</div>
+      <div class="ci-meta">${c.set} · #${c.number}</div>
+      <div class="ci-meta" style="margin-top:3px;">${c.rarity || ''} ${condBadge}</div>
+    </div>
+    <div class="ci-price">
+      <div class="amount">${priceStr}</div>
+      ${roiHtml(c)}
+      <div class="lang-tag">${langFlag} ${variantLabel(v)}</div>
+      ${psaBadge}
+    </div>
+  </div>`;
+}
+
 function renderCollection() {
+  // Read collection once — avoids multiple localStorage reads per render
   let coll = getCollection();
-  if (collFilter !== 'all') coll = coll.filter(c => c.lang === collFilter);
+
+  // Pre-compute PSA advice for all items so sort and badge share the same result
+  const psaCache = new Map();
+  coll.forEach(c => psaCache.set(c.id + (c.variant || 'standard'), psaAdvice(c)));
+
+  // Filter
+  if (collFilter !== 'all') coll = coll.filter(c => (c.variant || 'standard') === collFilter);
+  if (collSearch) {
+    const q = collSearch; // already lowercased
+    coll = coll.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      (c.set || '').toLowerCase().includes(q) ||
+      (c.number || '').toLowerCase().includes(q)
+    );
+  }
+
+  // Sort using cached PSA advice
+  coll = [...coll].sort((a, b) => {
+    let va, vb;
+    if (collSort === 'value') {
+      va = (parseFloat(a.price)||0)*(a.qty||1);
+      vb = (parseFloat(b.price)||0)*(b.qty||1);
+    } else if (collSort === 'roi') {
+      va = a.pricePaid > 0 ? ((parseFloat(a.price)||0) - a.pricePaid) / a.pricePaid : -999;
+      vb = b.pricePaid > 0 ? ((parseFloat(b.price)||0) - b.pricePaid) / b.pricePaid : -999;
+    } else if (collSort === 'psa') {
+      const lvl = { yes: 2, maybe: 1, no: 0 };
+      va = lvl[(psaCache.get(a.id + (a.variant||'standard')) || {level:'no'}).level] || 0;
+      vb = lvl[(psaCache.get(b.id + (b.variant||'standard')) || {level:'no'}).level] || 0;
+    } else if (collSort === 'name') {
+      va = a.name; vb = b.name;
+    } else if (collSort === 'set') {
+      va = (a.set||'') + (a.number||'').padStart(6,'0');
+      vb = (b.set||'') + (b.number||'').padStart(6,'0');
+    } else {
+      va = a.priceUpdated || 0; vb = b.priceUpdated || 0;
+    }
+    if (va < vb) return collSortAsc ? -1 : 1;
+    if (va > vb) return collSortAsc ? 1 : -1;
+    return 0;
+  });
 
   const totalBar = document.getElementById('collection-total');
-  const empty = document.getElementById('coll-empty');
-  const list = document.getElementById('collection-list');
+  const empty    = document.getElementById('coll-empty');
+  const list     = document.getElementById('collection-list');
 
   if (!coll.length) {
     totalBar.style.display = 'none';
     empty.style.display = 'block';
-    list.innerHTML = '';
+    list.innerHTML = collSearch ? '<div class="no-results">Geen kaarten gevonden voor deze zoekopdracht.</div>' : '';
     return;
   }
 
   empty.style.display = 'none';
   totalBar.style.display = 'flex';
 
-  const total = coll.reduce((s, c) => s + (parseFloat(c.price) || 0), 0);
+  // Total from filtered+sorted coll (uses already-read data, no extra localStorage call)
+  const total = coll.reduce((s, c) => s + (parseFloat(c.price)||0) * (c.qty||1), 0);
   document.getElementById('coll-total-val').textContent = '€' + total.toFixed(2).replace('.', ',');
 
-  list.innerHTML = coll.map(c => `
-    <div class="collection-item" data-id="${c.id}">
-      <img src="${c.img}" alt="${c.name}" onerror="this.src=''">
-      <div class="ci-info">
-        <div class="ci-name">${c.name}</div>
-        <div class="ci-meta">${c.set} · #${c.number}</div>
-        <div class="ci-meta" style="margin-top:3px;">${c.rarity || ''}</div>
-      </div>
-      <div class="ci-price">
-        <div class="amount">${c.price ? '€' + parseFloat(c.price).toFixed(2).replace('.', ',') : '—'}</div>
-        <div class="lang-tag">${c.lang === 'NL' ? '🇳🇱 NL' : '🇬🇧 EN'}${c.firstEd ? ' · 1e Ed.' : ''}</div>
-      </div>
-    </div>
-  `).join('');
+  list.innerHTML = coll.map(c => collectionItemHtml(c, psaCache)).join('');
 
+  // Bind click handlers — use coll (already read) instead of re-reading localStorage
   list.querySelectorAll('.collection-item').forEach(el => {
     el.addEventListener('click', async () => {
-      const allColl = getCollection();
-      const item = allColl.find(c => c.id === el.dataset.id);
+      const item = coll.find(c => c.id === el.dataset.id && (c.variant||'standard') === el.dataset.variant);
       if (!item) return;
-      // Fetch full card data then open overlay
       try {
+        const cached = cardCache.get(item.id);
+        if (cached) { openCardDetail(cached, item.variant || 'standard'); return; }
         const r = await apiFetch(`${API}/cards/${item.id}`);
         const d = await r.json();
-        if (d.data) openCardDetail(d.data);
+        if (d.data) { cardCache.set(item.id, d.data); openCardDetail(d.data, item.variant || 'standard'); }
       } catch { showToast('Kon kaartdetails niet laden'); }
     });
   });
 }
 
+// ── SCAN / FILE HELPERS ──
+function fileToB64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── SCAN SCREEN ──
+
+// Tab switching
+document.getElementById('scan-tabs').querySelectorAll('.pill').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('#scan-tabs .pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    document.getElementById('scan-tab-identify').style.display  = p.dataset.tab === 'identify'  ? 'block' : 'none';
+    document.getElementById('scan-tab-grade').style.display     = p.dataset.tab === 'grade'     ? 'block' : 'none';
+    document.getElementById('scan-tab-appraise').style.display  = p.dataset.tab === 'appraise'  ? 'block' : 'none';
+    // Hide stale results when switching tabs
+    if (p.dataset.tab === 'identify')  document.getElementById('identify-result').style.display  = 'none';
+    if (p.dataset.tab === 'grade')     document.getElementById('condition-result').style.display = 'none';
+    if (p.dataset.tab === 'appraise') { document.getElementById('appraise-result').style.display = 'none'; document.getElementById('appraise-error').style.display = 'none'; }
+  });
+});
+
+// ── TAB 1: Card Identifier ──
+let photoIdentifyB64 = null;
+
+document.getElementById('photo-identify').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  photoIdentifyB64 = await fileToB64(file);
+  const img = document.getElementById('preview-identify');
+  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  document.getElementById('identify-btn').disabled = false;
+  document.getElementById('identify-result').style.display = 'none';
+});
+
+document.getElementById('identify-btn').addEventListener('click', async () => {
+  if (!ANTHROPIC_KEY) { showToast('⚠️ Voeg eerst een Anthropic API-sleutel toe via Statistieken → Instellingen'); return; }
+  const btn     = document.getElementById('identify-btn');
+  const spinner = document.getElementById('identify-spinner');
+  const result  = document.getElementById('identify-result');
+  btn.disabled = true; spinner.style.display = 'flex'; result.style.display = 'none';
+  // Reset search button visibility on each attempt
+  document.getElementById('identify-search-btn').style.display = '';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-7',
+        max_tokens: 300,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoIdentifyB64 } },
+            { type: 'text', text: 'This is a Pokémon TCG card. Identify it precisely using the card art, set symbol, collector number, and any visible text. Respond ONLY with valid JSON, no markdown: {"name":"Charizard","set":"Base Set","setId":"base1","number":"4","language":"Dutch","rarity":"Rare Holo","condition":"NM"}. Rules: always use English card name; setId is the pokemontcg.io set ID (e.g. base1, jungle, swsh1, sv3pt5); detect language from card text (Dutch/English/French/German/Japanese/etc); estimate condition as M/NM/LP/MP/HP/DMG from visible wear. If you cannot identify, return {"error":"could not identify"}.' }
+          ]
+        }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.map(i => i.text || '').join('') || '';
+    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+
+    if (parsed.error) throw new Error(parsed.error);
+
+    document.getElementById('identify-name').textContent = parsed.name || 'Onbekende kaart';
+    document.getElementById('identify-meta').textContent =
+      `${parsed.set || ''}${parsed.number ? ' · #' + parsed.number : ''}${parsed.language ? ' · ' + parsed.language : ''}${parsed.rarity ? ' · ' + parsed.rarity : ''}`;
+
+    // Store full parsed result for the action buttons
+    document.getElementById('identify-result').dataset.parsed = JSON.stringify(parsed);
+    document.getElementById('identify-search-btn').dataset.name = parsed.name || '';
+
+    // Try to auto-fetch the card and show "Direct toevoegen" button
+    const directBtn = document.getElementById('identify-direct-btn');
+    directBtn.style.display = 'none';
+    if (parsed.setId && parsed.number) {
+      try {
+        // Build pokemontcg.io card ID: setId-number (e.g. base1-4)
+        const cardId = `${parsed.setId}-${parsed.number}`;
+        const cached = cardCache.get(cardId);
+        let cardData = cached;
+        if (!cardData) {
+          const cr = await apiFetch(`${API}/cards/${cardId}`);
+          if (cr.ok) { const cd = await cr.json(); cardData = cd.data; if (cardData) cardCache.set(cardId, cardData); }
+        }
+        if (cardData) {
+          // Pre-select the detected language
+          directBtn.dataset.cardId = cardId;
+          directBtn.dataset.lang = parsed.language && parsed.language.toLowerCase().includes('dutch') ? 'NL' : 'EN';
+          directBtn.dataset.condition = parsed.condition || '';
+          directBtn.style.display = 'block';
+        }
+      } catch { /* direct add not available, fallback to search */ }
+    }
+
+    result.style.display = 'block';
+  } catch(e) {
+    document.getElementById('identify-name').textContent = 'Kon kaart niet herkennen';
+    document.getElementById('identify-meta').textContent = 'Probeer een duidelijkere foto met goede belichting.';
+    document.getElementById('identify-search-btn').style.display = 'none';
+    document.getElementById('identify-direct-btn').style.display = 'none';
+    result.style.display = 'block';
+  }
+  spinner.style.display = 'none'; btn.disabled = false;
+});
+
+// Direct add button — opens card overlay pre-filled with detected language and condition
+document.getElementById('identify-direct-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('identify-direct-btn');
+  const cardId   = btn.dataset.cardId;
+  const lang     = btn.dataset.lang || 'NL';
+  const condition = btn.dataset.condition || '';
+  if (!cardId) return;
+  try {
+    const cached = cardCache.get(cardId);
+    let cardData = cached;
+    if (!cardData) {
+      const r = await apiFetch(`${API}/cards/${cardId}`);
+      const d = await r.json();
+      cardData = d.data;
+      if (cardData) cardCache.set(cardId, cardData);
+    }
+    if (!cardData) { showToast('Kaartdata niet gevonden'); return; }
+    // Open overlay — selectedLang and selectedCondition will be set inside openCardDetail
+    // We pass the detected values via temporary globals then openCardDetail reads them
+    _scanDetectedLang = lang;
+    _scanDetectedCondition = condition;
+    openCardDetail(cardData, 'standard');
+  } catch { showToast('Kon kaartdetails niet laden'); }
+});
+
+// Wire identify → search (fallback): switch to browse and pre-fill search
+document.getElementById('identify-search-btn').addEventListener('click', () => {
+  const name = document.getElementById('identify-search-btn').dataset.name;
+  if (!name) return;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelector('[data-screen="browse"]').classList.add('active');
+  document.getElementById('screen-browse').classList.add('active');
+  const input = document.getElementById('search-input');
+  input.value = name;
+  input.dispatchEvent(new Event('input'));
+});
+
+// ── TAB 3: Quick Appraise ──
+let photoAppraiseB64 = null;
+
+document.getElementById('photo-appraise').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  photoAppraiseB64 = await fileToB64(file);
+  const img = document.getElementById('preview-appraise');
+  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  document.getElementById('appraise-btn').disabled = false;
+  document.getElementById('appraise-result').style.display = 'none';
+  document.getElementById('appraise-error').style.display = 'none';
+});
+
+document.getElementById('appraise-btn').addEventListener('click', async () => {
+  if (!ANTHROPIC_KEY) { showToast('⚠️ Voeg eerst een Anthropic API-sleutel toe via Statistieken → Instellingen'); return; }
+  const btn     = document.getElementById('appraise-btn');
+  const spinner = document.getElementById('appraise-spinner');
+  btn.disabled = true; spinner.style.display = 'flex';
+  document.getElementById('appraise-result').style.display = 'none';
+  document.getElementById('appraise-error').style.display = 'none';
+
+  try {
+    // Step 1: identify the card with Opus 4.7
+    const aiResp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-7',
+        max_tokens: 200,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoAppraiseB64 } },
+            { type: 'text', text: 'Identify this Pokémon TCG card precisely. Respond ONLY with valid JSON, no markdown: {"name":"Charizard","set":"Base Set","setId":"base1","number":"4","rarity":"Rare Holo","language":"Dutch"}. setId is the pokemontcg.io set ID. If unidentifiable return {"error":"unidentifiable"}.' }
+          ]
+        }]
+      })
+    });
+    const aiData = await aiResp.json();
+    const aiText = aiData.content?.map(i => i.text || '').join('') || '';
+    const card = JSON.parse(aiText.replace(/```json|```/g, '').trim());
+    if (card.error) throw new Error('unidentifiable');
+
+    // Step 2: fetch price data from pokemontcg.io using the identified card
+    const cardId = `${card.setId}-${card.number}`;
+    let cardData = cardCache.get(cardId);
+    if (!cardData) {
+      const r = await apiFetch(`${API}/cards/${cardId}`);
+      if (!r.ok) throw new Error('api error');
+      const d = await r.json();
+      cardData = d.data;
+      if (cardData) cardCache.set(cardId, cardData);
+    }
+    if (!cardData) throw new Error('no card data');
+
+    const cm = cardData.cardmarket?.prices;
+    const trend = cm?.trendPrice ?? null;
+    const avg7  = cm?.avg7 ?? null;
+    const low   = cm?.lowPrice ?? null;
+
+    const fmt = v => v != null ? '€' + v.toFixed(2).replace('.', ',') : '—';
+
+    // Populate result
+    document.getElementById('appraise-name').textContent    = card.name;
+    document.getElementById('appraise-set').textContent     = `${card.set || cardData.set?.name || ''} · #${card.number}`;
+    document.getElementById('appraise-rarity').textContent  = card.rarity || cardData.rarity || '';
+    document.getElementById('appraise-trend').textContent   = fmt(trend);
+    document.getElementById('appraise-avg7').textContent    = fmt(avg7);
+    document.getElementById('appraise-low').textContent     = fmt(low);
+
+    // Card image from API
+    const cardImg = document.getElementById('appraise-card-img');
+    const imgUrl = cardData.images?.small || cardData.images?.large || '';
+    if (imgUrl) { cardImg.src = imgUrl; cardImg.style.display = 'block'; }
+    else { cardImg.style.display = 'none'; }
+
+    // Dutch price note
+    const isNL = (card.language || '').toLowerCase().includes('dutch');
+    document.getElementById('appraise-note').textContent = isNL
+      ? '🇳🇱 Nederlandse kaart gedetecteerd. Cardmarket NL filtert op NL-verkoper en Nederlandse taal voor een nauwkeuriger prijsbeeld.'
+      : '🇬🇧 Engelse kaart gedetecteerd. Cardmarket-prijs is een algemeen Europees gemiddelde.';
+
+    // Wire Cardmarket link
+    const langPath    = isNL ? 'nl' : 'en';
+    const langParam   = isNL ? '&language=7' : '&language=1';
+    const countryParam = isNL ? '&sellerCountry=150' : '';
+    document.getElementById('appraise-cm-btn').onclick = () => {
+      window.open(buildCardmarketUrl(cardData, langPath, langParam, countryParam), '_blank');
+    };
+
+    // Wire Marktplaats link
+    document.getElementById('appraise-mp-btn').onclick = () => {
+      const q = encodeURIComponent(`Pokemon kaart ${card.name} ${card.set || ''}`);
+      window.open(`https://www.marktplaats.nl/q/${q}/#sortBy:SORT_INDEX|sortOrder:DECREASING`, '_blank');
+    };
+
+    document.getElementById('appraise-result').style.display = 'block';
+
+  } catch(e) {
+    document.getElementById('appraise-error').style.display = 'block';
+  }
+
+  spinner.style.display = 'none'; btn.disabled = false;
+});
+
+// ── TAB 2: Condition grading (AI condition grading) ──
+let photoFrontB64 = null;
+let photoBackB64 = null;
+
+document.getElementById('photo-front').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  photoFrontB64 = await fileToB64(file);
+  const img = document.getElementById('preview-front');
+  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  document.getElementById('scan-btn').disabled = !(photoFrontB64 && photoBackB64);
+});
+
+document.getElementById('photo-back').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  photoBackB64 = await fileToB64(file);
+  const img = document.getElementById('preview-back');
+  img.src = URL.createObjectURL(file); img.style.display = 'block';
+  document.getElementById('scan-btn').disabled = !(photoFrontB64 && photoBackB64);
+});
+
+document.getElementById('scan-btn').addEventListener('click', async () => {
+  if (!ANTHROPIC_KEY) { showToast('⚠️ Voeg eerst een Anthropic API-sleutel toe via Statistieken → Instellingen'); return; }
+  const btn = document.getElementById('scan-btn');
+  const spinner = document.getElementById('scan-spinner');
+  const result = document.getElementById('condition-result');
+  btn.disabled = true; spinner.style.display = 'flex'; result.style.display = 'none';
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-7',
+        max_tokens: 600,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoFrontB64 } },
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoBackB64 } },
+            { type: 'text', text: 'You are an expert Pokémon TCG card grader with PSA/BGS experience. Examine the front and back photos carefully at high resolution. Score each criterion 1-10 (10=perfect): centering (front), corners (all four), edges (all four sides), surface (scratches, print lines, haze). Then derive a TCG grade: Mint (M)=all 9-10, Near Mint (NM)=minor flaw one area, Lightly Played (LP)=visible wear limited areas, Moderately Played (MP)=clear wear multiple areas, Heavily Played (HP)=major wear, Damaged (DMG)=structural damage. Respond ONLY with valid JSON, no markdown: {"grade":"NM","label":"Near Mint","centering":9,"corners":8,"edges":9,"surface":8,"summary":"Light corner wear on bottom-left. Surface and edges clean. Would likely grade PSA 8-9."}' }
+          ]
+        }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.map(i => i.text || '').join('') || '';
+    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    const gradeClass = {M:'cond-mint',NM:'cond-nm',LP:'cond-lp',MP:'cond-played',HP:'cond-hp',DMG:'cond-dmg'}[parsed.grade] || 'cond-unknown';
+    document.getElementById('cond-grade').innerHTML = `<span class="condition-badge ${gradeClass}">${parsed.grade}</span> ${parsed.label}`;
+    // Show criteria scores if available
+    const hasScores = parsed.centering && parsed.corners && parsed.edges && parsed.surface;
+    const scoreBar = score => {
+      const w = Math.round((score / 10) * 100);
+      const col = score >= 9 ? 'var(--green)' : score >= 7 ? 'var(--accent)' : score >= 5 ? '#ffa050' : 'var(--red)';
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+        <div style="width:70px;font-size:11px;color:var(--text3);">{label}</div>
+        <div style="flex:1;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;">
+          <div style="width:${w}%;height:100%;background:${col};border-radius:3px;"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:${col};width:16px;text-align:right;">${score}</div>
+      </div>`.replace('{label}', '{lbl}');
+    };
+    document.getElementById('cond-desc').innerHTML = hasScores
+      ? `<div style="margin-bottom:10px;">
+          ${scoreBar(parsed.centering).replace('{lbl}','Centrering')}
+          ${scoreBar(parsed.corners).replace('{lbl}','Hoeken')}
+          ${scoreBar(parsed.edges).replace('{lbl}','Randen')}
+          ${scoreBar(parsed.surface).replace('{lbl}','Oppervlak')}
+        </div><div style="font-size:13px;color:var(--text2);line-height:1.6;">${parsed.summary}</div>`
+      : `<div style="font-size:13px;color:var(--text2);line-height:1.6;">${parsed.summary}</div>`;
+    result.style.display = 'block';
+  } catch(e) {
+    document.getElementById('cond-grade').textContent = 'Fout bij beoordeling';
+    document.getElementById('cond-desc').textContent = 'Zorg dat beide foto\'s goed zichtbaar zijn en probeer opnieuw.';
+    document.getElementById('condition-result').style.display = 'block';
+  }
+  spinner.style.display = 'none'; btn.disabled = false;
+});
+
+// ── CSV EXPORT ──
+function exportCSV() {
+  const coll = getCollection();
+  if (!coll.length) { showToast('Geen kaarten om te exporteren'); return; }
+  const headers = ['Naam','Set','Nummer','Variant','Taal','Zeldzaamheid','Conditie','Aantal','Betaald (€)','Prijs (€)','Totale waarde (€)','ROI (€)','ROI (%)'];
+  const rows = coll.map(c => {
+    const cur  = (parseFloat(c.price)||0)*(c.qty||1);
+    const paid = (parseFloat(c.pricePaid)||0)*(c.qty||1);
+    const roi  = paid > 0 ? (cur - paid) : '';
+    const roiP = paid > 0 ? (((cur-paid)/paid)*100).toFixed(1) : '';
+    return [
+      `"${(c.name||'').replace(/"/g,'""')}"`,
+      `"${(c.set||'').replace(/"/g,'""')}"`,
+      c.number || '',
+      c.variant === 'first_ed' ? '1e Editie' : c.variant === 'shadowless' ? 'Shadowless' : 'Standaard',
+      c.lang || 'NL',
+      `"${(c.rarity||'').replace(/"/g,'""')}"`,
+      c.condition || '',
+      c.qty || 1,
+      paid ? paid.toFixed(2) : '',
+      (parseFloat(c.price)||0).toFixed(2),
+      cur.toFixed(2),
+      roi !== '' ? roi.toFixed(2) : '',
+      roiP
+    ].join(',');
+  });
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'pokewaarde-collectie.csv';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✓ CSV geëxporteerd');
+}
+
+// ── STATS SCREEN ──
+function renderStats() {
+  const coll = getCollection();
+  const total = calcTotal();
+  const cardCount = coll.reduce((s, c) => s + (c.qty || 1), 0);
+  document.getElementById('stats-total').textContent = '€' + total.toFixed(2).replace('.', ',');
+  const totalPaid = coll.reduce((s,c) => s + (parseFloat(c.pricePaid)||0)*(c.qty||1), 0);
+  const roiDiff = total - totalPaid;
+  const roiPct  = totalPaid > 0 ? Math.round((roiDiff/totalPaid)*100) : null;
+  const roiTxt  = totalPaid > 0
+    ? ` · ROI: ${roiDiff>=0?'+':''}€${Math.abs(roiDiff).toFixed(2).replace('.',',')} (${roiDiff>=0?'+':''}${roiPct}%)`
+    : '';
+  document.getElementById('stats-count').textContent = `${cardCount} kaart${cardCount !== 1 ? 'en' : ''} · ${coll.length} uniek${roiTxt}`;
+
+  const hist = getHistory();
+  const chartWrap = document.getElementById('chart-wrap');
+  if (hist.length < 2) {
+    chartWrap.innerHTML = '<div style="color:var(--text3);font-size:13px;padding-top:40px;text-align:center;">Open de app dagelijks om de grafiek op te bouwen.</div>';
+  } else {
+    const vals = hist.map(h => h.value);
+    const minV = Math.min(...vals); const maxV = Math.max(...vals);
+    const range = maxV - minV || 1;
+    const W = 300; const H = 140; const PAD = 8;
+    const pts = hist.map((h, i) => {
+      const x = PAD + (i / (hist.length - 1)) * (W - PAD * 2);
+      const y = H - PAD - ((h.value - minV) / range) * (H - PAD * 3);
+      return `${x},${y}`;
+    }).join(' ');
+    chartWrap.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#f7c948" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#f7c948" stop-opacity="0"/>
+      </linearGradient></defs>
+      <polygon points="${pts} ${W-PAD},${H} ${PAD},${H}" fill="url(#cg)"/>
+      <polyline points="${pts}" fill="none" stroke="#f7c948" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <text x="${PAD}" y="${H-1}" class="chart-label">${hist[0].date.slice(5)}</text>
+      <text x="${W-PAD}" y="${H-1}" class="chart-label" text-anchor="end">${hist[hist.length-1].date.slice(5)}</text>
+      <text x="${PAD}" y="11" class="chart-label">€${maxV.toFixed(0)}</text>
+      <text x="${PAD}" y="${H-12}" class="chart-label">€${minV.toFixed(0)}</text>
+    </svg>`;
+  }
+
+  const setsEl = document.getElementById('stats-sets');
+  const bySet = {};
+  coll.forEach(c => { if (!bySet[c.set]) bySet[c.set] = 0; bySet[c.set] += (c.qty || 1); });
+  if (!Object.keys(bySet).length) {
+    setsEl.innerHTML = '<div style="color:var(--text3);font-size:13px;">Nog geen kaarten in collectie.</div>';
+    return;
+  }
+  setsEl.innerHTML = Object.entries(bySet).sort((a, b) => b[1] - a[1])
+    .map(([s, n]) => `<div class="set-row"><div class="set-row-name">${s}</div><div class="set-row-count">${n} kaart${n!==1?'en':''}</div></div>`).join('');
+
+  // Pre-fill settings inputs with current (masked) keys
+  const ptcgInput = document.getElementById('settings-ptcg-key');
+  const anthInput = document.getElementById('settings-anthropic-key');
+  if (ptcgInput && API_KEY)       ptcgInput.placeholder  = API_KEY.slice(0,6) + '••••••••' + API_KEY.slice(-4);
+  if (anthInput && ANTHROPIC_KEY) anthInput.placeholder  = ANTHROPIC_KEY.slice(0,10) + '••••••••' + ANTHROPIC_KEY.slice(-4);
+}
+
+function saveSettingsKey(type) {
+  if (type === 'ptcg') {
+    const val = document.getElementById('settings-ptcg-key').value.trim();
+    if (!val || val.length < 10) { showToast('⚠️ Voer een geldige sleutel in'); return; }
+    API_KEY = val;
+    localStorage.setItem('ptcg_api_key', val);
+    document.getElementById('settings-ptcg-key').value = '';
+    document.getElementById('settings-ptcg-key').placeholder = val.slice(0,6) + '••••••••' + val.slice(-4);
+    showToast('✓ Pokémon TCG sleutel opgeslagen');
+  } else {
+    const val = document.getElementById('settings-anthropic-key').value.trim();
+    if (!val || val.length < 10) { showToast('⚠️ Voer een geldige sleutel in'); return; }
+    ANTHROPIC_KEY = val;
+    localStorage.setItem('anthropic_api_key', val);
+    document.getElementById('settings-anthropic-key').value = '';
+    document.getElementById('settings-anthropic-key').placeholder = val.slice(0,10) + '••••••••' + val.slice(-4);
+    showToast('✓ Anthropic sleutel opgeslagen');
+  }
+}
+
+// ── PRICE AUTO-UPDATE (background, once per 24h per card) ──
+async function updateCollectionPrices() {
+  // Fetch fresh card data from pokemontcg.io (which includes Cardmarket prices)
+  // for any card not updated in the last 24 hours.
+  const coll = getCollection();
+  const now = Date.now();
+  let anyUpdated = false;
+
+  // Batch: collect IDs that need updating
+  const toUpdate = coll.filter(item => now - (item.priceUpdated || 0) >= 86400000);
+  if (!toUpdate.length) return;
+
+  // Deduplicate by card id — multiple variants share one market price, one fetch is enough
+  const seenIds = new Set();
+  const uniqueToUpdate = toUpdate.filter(item => { if (seenIds.has(item.id)) return false; seenIds.add(item.id); return true; });
+  for (const item of uniqueToUpdate) {
+    try {
+      const r = await apiFetch(`${API}/cards/${item.id}`);
+      if (!r.ok) continue;
+      const d = await r.json();
+      const cm = d.data?.cardmarket?.prices;
+      if (!cm) continue;
+      const price = cm.trendPrice ?? cm.averageSellPrice ?? cm.lowPrice ?? null;
+      if (price === null) continue;
+      // Update all entries in coll with this id (different variants share a market price)
+      coll.filter(c => c.id === item.id).forEach(c => {
+        c.price = price;
+        c.priceUpdated = now;
+      });
+      anyUpdated = true;
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 150));
+    } catch { /* skip silently */ }
+  }
+
+  if (anyUpdated) {
+    saveCollection(coll);
+    updateTopbarTotal();
+    recordSnapshot();
+    showToast(`✓ Prijzen bijgewerkt`);
+  }
+}
+
 // Init
 updateTopbarTotal();
+recordSnapshot();
 checkSetup();
+setTimeout(updateCollectionPrices, 3000);
 </script>
 </body>
 </html>
