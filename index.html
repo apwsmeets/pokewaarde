@@ -1043,15 +1043,32 @@ function apiFetch(url) {
 }
 
 // ── SETUP SCREEN ──
-function checkSetup() {
+// Try config.json first (lets friends use the app without entering a key).
+// Falls back to localStorage key, then shows setup screen if nothing found.
+async function checkSetup() {
+  if (!API_KEY) {
+    try {
+      const r = await fetch('./config.json');
+      if (r.ok) {
+        const cfg = await r.json();
+        if (cfg.ptcg_key && cfg.ptcg_key.length >= 10) {
+          API_KEY = cfg.ptcg_key;
+          // Don't store in localStorage — key lives in the file
+        }
+        if (cfg.anthropic_key && cfg.anthropic_key.length >= 10 && !ANTHROPIC_KEY) {
+          ANTHROPIC_KEY = cfg.anthropic_key;
+          updateScanTabVisibility();
+        }
+      }
+    } catch { /* config.json not present — continue to localStorage/setup */ }
+  }
+
   if (!API_KEY) {
     document.getElementById('setup-screen').style.display = 'flex';
   } else {
     document.getElementById('setup-screen').style.display = 'none';
-    // Pre-fill existing keys if user reopens setup
     if (ANTHROPIC_KEY) document.getElementById('anthropic-key-input').value = ANTHROPIC_KEY;
     loadSets();
-    // Auto-sync on startup if Supabase is configured
     if (SB_URL && SB_KEY) sbPull().catch(() => {});
   }
 }
@@ -2833,9 +2850,12 @@ initCollections();
 updateTopbarCollName();
 initSupabaseButtons();
 initQtyButtons();
-checkSetup();
 updateScanTabVisibility();
-setTimeout(updateCollectionPrices, 3000);
+// checkSetup is async (fetches config.json) — run in IIFE
+(async () => {
+  await checkSetup();
+  setTimeout(updateCollectionPrices, 3000);
+})();
 </script>
 </body>
 </html>
