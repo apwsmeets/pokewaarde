@@ -761,7 +761,7 @@
     <div style="display:flex;gap:8px;margin-top:12px;">
       <input id="new-coll-input" type="text" placeholder="Naam nieuwe collectie…"
         style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
-      <button onclick="createCollection(document.getElementById('new-coll-input').value);document.getElementById('new-coll-input').value='';"
+      <button id="new-coll-btn"
         style="background:var(--accent);border:none;color:#1a1000;border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;">
         + Nieuw
       </button>
@@ -792,6 +792,46 @@
       </button>
     </div>
     <div style="font-size:11px;color:var(--text3);">Sleutels worden alleen lokaal opgeslagen op dit apparaat. <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue);">console.anthropic.com</a></div>
+
+    <div style="border-top:1px solid var(--border);margin:16px 0;"></div>
+
+    <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Supabase sync</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.6;">
+      Synchroniseer je collecties tussen apparaten via Supabase (gratis).
+      <a href="https://supabase.com" target="_blank" style="color:var(--blue);">supabase.com</a> →
+      Nieuw project → Settings → API → kopieer Project URL en anon key.
+    </div>
+    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Project URL</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input id="settings-sb-url" type="text" placeholder="https://xxxx.supabase.co" autocomplete="off" spellcheck="false"
+        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
+    </div>
+    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Anon key</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input id="settings-sb-key" type="text" placeholder="eyJhbGciOiJIUzI1NiIs…" autocomplete="off" spellcheck="false"
+        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <button id="sb-save-btn" style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;">
+        Opslaan
+      </button>
+      <button id="sb-sync-btn" style="flex:1;background:var(--accent);border:none;color:#1a1000;border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;">
+        ☁ Nu synchroniseren
+      </button>
+    </div>
+    <div id="sb-status" style="font-size:11px;color:var(--text3);min-height:16px;"></div>
+    <div style="font-size:11px;color:var(--text3);margin-top:8px;line-height:1.6;">
+      Voer eenmalig in de Supabase SQL-editor uit:<br>
+      <code style="display:block;background:var(--surface);border-radius:6px;padding:8px;margin-top:6px;font-size:10px;color:var(--accent);white-space:pre-wrap;">CREATE TABLE IF NOT EXISTS pokewaarde_collections (
+  id text PRIMARY KEY,
+  name text,
+  cards jsonb DEFAULT '[]',
+  history jsonb DEFAULT '[]',
+  updated_at timestamptz DEFAULT now()
+);
+ALTER TABLE pokewaarde_collections ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CHECK (true);</code>
+    </div>
   </div>
 </div>
 
@@ -999,6 +1039,8 @@ function checkSetup() {
     // Pre-fill existing keys if user reopens setup
     if (ANTHROPIC_KEY) document.getElementById('anthropic-key-input').value = ANTHROPIC_KEY;
     loadSets();
+    // Auto-sync on startup if Supabase is configured
+    if (SB_URL && SB_KEY) sbPull().catch(() => {});
   }
 }
 
@@ -1097,18 +1139,128 @@ function renderCollectionsManager() {
   if (!el) return;
   const index = getCollections() || [];
   const activeId = activeCollId();
+  // Use data attributes to avoid any quoting issues in onclick handlers
   el.innerHTML = index.map(c => {
-    const safeName = c.name.replace(/'/g, "\'");
-    return '<div class="coll-row">'
-      + '<div class="coll-row-name" title="' + c.name + '">' + c.name + '</div>'
-      + (c.id === activeId
-          ? '<div class="coll-row-active">Actief</div>'
-          : '<button class="coll-row-btn" onclick="switchCollection('' + c.id + '')">Activeer</button>')
-      + '<button class="coll-row-btn" onclick="promptRename('' + c.id + '','' + safeName + '')" title="Naam wijzigen">✏️</button>'
-      + '<button class="coll-row-btn danger" onclick="deleteCollection('' + c.id + '')" title="Verwijderen">🗑</button>'
-      + '</div>';
+    const escaped = c.name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+    return `<div class="coll-row" data-id="${c.id}">
+      <div class="coll-row-name" title="${escaped}">${escaped}</div>
+      ${c.id === activeId
+        ? '<div class="coll-row-active">Actief</div>'
+        : `<button class="coll-row-btn coll-activate">Activeer</button>`}
+      <button class="coll-row-btn coll-rename" title="Naam wijzigen">✏️</button>
+      <button class="coll-row-btn danger coll-delete" title="Verwijderen">🗑</button>
+    </div>`;
   }).join('');
+  // Wire buttons via event delegation — no inline onclick needed
+  el.querySelectorAll('.coll-row').forEach(row => {
+    const id   = row.dataset.id;
+    const name = (index.find(c => c.id === id) || {}).name || '';
+    const act  = row.querySelector('.coll-activate');
+    const ren  = row.querySelector('.coll-rename');
+    const del  = row.querySelector('.coll-delete');
+    if (act) act.onclick = () => switchCollection(id);
+    if (ren) ren.onclick = () => { const n = prompt('Nieuwe naam:', name); if (n) renameCollection(id, n); };
+    if (del) del.onclick = () => deleteCollection(id);
+  });
 }
+
+// ── SUPABASE SYNC ──
+let SB_URL = localStorage.getItem('sb_url') || '';
+let SB_KEY = localStorage.getItem('sb_key') || '';
+
+function sbHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Prefer': 'resolution=merge-duplicates'
+  };
+}
+
+async function sbPush(collId) {
+  if (!SB_URL || !SB_KEY) return;
+  const coll = getCollection();
+  const hist = getHistory();
+  const name = activeCollName();
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
+      method: 'POST',
+      headers: sbHeaders(),
+      body: JSON.stringify({ id: collId, name, cards: coll, history: hist, updated_at: new Date().toISOString() })
+    });
+    if (!r.ok) throw new Error(await r.text());
+  } catch(e) { console.warn('Supabase push failed:', e); }
+}
+
+async function sbPull() {
+  if (!SB_URL || !SB_KEY) return false;
+  const sbStatus = document.getElementById('sb-status');
+  if (sbStatus) { sbStatus.style.color = 'var(--text3)'; sbStatus.textContent = 'Synchroniseren…'; }
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?select=*`, { headers: sbHeaders() });
+    if (!r.ok) throw new Error(await r.text());
+    const rows = await r.json();
+    if (!rows.length) {
+      // Nothing in Supabase yet — push current local data
+      const index = getCollections() || [];
+      for (const c of index) {
+        const prevActive = activeCollId();
+        localStorage.setItem('active_coll_id', c.id);
+        await sbPush(c.id);
+        localStorage.setItem('active_coll_id', prevActive);
+      }
+      if (sbStatus) { sbStatus.style.color = 'var(--green)'; sbStatus.textContent = '✓ Lokale data geüpload naar Supabase'; }
+      return true;
+    }
+    // Merge: for each remote collection, update local if remote is newer
+    let index = getCollections() || [];
+    let changed = false;
+    for (const row of rows) {
+      const localEntry = index.find(c => c.id === row.id);
+      if (!localEntry) {
+        // New collection from another device — add it
+        index.push({ id: row.id, name: row.name, createdAt: Date.now() });
+        localStorage.setItem('coll_' + row.id, JSON.stringify(row.cards || []));
+        localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
+        changed = true;
+      } else {
+        // Update local data with remote
+        localEntry.name = row.name;
+        localStorage.setItem('coll_' + row.id, JSON.stringify(row.cards || []));
+        localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
+        changed = true;
+      }
+    }
+    if (changed) {
+      localStorage.setItem('coll_index', JSON.stringify(index));
+      updateTopbarCollName();
+      renderCollection();
+      updateTopbarTotal();
+      renderCollectionsManager();
+    }
+    if (sbStatus) { sbStatus.style.color = 'var(--green)'; sbStatus.textContent = `✓ Gesynchroniseerd — ${rows.length} collectie(s)`; }
+    return true;
+  } catch(e) {
+    if (sbStatus) { sbStatus.style.color = 'var(--red)'; sbStatus.textContent = '✗ Sync mislukt: ' + e.message; }
+    return false;
+  }
+}
+
+// Auto-push to Supabase after every save — called from saveCollection wrapper
+const _origSaveCollection = saveCollection;
+function saveCollection(coll) {
+  _origSaveCollection(coll);
+  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
+}
+
+// Wire collections create button
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('new-coll-btn');
+  if (btn) btn.addEventListener('click', () => {
+    const inp = document.getElementById('new-coll-input');
+    if (inp && inp.value.trim()) { createCollection(inp.value); inp.value = ''; }
+  });
+});
 
 // Toast
 function showToast(msg) {
@@ -2476,6 +2628,27 @@ function renderStats() {
   const anthInput = document.getElementById('settings-anthropic-key');
   if (ptcgInput && API_KEY)       ptcgInput.placeholder  = API_KEY.slice(0,6) + '••••••••' + API_KEY.slice(-4);
   if (anthInput && ANTHROPIC_KEY) anthInput.placeholder  = ANTHROPIC_KEY.slice(0,10) + '••••••••' + ANTHROPIC_KEY.slice(-4);
+
+  // Supabase settings
+  const sbUrlInput = document.getElementById('settings-sb-url');
+  const sbKeyInput = document.getElementById('settings-sb-key');
+  const sbSaveBtn  = document.getElementById('sb-save-btn');
+  const sbSyncBtn  = document.getElementById('sb-sync-btn');
+  const sbStatus   = document.getElementById('sb-status');
+  if (sbUrlInput && SB_URL) sbUrlInput.placeholder = SB_URL;
+  if (sbKeyInput && SB_KEY) sbKeyInput.placeholder  = SB_KEY.slice(0,12) + '••••••••';
+  if (sbSaveBtn) sbSaveBtn.onclick = () => {
+    const url = sbUrlInput?.value.trim() || '';
+    const key = sbKeyInput?.value.trim() || '';
+    if (!url || !url.startsWith('https://')) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='Voer een geldige URL in (https://…)';} return; }
+    if (!key || key.length < 20) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='Voer een geldige anon key in';} return; }
+    SB_URL = url; SB_KEY = key;
+    localStorage.setItem('sb_url', url); localStorage.setItem('sb_key', key);
+    if(sbUrlInput) { sbUrlInput.value=''; sbUrlInput.placeholder=url; }
+    if(sbKeyInput) { sbKeyInput.value=''; sbKeyInput.placeholder=key.slice(0,12)+'••••••••'; }
+    if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent='✓ Supabase instellingen opgeslagen';}
+  };
+  if (sbSyncBtn) sbSyncBtn.onclick = () => sbPull();
 }
 
 function saveSettingsKey(type) {
