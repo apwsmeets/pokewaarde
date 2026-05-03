@@ -1306,7 +1306,7 @@ function updateScanTabVisibility() {
   if (!ANTHROPIC_KEY) {
     const scanScreen = document.getElementById('screen-scan');
     if (scanScreen && scanScreen.classList.contains('active')) {
-      (_navBtns || document.querySelectorAll('.nav-btn')).forEach(b => b.classList.remove('active'));
+      (_allNavBtns || document.querySelectorAll('.nav-btn')).forEach(b => b.classList.remove('active'));
       (_navScreens || document.querySelectorAll('.screen')).forEach(s => s.classList.remove('active'));
       document.querySelector('[data-screen="browse"]').classList.add('active');
       document.getElementById('screen-browse').classList.add('active');
@@ -1332,18 +1332,26 @@ function updateTopbarTotal(coll) {
   document.getElementById('topbar-total').textContent = '€' + calcTotal(coll).toFixed(2).replace('.', ',');
 }
 
-// Nav — cache NodeLists once
-const _navBtns    = document.querySelectorAll('.nav-btn');
+// Nav — cache NodeLists once, excluding scan tab (visibility controlled separately)
+const _navBtns    = document.querySelectorAll('.nav-btn:not(#nav-scan-btn)');
 const _navScreens = document.querySelectorAll('.screen');
+const _allNavBtns = document.querySelectorAll('.nav-btn'); // includes scan, for active-state clearing
 _navBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    _navBtns.forEach(b => b.classList.remove('active'));
+    _allNavBtns.forEach(b => b.classList.remove('active'));
     _navScreens.forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('screen-' + btn.dataset.screen).classList.add('active');
     if (btn.dataset.screen === 'collection') renderCollection();
     if (btn.dataset.screen === 'stats') { renderStats(); renderCollectionsManager(); }
   });
+});
+// Scan tab button wired separately so it participates in active-state clearing
+document.getElementById('nav-scan-btn').addEventListener('click', () => {
+  _allNavBtns.forEach(b => b.classList.remove('active'));
+  _navScreens.forEach(s => s.classList.remove('active'));
+  document.getElementById('nav-scan-btn').classList.add('active');
+  document.getElementById('screen-scan').classList.add('active');
 });
 
 // ── COLLECTION CONTROLS ──
@@ -2441,7 +2449,7 @@ document.getElementById('identify-direct-btn').addEventListener('click', async (
 document.getElementById('identify-search-btn').addEventListener('click', () => {
   const name = document.getElementById('identify-search-btn').dataset.name;
   if (!name) return;
-  _navBtns.forEach(b => b.classList.remove('active'));
+  _allNavBtns.forEach(b => b.classList.remove('active'));
   _navScreens.forEach(s => s.classList.remove('active'));
   document.querySelector('[data-screen="browse"]').classList.add('active');
   document.getElementById('screen-browse').classList.add('active');
