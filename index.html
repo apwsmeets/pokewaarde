@@ -550,8 +550,12 @@
     <div class="set-progress" id="set-progress" style="display:none">
       <div class="set-progress-label" id="set-progress-label"></div>
       <div class="set-progress-bar"><div class="set-progress-fill" id="set-progress-fill" style="width:0%"></div></div>
+      <div id="set-value-label" style="font-size:11px;color:var(--accent);margin-top:4px;font-weight:600;"></div>
     </div>
-    <div class="variant-bar" id="set-variant-bar" style="display:none"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <div class="variant-bar" id="set-variant-bar" style="display:none;flex:1;margin-bottom:0;"></div>
+      <button id="variant-info-btn" style="display:none;background:none;border:1px solid var(--border2);color:var(--text3);border-radius:50%;width:24px;height:24px;font-size:13px;cursor:pointer;flex-shrink:0;line-height:1;">ℹ</button>
+    </div>
     <div class="spinner" id="cards-spinner"><div class="spinner-ring"></div></div>
     <div class="card-grid" id="cards-in-set"></div>
   </div>
@@ -854,6 +858,46 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
     Statistieken
   </button>
 </nav>
+
+<!-- Variant info overlay -->
+<div id="variant-info-overlay" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:20px 16px 48px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:800;">Drukversies uitgelegd</div>
+      <button id="variant-info-close" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:50%;width:32px;height:32px;font-size:20px;cursor:pointer;line-height:1;">×</button>
+    </div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">De eerste Pokémon sets (Base Set t/m Neo Destiny) werden in drie versies gedrukt. Elke versie heeft subtiele maar belangrijke visuele verschillen die de waarde sterk beïnvloeden.</p>
+
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="background:linear-gradient(135deg,#f7c948,#e8a020);color:#1a1000;font-size:10px;font-weight:900;padding:4px 8px;border-radius:6px;">1ST ED.</div>
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;">1e Editie</div>
+      </div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.7;">De eerste druk. Herkenbaar aan het <strong style="color:var(--text);">Edition 1 stempel</strong> — een klein rond logo linksonder de kaartafbeelding. Zeldzaamst en meest waardevol. Een Base Set Charizard 1e Editie PSA 10 is tienduizenden euro's waard.</p>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="background:linear-gradient(135deg,#c0c0d0,#8888aa);color:#0b0b14;font-size:10px;font-weight:900;padding:4px 8px;border-radius:6px;">SHADOWLESS</div>
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;">Shadowless</div>
+      </div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.7;">De tweede druk. <strong style="color:var(--text);">Geen schaduw</strong> langs het Pokémon kader, en geen Edition 1 stempel. Zeldzamer dan Unlimited, maar minder dan 1e Editie. Waarde ligt typisch 2–4× hoger dan Unlimited.</p>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="background:var(--surface2);color:var(--text2);font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid var(--border2);">STANDAARD</div>
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;">Unlimited (Standaard)</div>
+      </div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.7;">De reguliere massadruk. Herkenbaar aan de <strong style="color:var(--text);">schaduw</strong> rechts en onderaan het Pokémon kader. Geen stempel. Verreweg het meest voorkomend.</p>
+    </div>
+
+    <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;">
+      <div style="font-size:12px;color:var(--text2);font-weight:600;margin-bottom:4px;">💡 Hoe herken je ze?</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.7;">Kijk <strong style="color:var(--text2);">linksonder de kaartafbeelding</strong> voor het Edition 1 stempel. Dan naar de <strong style="color:var(--text2);">rechterkant van het Pokémon kader</strong>: schaduw → Unlimited. Geen schaduw, geen stempel → Shadowless.</div>
+    </div>
+  </div>
+</div>
 
 <!-- Card detail overlay -->
 <div class="overlay" id="card-overlay">
@@ -1229,9 +1273,11 @@ async function sbPull() {
   const sbStatus = document.getElementById('sb-status');
   if (sbStatus) { sbStatus.style.color = 'var(--text3)'; sbStatus.textContent = 'Synchroniseren…'; }
   try {
+    // Outer try wraps entire pull to catch network errors, JSON parse errors, etc.
     const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?select=*`, { headers: sbHeaders() });
     if (!r.ok) throw new Error(await r.text());
     const rows = await r.json();
+    if (!Array.isArray(rows)) throw new Error('Unexpected response — not an array');
     if (!rows.length) {
       // Nothing in Supabase yet — push all local collections directly
       const index = getCollections() || [];
@@ -1288,6 +1334,22 @@ const _newCollBtn = document.getElementById('new-coll-btn');
 if (_newCollBtn) _newCollBtn.addEventListener('click', () => {
   const inp = document.getElementById('new-coll-input');
   if (inp && inp.value.trim()) { createCollection(inp.value); inp.value = ''; }
+});
+
+// ── VARIANT INFO OVERLAY ──
+document.getElementById('variant-info-btn').addEventListener('click', () => {
+  document.getElementById('variant-info-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+});
+document.getElementById('variant-info-close').addEventListener('click', () => {
+  document.getElementById('variant-info-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+});
+document.getElementById('variant-info-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) {
+    e.currentTarget.style.display = 'none';
+    document.body.style.overflow = '';
+  }
 });
 
 // ── POST-SAVE HELPER ──
@@ -1455,6 +1517,7 @@ function openSet(setId) {
   if (FIRST_ED_SETS.has(setId) || SHADOWLESS_SETS.has(setId)) {
     varBar.innerHTML = vHtml;
     varBar.style.display = 'flex';
+    document.getElementById('variant-info-btn').style.display = 'flex';
     varBar.querySelectorAll('.variant-btn').forEach(b => {
       b.addEventListener('click', () => {
         varBar.querySelectorAll('.variant-btn').forEach(x => x.classList.remove('active'));
@@ -1484,6 +1547,7 @@ async function loadCardsInSet(setId) {
 document.getElementById('back-to-sets').addEventListener('click', () => {
   document.getElementById('set-cards-view').style.display = 'none';
   document.getElementById('sets-view').style.display = 'block';
+  document.getElementById('variant-info-btn').style.display = 'none';
 });
 
 // ── SEARCH ──
@@ -1507,39 +1571,49 @@ document.getElementById('search-input').addEventListener('input', e => {
 });
 
 async function doSearch(q) {
+  // Reset previous results before each search
+  const searchResults = document.getElementById('search-results');
+  const searchSpinner = document.getElementById('search-spinner');
+  const noResults     = document.getElementById('search-no-results');
+  searchResults.innerHTML = '';
+  noResults.style.display = 'none';
+  searchSpinner.style.display = 'flex';
   try {
-    // First try exact match (quoted), then fall back to prefix match if no results
+    // First try exact match (quoted), then fall back to prefix/wildcard match
     let r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`"${q}"`)}&pageSize=30&orderBy=-set.releaseDate`);
     let d = await r.json();
     let cards = d.data || [];
     if (!cards.length) {
-      // Fallback: prefix/wildcard match — catches "Ancient Mew" and unusual promos
       r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`${q}*`)}&pageSize=30&orderBy=-set.releaseDate`);
       d = await r.json();
       cards = d.data || [];
     }
-    document.getElementById('search-spinner').style.display = 'none';
-    if (!cards.length) { document.getElementById('search-no-results').style.display = 'block'; return; }
-    renderCardGrid(cards, document.getElementById('search-results'), 'standard');
+    searchSpinner.style.display = 'none';
+    if (!cards.length) { noResults.style.display = 'block'; return; }
+    renderCardGrid(cards, searchResults, 'standard');
   } catch {
-    document.getElementById('search-spinner').style.display = 'none';
-    document.getElementById('search-no-results').style.display = 'block';
+    searchSpinner.style.display = 'none';
+    noResults.style.display = 'block';
   }
 }
 
 // ── CARD GRID RENDER ──
 function updateSetProgress(cards, coll) {
-  // Accept pre-read collection to avoid an extra localStorage call
   if (!coll) coll = getCollection();
   const total = cards.length;
   if (!total) return;
-  const owned = cards.filter(c => coll.some(x => x.id === c.id)).length;
+  const cardIds = new Set(cards.map(c => c.id));
+  const setItems = coll.filter(c => cardIds.has(c.id));
+  const owned = new Set(setItems.map(c => c.id)).size;
   const pct = Math.round((owned / total) * 100);
+  const setVal = setItems.reduce((s, c) => s + (parseFloat(c.price) || 0) * (c.qty || 1), 0);
   const prog = document.getElementById('set-progress');
   if (!prog) return;
   prog.style.display = 'block';
   document.getElementById('set-progress-label').textContent = `${owned} / ${total} kaarten in collectie (${pct}%)`;
   document.getElementById('set-progress-fill').style.width = pct + '%';
+  const valEl = document.getElementById('set-value-label');
+  if (valEl) valEl.textContent = setVal > 0 ? `Waarde in collectie: €${setVal.toFixed(2).replace('.',',')}` : '';
 }
 
 function renderCardGrid(cards, container, forVariant = 'standard') {
@@ -1566,13 +1640,13 @@ function renderCardGrid(cards, container, forVariant = 'standard') {
       </div>
     </div>`;
   }).join('');
-  container.querySelectorAll('.poke-card').forEach(el => {
-    el.addEventListener('click', () => {
-      const card = cards.find(c => c.id === el.dataset.id);
-      if (card) openCardDetail(card, el.dataset.variant || 'standard');
-    });
-  });
-  // Return coll so callers can pass it to updateSetProgress without re-reading
+  // Event delegation — one listener on container instead of one per card
+  container.onclick = e => {
+    const el = e.target.closest('.poke-card');
+    if (!el) return;
+    const card = cards.find(c => c.id === el.dataset.id);
+    if (card) openCardDetail(card, el.dataset.variant || 'standard');
+  };
   return coll;
 }
 
@@ -1748,8 +1822,9 @@ const CM_SET_MAP = {
 // doesn't match Cardmarket's grouping or numbering.
 // Key: pokemontcg.io card ID  Value: { slug, code, number } to use in URL
 const CM_CARD_OVERRIDES = {
-  // Ancient Mew: pokemontcg.io basep-8 (listed as "Mew" in API) → Cardmarket Promos/Ancient-Mew-PR11
-  'basep-8': { slug: 'Promos', code: 'PR', number: '11' },
+  // Ancient Mew is NOT in the pokemontcg.io API under any name.
+  // It must be added as a custom card (see manual add feature).
+  // The regular Mew promo (basep-8) links to Wizards-Black-Star-Promos via the search fallback.
 };
 
 // Cardmarket version numbers for Base Set print runs:
@@ -1760,8 +1835,10 @@ const CM_CARD_OVERRIDES = {
 const BASE1_VERSION = { standard: 'V1', shadowless: 'V2', first_ed: 'V3' };
 
 // Build a Cardmarket set-level search URL — reliable fallback when direct card URL is uncertain
-function cmSearchUrl(langPath, name, setSlug, langParam, countryParam) {
-  const searchTerm = encodeURIComponent(name);
+// Include collector number in search (Cardmarket supports "{name} {code}{number}" queries)
+function cmSearchUrl(langPath, name, setSlug, langParam, countryParam, code, number) {
+  // Cardmarket search with name + code+number is more precise than name alone
+  const searchTerm = code && number ? encodeURIComponent(`${name} ${code}${number}`) : encodeURIComponent(name);
   const params = [langParam, countryParam].filter(Boolean).join('');
   const query = `?searchString=${searchTerm}` + (params || '');
   return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}${query}`;
@@ -1812,12 +1889,12 @@ function buildCardmarketUrl(card, langPath, langParam, countryParam, variant) {
     }
 
     // All other sets: V prefix is per-card and unpredictable — use search URL
-    return cmSearchUrl(langPath, name, entry.slug, langParam, countryParam);
+    return cmSearchUrl(langPath, name, entry.slug, langParam, countryParam, entry.code, number);
   }
 
   // Set not in map: fall back to set name as slug
   const setSlug = (card.set?.name || '').replace(/[^a-zA-Z0-9\-]/g, '-').replace(/-+/g, '-');
-  return cmSearchUrl(langPath, name, setSlug, langParam, countryParam);
+  return cmSearchUrl(langPath, name, setSlug, langParam, countryParam, null, null);
 }
 
 // ── CARDMARKET PRICE FETCH (from pokemontcg.io card object) ──
@@ -1825,7 +1902,7 @@ function fetchCardmarketPrice(card, collSnap) {
   // Prices are already on the card object from pokemontcg.io — no extra API call needed.
   // Field: card.cardmarket.prices.{trendPrice, averageSellPrice, lowPrice, avg1, avg7, avg30}
   const statusEl = document.getElementById('ov-price-status');
-  const priceEl  = document.getElementById('ov-price');
+  const priceEl  = _ovPriceEl;
 
   const cm = card.cardmarket?.prices;
   if (!cm) {
@@ -1869,6 +1946,12 @@ function fetchCardmarketPrice(card, collSnap) {
   }
 }
 
+// ── Cached overlay NodeLists and elements — queried once at startup ──
+const _condPills = document.querySelectorAll('#ov-condition-pills .pill');
+const _langBtns  = document.querySelectorAll('#lang-toggle .lang-btn');
+const _ovPriceEl = _ovPriceEl;
+const _ovPaidEl  = _ovPaidEl;
+
 // ── CARD DETAIL OVERLAY ──
 function openCardDetail(card, variantHint = 'standard') {
   currentCard = card;
@@ -1876,7 +1959,12 @@ function openCardDetail(card, variantHint = 'standard') {
   // Read collection once for this overlay — reused by all lookups below
   const collSnap = getCollection();
   const allEntries = collSnap.filter(c => c.id === card.id);
-  const existing = allEntries.find(c => c.variant === variantHint) || allEntries[0] || null;
+  // Match on variant + lang + condition for full uniqueness
+  const existing = allEntries.find(c =>
+    (c.variant   || 'standard') === variantHint &&
+    (c.lang      || 'NL')       === selectedLang &&
+    (c.condition || '')         === selectedCondition
+  ) || allEntries.find(c => (c.variant || 'standard') === variantHint) || allEntries[0] || null;
   selectedVariant = existing ? (existing.variant || 'standard') : variantHint;
 
   document.getElementById('ov-img').src = card.images?.large || card.images?.small || '';
@@ -1902,9 +1990,9 @@ function openCardDetail(card, variantHint = 'standard') {
   document.getElementById('ov-num').textContent = `${card.number || '?'} / ${card.set?.printedTotal || card.set?.total || '?'}`;
   document.getElementById('ov-rarity').textContent = card.rarity || '-';
   document.getElementById('ov-type').textContent = (card.types || []).join(', ') || (card.supertype || '-');
-  document.getElementById('ov-price').value = existing ? (existing.price || '') : '';
+  _ovPriceEl.value = existing ? (existing.price || '') : '';
   selectedPaid = existing ? (existing.pricePaid || 0) : 0;
-  document.getElementById('ov-paid').value = selectedPaid ? selectedPaid : '';
+  _ovPaidEl.value = selectedPaid ? selectedPaid : '';
   selectedQty = existing ? (existing.qty || 1) : 1;
   document.getElementById('qty-display').textContent = selectedQty;
   fetchCardmarketPrice(card, collSnap);
@@ -1920,17 +2008,14 @@ function openCardDetail(card, variantHint = 'standard') {
     b.classList.toggle('active', b.dataset.variant === selectedVariant);
     b.onclick = () => {
       selectedVariant = b.dataset.variant;
-      // Check if this variant is already in collection
-      // Use collSnap from outer openCardDetail scope — one localStorage read
-      const variantEntry = collSnap.find(c => c.id === card.id && c.variant === selectedVariant);
-      document.getElementById('ov-price').value = variantEntry ? (variantEntry.price || '') : '';
-      document.getElementById('ov-paid').value  = variantEntry ? (variantEntry.pricePaid || '') : '';
+      // Pre-fill price from any existing entry for this variant (first match)
+      const variantEntry = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
+      _ovPriceEl.value = variantEntry ? (variantEntry.price || '') : '';
+      _ovPaidEl.value  = variantEntry ? (variantEntry.pricePaid || '') : '';
       vBar.querySelectorAll('.variant-btn').forEach(x => x.classList.toggle('active', x.dataset.variant === selectedVariant));
-      const anyEntry = variantEntry; // same lookup, reuse result
-      document.getElementById('ov-action-add').style.display = anyEntry ? 'none' : 'block';
-      document.getElementById('ov-action-remove').style.display = anyEntry ? 'block' : 'none';
+      // Recheck add/remove state for full key (variant+lang+condition)
+      refreshActionButtons();
       // Refresh price status + CM link for new variant
-      // (important for Base Set: disclaimer and V1/V2/V3 routing depend on selectedVariant)
       fetchCardmarketPrice(card, collSnap);
       const vLangPath     = selectedLang === 'NL' ? 'nl' : 'en';
       const vLangParam    = selectedLang === 'NL' ? '&language=7' : '&language=1';
@@ -1944,22 +2029,37 @@ function openCardDetail(card, variantHint = 'standard') {
   // Condition pills
   selectedCondition = existing ? (existing.condition || '') : (_scanDetectedCondition || '');
   if (_scanDetectedCondition) { _scanDetectedCondition = null; } // consume once
-  document.querySelectorAll('#ov-condition-pills .pill').forEach(b => {
+
+  // Helper: recheck add/remove state for the current variant+lang+condition combination
+  function refreshActionButtons() {
+    const match = collSnap.find(c =>
+      c.id === card.id &&
+      (c.variant   || 'standard') === selectedVariant &&
+      (c.lang      || 'NL')       === selectedLang &&
+      (c.condition || '')         === selectedCondition
+    );
+    document.getElementById('ov-action-add').style.display    = match ? 'none'  : 'block';
+    document.getElementById('ov-action-remove').style.display = match ? 'block' : 'none';
+  }
+
+  _condPills.forEach(b => {
     b.classList.toggle('active', b.dataset.cond === selectedCondition);
     b.onclick = () => {
       selectedCondition = b.dataset.cond;
-      document.querySelectorAll('#ov-condition-pills .pill').forEach(x => x.classList.toggle('active', x.dataset.cond === selectedCondition));
+      _condPills.forEach(x => x.classList.toggle('active', x.dataset.cond === selectedCondition));
+      refreshActionButtons();
     };
   });
 
   // Language toggle
   selectedLang = existing ? (existing.lang || 'NL') : (_scanDetectedLang || 'NL');
   if (_scanDetectedLang) { _scanDetectedLang = null; } // consume once
-  document.querySelectorAll('#lang-toggle .lang-btn').forEach(b => {
+  _langBtns.forEach(b => {
     b.classList.toggle('active', b.dataset.lang === selectedLang);
     b.onclick = () => {
       selectedLang = b.dataset.lang;
-      document.querySelectorAll('#lang-toggle .lang-btn').forEach(x => x.classList.toggle('active', x.dataset.lang === selectedLang));
+      _langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === selectedLang));
+      refreshActionButtons();
     };
   });
 
@@ -1979,13 +2079,8 @@ function openCardDetail(card, variantHint = 'standard') {
     window.open(url, '_blank');
   };
 
-  if (existing) {
-    document.getElementById('ov-action-add').style.display = 'none';
-    document.getElementById('ov-action-remove').style.display = 'block';
-  } else {
-    document.getElementById('ov-action-add').style.display = 'block';
-    document.getElementById('ov-action-remove').style.display = 'none';
-  }
+  // Set initial add/remove button state based on full key (variant+lang+condition)
+  refreshActionButtons();
 
   // PSA advice — only show if card is in collection (we need price + condition)
   const psaItem = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
@@ -2015,35 +2110,55 @@ function openCardDetail(card, variantHint = 'standard') {
 
 document.getElementById('ov-add-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const price = parseFloat(document.getElementById('ov-price').value) || 0;
+  const price = parseFloat(_ovPriceEl.value) || 0;
   const coll = getCollection();
-  const existIdx = coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
+  const existIdx = coll.findIndex(c =>
+    c.id === currentCard.id &&
+    (c.variant   || 'standard') === selectedVariant &&
+    (c.lang      || 'NL')       === selectedLang &&
+    (c.condition || '')         === selectedCondition
+  );
   if (existIdx >= 0) {
     // Card+variant already exists — update instead of creating duplicate
     coll[existIdx].qty = (coll[existIdx].qty || 1) + selectedQty;
     coll[existIdx].price = price;
-    coll[existIdx].pricePaid = parseFloat(document.getElementById('ov-paid').value) || 0;
+    coll[existIdx].pricePaid = parseFloat(_ovPaidEl.value) || 0;
     coll[existIdx].lang = selectedLang;
     coll[existIdx].condition = selectedCondition;
     coll[existIdx].priceUpdated = Date.now();
   } else {
-    coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(document.getElementById('ov-paid').value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
+    coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(_ovPaidEl.value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
   }
   afterSave(coll, '✓ Kaart toegevoegd aan collectie', false);
 });
 
 document.getElementById('ov-save-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const price = parseFloat(document.getElementById('ov-price').value) || 0;
+  const price = parseFloat(_ovPriceEl.value) || 0;
   const coll = getCollection();
-  const idx = coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
-  if (idx >= 0) { coll[idx].price = price; coll[idx].pricePaid = parseFloat(document.getElementById('ov-paid').value)||0; coll[idx].variant = selectedVariant; coll[idx].lang = selectedLang; coll[idx].qty = selectedQty; coll[idx].condition = selectedCondition; coll[idx].priceUpdated = Date.now(); }
+  const idx = coll.findIndex(c =>
+    c.id === currentCard.id &&
+    (c.variant   || 'standard') === selectedVariant &&
+    (c.lang      || 'NL')       === selectedLang &&
+    (c.condition || '')         === selectedCondition
+  ) >= 0 ? coll.findIndex(c =>
+    c.id === currentCard.id &&
+    (c.variant   || 'standard') === selectedVariant &&
+    (c.lang      || 'NL')       === selectedLang &&
+    (c.condition || '')         === selectedCondition
+  ) : coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
+  if (idx >= 0) { coll[idx].price = price; coll[idx].pricePaid = parseFloat(_ovPaidEl.value)||0; coll[idx].variant = selectedVariant; coll[idx].lang = selectedLang; coll[idx].qty = selectedQty; coll[idx].condition = selectedCondition; coll[idx].priceUpdated = Date.now(); }
   afterSave(coll, '✓ Wijzigingen opgeslagen', true);
 });
 
 document.getElementById('ov-remove-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const coll = getCollection().filter(c => !(c.id === currentCard.id && (c.variant || 'standard') === selectedVariant));
+  const coll = getCollection().filter(c => !(
+    c.id === currentCard.id &&
+    (c.variant   || 'standard') === selectedVariant &&
+    (c.lang      || 'NL')       === selectedLang &&
+    (c.condition || '')         === selectedCondition
+  ));
   afterSave(coll, 'Kaart verwijderd uit collectie', true);
 });
 
@@ -2077,7 +2192,7 @@ function refreshGridBadges() {
       badge.remove();
     }
   });
-  if (document.getElementById('set-progress')) updateSetProgress(currentSetCards);
+  if (document.getElementById('set-progress')) updateSetProgress(currentSetCards, coll);
 }
 
 // ── COLLECTION SCREEN ──
@@ -2284,20 +2399,20 @@ function renderCollection() {
 
   list.innerHTML = coll.map(c => collectionItemHtml(c, psaCache)).join('');
 
-  // Bind click handlers — use coll (already read) instead of re-reading localStorage
-  list.querySelectorAll('.collection-item').forEach(el => {
-    el.addEventListener('click', async () => {
-      const item = coll.find(c => c.id === el.dataset.id && (c.variant||'standard') === el.dataset.variant);
-      if (!item) return;
-      try {
-        const cached = cardCache.get(item.id);
-        if (cached) { openCardDetail(cached, item.variant || 'standard'); return; }
-        const r = await apiFetch(`${API}/cards/${item.id}`);
-        const d = await r.json();
-        if (d.data) { cardCache.set(item.id, d.data); openCardDetail(d.data, item.variant || 'standard'); }
-      } catch { showToast('Kon kaartdetails niet laden'); }
-    });
-  });
+  // Event delegation — one listener on the container
+  list.onclick = async e => {
+    const el = e.target.closest('.collection-item');
+    if (!el) return;
+    const item = coll.find(c => c.id === el.dataset.id && (c.variant||'standard') === el.dataset.variant);
+    if (!item) return;
+    try {
+      const cached = cardCache.get(item.id);
+      if (cached) { openCardDetail(cached, item.variant || 'standard'); return; }
+      const r = await apiFetch(`${API}/cards/${item.id}`);
+      const d = await r.json();
+      if (d.data) { cardCache.set(item.id, d.data); openCardDetail(d.data, item.variant || 'standard'); }
+    } catch { showToast('Kon kaartdetails niet laden'); }
+  };
 }
 
 // Shared Anthropic API request headers
