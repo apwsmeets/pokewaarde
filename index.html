@@ -1236,9 +1236,15 @@ function deleteCollection(id) {
   const name = (index.find(c => c.id === id) || {}).name || '';
   if (!confirm('Weet je zeker dat je "' + name + '" wilt verwijderen? Dit kan niet ongedaan worden gemaakt.')) return;
   const newIndex = index.filter(c => c.id !== id);
-  localStorage.setItem('coll_index', JSON.stringify(newIndex));
+  localStorage.setItem('coll_index', JSON.stringify(newIndex)); invalidateCollIndex();
   localStorage.removeItem('coll_' + id);
   localStorage.removeItem('hist_' + id);
+  // Also delete from Supabase if configured
+  if (SB_URL && SB_KEY) {
+    fetch(`${SB_URL}/rest/v1/pokewaarde_collections?id=eq.${id}`, {
+      method: 'DELETE', headers: sbHeaders()
+    }).catch(() => {});
+  }
   if (activeCollId() === id) switchCollection(newIndex[0].id);
   else renderCollectionsManager();
   showToast('Collectie verwijderd');
