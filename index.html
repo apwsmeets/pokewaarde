@@ -1194,6 +1194,8 @@ function updateTopbarCollName() {
   if (el) el.textContent = activeCollName();
 }
 function switchCollection(id) {
+  // Push current collection before switching away — ensures it's in Supabase
+  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
   setActiveCollId(id);
   updateTopbarCollName();
   cardCache.clear();
