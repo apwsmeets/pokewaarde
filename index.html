@@ -581,7 +581,7 @@
   <!-- Filter pills -->
   <div class="pills" id="coll-filter">
     <button class="pill active" data-filter="all">Alles</button>
-    <button class="pill" data-filter="standard">Standaard</button>
+    <button class="pill" data-filter="standard">Unlimited</button>
     <button class="pill" data-filter="first_ed">1e Editie</button>
     <button class="pill" data-filter="shadowless">Shadowless</button>
   </div>
@@ -1576,7 +1576,7 @@ function openSet(setId) {
 
   // Show variant buttons for eligible sets
   const varBar = document.getElementById('set-variant-bar');
-  let vHtml = '<button class="variant-btn active" data-variant="standard">Standaard</button>';
+  let vHtml = '<button class="variant-btn active" data-variant="standard">Unlimited</button>';
   if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
   if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
   if (FIRST_ED_SETS.has(setId) || SHADOWLESS_SETS.has(setId)) {
@@ -1690,7 +1690,7 @@ function renderCardGrid(cards, container, forVariant = 'standard') {
     const img = c.images?.small || '';
     const variantLabel = forVariant === 'first_ed' ? '🥇 1e Ed' : forVariant === 'shadowless' ? '✨ Shadowless' : '';
     const qtyLabel = collEntry && (collEntry.qty || 1) > 1 ? ` ×${collEntry.qty}` : '';
-    const variantStamp = forVariant === 'first_ed'
+    const variantStamp = (forVariant === 'first_ed' || forVariant === 'first_ed_shadowless')
       ? `<div class="variant-stamp stamp-1ed">1st<br>Ed.</div>`
       : forVariant === 'shadowless'
         ? `<div class="variant-stamp stamp-sl">Shadow<br>less</div>`
@@ -1893,11 +1893,11 @@ const CM_CARD_OVERRIDES = {
 };
 
 // Cardmarket version numbers for Base Set print runs:
-//   V1 = Unlimited (most common)
-//   V2 = Shadowless
-//   V3 = 1st Edition
+//   V1 = Unlimited (all languages, with or without 1st Ed stamp)
+//   V2 = Shadowless (English only, with or without 1st Ed stamp)
+// isFirstEd=Y is added as a query param for any 1st Edition variant.
 // All other sets have only one version per card number, so no Vn suffix is used.
-const BASE1_VERSION = { standard: 'V1', shadowless: 'V2', first_ed: 'V3' };
+const BASE1_VERSION = { standard: 'V1', first_ed: 'V1', shadowless: 'V2', first_ed_shadowless: 'V2' };
 
 // Build a Cardmarket set-level search URL — reliable fallback when direct card URL is uncertain
 // Include collector number in search (Cardmarket supports "{name} {code}{number}" queries)
@@ -1919,10 +1919,12 @@ function buildCardmarketUrl(card, langPath, langParam, countryParam, variant, co
   const name     = card.name || '';
   const number   = card.number || '';
   const nameSlug = name.replace(/[^a-zA-Z0-9 \-]/g, '').trim().replace(/ +/g, '-');
-  // Build extra filter params: condition and first edition flag
-  const condNum   = condition ? CM_CONDITION_MAP[condition] : null;
-  const condParam = condNum ? `&minCondition=${condNum}` : '';
-  const firstEdParam = (variant === 'first_ed') ? '&isFirstEd=Y' : '';
+  // Build extra filter params: condition and 1st edition flag
+  // For English 1st Ed (V1), the version slug already identifies it — isFirstEd not needed
+  // For non-English 1st Ed Unlimited (V3), isFirstEd=Y is required as there's no separate V page
+  const condNum      = condition ? CM_CONDITION_MAP[condition] : null;
+  const condParam    = condNum ? `&minCondition=${condNum}` : '';
+  const firstEdParam = (variant === 'first_ed' || variant === 'first_ed_shadowless') ? '&isFirstEd=Y' : '';
   const params   = [langParam, countryParam, condParam, firstEdParam].filter(Boolean).join('');
   const query    = params ? '?' + params.replace(/^&/, '') : '';
 
@@ -2074,9 +2076,12 @@ function openCardDetail(card, variantHint = 'standard') {
 
   // Variant buttons: Standard always; 1st Ed for eligible sets; Shadowless for Base Set only
   const vBar = document.getElementById('ov-variant-bar');
-  let vHtml = '<button class="variant-btn" data-variant="standard">Standaard</button>';
-  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
-  if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
+  let vHtml = '<button class="variant-btn" data-variant="standard">Unlimited</button>';
+  if (FIRST_ED_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Ed.</button>';
+  if (SHADOWLESS_SETS.has(setId)) {
+    vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
+    vHtml += '<button class="variant-btn" data-variant="first_ed_shadowless">🥇✨ 1e Ed. Shadowless</button>';
+  }
   vBar.innerHTML = vHtml;
   vBar.querySelectorAll('.variant-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.variant === selectedVariant);
@@ -2139,8 +2144,8 @@ function openCardDetail(card, variantHint = 'standard') {
 
   // Marktplaats link
   document.getElementById('ov-mp-btn').onclick = () => {
-    const q = encodeURIComponent(`Pokemon kaart ${card.name} ${card.set?.name || ''}`);
-    window.open(`https://www.marktplaats.nl/q/${q}/#sortBy:SORT_INDEX|sortOrder:DECREASING`, '_blank');
+    const q = encodeURIComponent(`${card.name} ${card.set?.name || ''}`.trim());
+    window.open(`https://www.marktplaats.nl/l/hobby-en-vrije-tijd/verzamelkaartspellen-pokemon/q/${q}/`, '_blank');
   };
 
   // Cardmarket link — builds the most precise URL possible using a set slug mapping table.
@@ -2302,7 +2307,7 @@ function psaAdvice(item) {
 
   // ── Era multiplier ──
   const isWotC    = WOTC_SETS.has(setId);
-  const isFirstEd = variant === 'first_ed';
+  const isFirstEd = variant === 'first_ed' || variant === 'first_ed_shadowless';
   const isShadowless = variant === 'shadowless';
 
   // Estimated PSA 10 multiplier based on era + variant
@@ -2382,7 +2387,10 @@ function roiHtml(c) {
 }
 
 function variantLabel(variant) {
-  return variant === 'first_ed' ? '1e Editie' : variant === 'shadowless' ? 'Shadowless' : 'Standaard';
+  if (variant === 'first_ed')           return '1e Editie';
+  if (variant === 'first_ed_shadowless') return '1e Ed. Shadowless';
+  if (variant === 'shadowless')         return 'Shadowless';
+  return 'Unlimited';
 }
 
 function collectionItemHtml(c, psaCache) {
@@ -2758,8 +2766,8 @@ document.getElementById('appraise-btn').addEventListener('click', async () => {
 
     // Wire Marktplaats link
     document.getElementById('appraise-mp-btn').onclick = () => {
-      const q = encodeURIComponent(`Pokemon kaart ${card.name} ${card.set || ''}`);
-      window.open(`https://www.marktplaats.nl/q/${q}/#sortBy:SORT_INDEX|sortOrder:DECREASING`, '_blank');
+      const q = encodeURIComponent(`${card.name} ${card.set || ''}`.trim());
+      window.open(`https://www.marktplaats.nl/l/hobby-en-vrije-tijd/verzamelkaartspellen-pokemon/q/${q}/`, '_blank');
     };
 
     document.getElementById('appraise-result').style.display = 'block';
@@ -2856,7 +2864,7 @@ function exportCSV() {
       `"${(c.name||'').replace(/"/g,'""')}"`,
       `"${(c.set||'').replace(/"/g,'""')}"`,
       c.number || '',
-      c.variant === 'first_ed' ? '1e Editie' : c.variant === 'shadowless' ? 'Shadowless' : 'Standaard',
+      c.variant === 'first_ed' ? '1e Editie' : c.variant === 'shadowless' ? 'Shadowless' : 'Unlimited',
       c.lang || 'NL',
       `"${(c.rarity||'').replace(/"/g,'""')}"`,
       c.condition || '',
