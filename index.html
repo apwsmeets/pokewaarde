@@ -3,41 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0b0b14">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PokeWaarde — Mijn Collectie</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUG9rZVdhYXJkZSIsInNob3J0X25hbWUiOiJQb2tlV2FhcmRlIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjBmMWEiLCJ0aGVtZV9jb2xvciI6IiNmN2M5NDgiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQTFNVElnTlRFeUlqNEtJQ0E4Y21WamRDQjNhV1IwYUQwaU5URXlJaUJvWldsbmFIUTlJalV4TWlJZ2NuZzlJakV4TWlJZ1ptbHNiRDBpSXpCbU1HWXhZU0l2UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakkxTmlJZ1kzazlJakkxTmlJZ2NqMGlNVGd3SWlCbWFXeHNQU0p1YjI1bElpQnpkSEp2YTJVOUlpTm1OMk01TkRnaUlITjBjbTlyWlMxM2FXUjBhRDBpTWpnaUx6NEtJQ0E4YkdsdVpTQjRNVDBpTnpZaUlIa3hQU0l5TlRZaUlIZ3lQU0kwTXpZaUlIa3lQU0l5TlRZaUlITjBjbTlyWlQwaUkyWTNZemswT0NJZ2MzUnliMnRsTFhkcFpIUm9QU0l5T0NJdlBnb2dJRHhqYVhKamJHVWdZM2c5SWpJMU5pSWdZM2s5SWpJMU5pSWdjajBpTlRJaUlHWnBiR3c5SWlNd1pqQm1NV0VpSUhOMGNtOXJaVDBpSTJZM1l6azBPQ0lnYzNSeWIydGxMWGRwWkhSb1BTSXlOQ0l2UGdvZ0lEeGphWEpqYkdVZ1kzZzlJakkxTmlJZ1kzazlJakkxTmlJZ2NqMGlNaklpSUdacGJHdzlJaU5tTjJNNU5EZ2lMejRLSUNBOGNHRjBhQ0JrUFNKTk1qVTJJRGMySUZFek1UQWdNVFl3SURJMU5pQXlNRFFpSUdacGJHdzlJbTV2Ym1VaUlITjBjbTlyWlQwaUkyWTNZemswT0NJZ2MzUnliMnRsTFhkcFpIUm9QU0l3SWk4K0NpQWdQSFJsZUhRZ2VEMGlNalUySWlCNVBTSTBPREFpSUdadmJuUXRabUZ0YVd4NVBTSnpZVzV6TFhObGNtbG1JaUJtYjI1MExYTnBlbVU5SWpjeUlpQm1iMjUwTFhkbGFXZG9kRDBpT1RBd0lnb2dJQ0FnWm1sc2JEMGlJMlkzWXprME9DSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0lnYkdWMGRHVnlMWE53WVdOcGJtYzlJaTB5SWo1UVZ6d3ZkR1Y0ZEQ0S1BDOXpkbWMrIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
-<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzBmMGYxYSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2M5NDgiIHN0cm9rZS13aWR0aD0iMjgiLz4KICA8bGluZSB4MT0iNzYiIHkxPSIyNTYiIHgyPSI0MzYiIHkyPSIyNTYiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyOCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNTIiIGZpbGw9IiMwZjBmMWEiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyNCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjIiIGZpbGw9IiNmN2M5NDgiLz4KICA8cGF0aCBkPSJNMjU2IDc2IFEzMTAgMTYwIDI1NiAyMDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIwIi8+CiAgPHRleHQgeD0iMjU2IiB5PSI0ODAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iOTAwIgogICAgZmlsbD0iI2Y3Yzk0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9Ii0yIj5QVzwvdGV4dD4KPC9zdmc+">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzBmMGYxYSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2M5NDgiIHN0cm9rZS13aWR0aD0iMjgiLz4KICA8bGluZSB4MT0iNzYiIHkxPSIyNTYiIHgyPSI0MzYiIHkyPSIyNTYiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyOCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iNTIiIGZpbGw9IiMwZjBmMWEiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIyNCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjIiIGZpbGw9IiNmN2M5NDgiLz4KICA8cGF0aCBkPSJNMjU2IDc2IFEzMTAgMTYwIDI1NiAyMDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3Yzk0OCIgc3Ryb2tlLXdpZHRoPSIwIi8+CiAgPHRleHQgeD0iMjU2IiB5PSI0ODAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iOTAwIgogICAgZmlsbD0iI2Y3Yzk0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9Ii0yIj5QVzwvdGV4dD4KPC9zdmc+">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0b0b14;
-    --surface: #141422;
-    --surface2: #1c1c30;
-    --surface3: #242440;
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #22223a;
+    --surface3: #2a2a45;
     --accent: #f7c948;
     --accent2: #e8a020;
-    --accent-glow: rgba(247,201,72,0.18);
-    --blue: #60cdf7;
-    --green: #5ddb78;
+    --blue: #4fc3f7;
+    --green: #69db7c;
     --red: #ff6b6b;
-    --purple: #b48ef7;
-    --text: #eeeef8;
-    --text2: #9090b4;
-    --text3: #52527a;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
-    --border-accent: rgba(247,201,72,0.35);
-    --radius: 16px;
-    --radius-sm: 10px;
+    --text: #f0f0f8;
+    --text2: #9898b8;
+    --text3: #5e5e7e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --radius: 14px;
+    --radius-sm: 8px;
     --font-display: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
-    --nav-h: 68px;
-    --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
-    --shadow-accent: 0 0 20px rgba(247,201,72,0.15);
+    --nav-h: 64px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -54,457 +46,222 @@
   /* ── TOP BAR ── */
   .topbar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 58px;
-    background: rgba(11,11,20,0.88);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    height: 56px;
+    background: rgba(15,15,26,0.92);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 18px;
+    padding: 0 16px;
   }
-  .topbar-logo {
-    display: flex; align-items: center; gap: 8px;
-  }
-  .topbar-pokeball {
-    width: 28px; height: 28px; flex-shrink: 0;
-  }
-  .topbar-title {
-    font-family: var(--font-display); font-weight: 800; font-size: 20px;
-    background: linear-gradient(135deg, #f7c948 0%, #ffb020 50%, #f7c948 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 3s linear infinite;
-    letter-spacing: -0.5px;
-  }
-  @keyframes shimmer { to { background-position: 200% center; } }
-  .topbar-subtitle { font-size: 10px; color: var(--text3); font-weight: 400; margin-top: 1px; }
+  .topbar-title { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--accent); letter-spacing: -0.5px; }
+  .topbar-subtitle { font-size: 11px; color: var(--text3); font-weight: 400; }
   .topbar-value { text-align: right; }
-  .topbar-value .val {
-    font-family: var(--font-display); font-size: 18px; font-weight: 700;
-    color: var(--green);
-    text-shadow: 0 0 12px rgba(93,219,120,0.4);
-  }
+  .topbar-value .val { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--green); }
   .topbar-value .lbl { font-size: 10px; color: var(--text3); }
 
   /* ── NAV ── */
   nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     height: var(--nav-h);
-    background: rgba(11,11,20,0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(15,15,26,0.95);
+    backdrop-filter: blur(16px);
     border-top: 1px solid var(--border);
     display: flex;
-    padding-bottom: env(safe-area-inset-bottom, 0);
   }
   .nav-btn {
     flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 4px; border: none; background: none; color: var(--text3);
     font-family: var(--font-body); font-size: 10px; cursor: pointer;
-    transition: color 0.2s; position: relative; padding-top: 6px;
-  }
-  .nav-btn::before {
-    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 0; height: 2px; background: var(--accent); border-radius: 0 0 2px 2px;
-    transition: width 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    transition: color 0.2s;
   }
   .nav-btn.active { color: var(--accent); }
-  .nav-btn.active::before { width: 28px; }
-  .nav-btn svg { width: 22px; height: 22px; transition: transform 0.2s; }
-  .nav-btn.active svg { transform: scale(1.1); }
+  .nav-btn svg { width: 22px; height: 22px; }
 
   /* ── SCREENS ── */
-  .screen { display: none; padding: 74px 16px calc(var(--nav-h) + 20px); min-height: 100vh; }
-  .screen.active { display: block; animation: fadeUp 0.25s ease; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .screen { display: none; padding: 72px 16px calc(var(--nav-h) + 16px); min-height: 100vh; }
+  .screen.active { display: block; }
 
   /* ── SEARCH BAR ── */
   .search-wrap { position: relative; margin-bottom: 16px; }
   .search-wrap input {
-    width: 100%; background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 50px; padding: 13px 18px 13px 46px;
+    width: 100%; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 50px; padding: 12px 16px 12px 44px;
     color: var(--text); font-family: var(--font-body); font-size: 15px;
-    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none; transition: border-color 0.2s;
   }
-  .search-wrap input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
+  .search-wrap input:focus { border-color: var(--accent); }
   .search-wrap input::placeholder { color: var(--text3); }
-  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text3); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); }
 
   /* ── SECTION LABEL ── */
   .section-label {
-    font-family: var(--font-display); font-size: 10px; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--text3);
-    margin: 22px 0 10px;
+    font-family: var(--font-display); font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3);
+    margin: 20px 0 10px;
   }
 
   /* ── SET GRID ── */
   .set-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .set-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 14px; cursor: pointer;
-    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px; cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
     display: flex; flex-direction: column; gap: 6px;
-    min-height: 96px; position: relative; overflow: hidden;
-  }
-  .set-card::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
-    opacity: 0; transition: opacity 0.2s;
+    min-height: 90px;
   }
   .set-card:active { transform: scale(0.97); }
-  .set-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-accent); }
-  .set-card:hover::after { opacity: 1; }
-  .set-card img { width: 48px; height: 30px; object-fit: contain; position: relative; z-index: 1; }
-  .set-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--text); position: relative; z-index: 1; }
-  .set-meta { font-size: 10px; color: var(--text3); position: relative; z-index: 1; }
+  .set-card:hover { border-color: var(--border2); }
+  .set-card img { width: 48px; height: 30px; object-fit: contain; }
+  .set-name { font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--text); }
+  .set-meta { font-size: 10px; color: var(--text3); }
 
   /* ── CARD GRID ── */
   .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .poke-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden; cursor: pointer;
-    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s; position: relative;
+    transition: border-color 0.2s, transform 0.15s; position: relative;
   }
   .poke-card:active { transform: scale(0.97); }
-  .poke-card:hover { border-color: var(--border-accent); box-shadow: var(--shadow-accent); }
-  .poke-card img { width: 100%; aspect-ratio: 3/4; object-fit: contain; background: var(--surface2); display: block; transition: transform 0.3s; }
-  .poke-card:hover img { transform: scale(1.03); }
-  .poke-card-info { padding: 8px 10px 10px; }
-  .poke-card-name { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .poke-card-num { font-size: 10px; color: var(--text3); margin-top: 2px; }
-  .poke-card.in-collection { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+  .poke-card img { width: 100%; aspect-ratio: 3/4; object-fit: contain; background: var(--surface2); display: block; }
+  .poke-card-info { padding: 8px 10px; }
+  .poke-card-name { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .poke-card-num { font-size: 10px; color: var(--text3); }
+  .poke-card.in-collection { border-color: var(--accent); }
   .in-badge {
-    position: absolute; top: 7px; right: 7px;
-    background: var(--accent); color: #1a1000;
-    font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 20px;
-    letter-spacing: 0.3px;
+    position: absolute; top: 6px; right: 6px;
+    background: var(--accent); color: #1a1200;
+    font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 20px;
   }
 
   /* ── BACK BUTTON ── */
   .back-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--surface2); border: 1px solid var(--border2);
-    border-radius: 50px; color: var(--text2);
-    font-family: var(--font-body); font-size: 13px; cursor: pointer;
-    padding: 7px 14px 7px 10px; margin-bottom: 16px;
-    transition: border-color 0.2s;
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: none; color: var(--text2);
+    font-family: var(--font-body); font-size: 14px; cursor: pointer;
+    padding: 0; margin-bottom: 16px;
   }
-  .back-btn:hover { border-color: var(--border-accent); color: var(--accent); }
 
   /* ── PILL TABS ── */
   .pills { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
   .pill {
-    padding: 7px 15px; border-radius: 50px; font-size: 12px; font-weight: 600;
+    padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 500;
     border: 1px solid var(--border2); background: none; color: var(--text2);
     cursor: pointer; transition: all 0.15s;
   }
-  .pill:hover { border-color: var(--border-accent); color: var(--text); }
-  .pill.active { background: var(--accent); border-color: var(--accent); color: #1a1000; }
+  .pill.active { background: var(--accent); border-color: var(--accent); color: #1a1200; }
 
   /* ── DETAIL OVERLAY ── */
   .overlay {
     display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
     align-items: flex-end; justify-content: center;
   }
-  .overlay.open { display: flex; animation: overlayIn 0.2s ease; }
-  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+  .overlay.open { display: flex; }
   .overlay-sheet {
-    background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
-    border-radius: 24px 24px 0 0;
-    padding: 8px 20px 40px;
-    width: 100%; max-height: 92vh; overflow-y: auto;
-    animation: sheetUp 0.28s cubic-bezier(0.34,1.2,0.64,1);
-    border-top: 1px solid var(--border2);
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    padding: 20px 20px 40px;
+    width: 100%; max-height: 88vh; overflow-y: auto;
   }
-  @keyframes sheetUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .overlay-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 20px; }
-  .overlay-img {
-    width: 150px; display: block; margin: 0 auto 16px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
-    transition: transform 0.3s;
-  }
-  .overlay-img:hover { transform: scale(1.03) rotate(-1deg); }
+  .overlay-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 20px; }
+  .overlay-img { width: 140px; display: block; margin: 0 auto 16px; border-radius: 10px; }
   .overlay-name { font-family: var(--font-display); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 4px; }
   .overlay-set { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 20px; }
-  .overlay-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .overlay-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
   .overlay-row-label { font-size: 13px; color: var(--text2); }
-  .overlay-row-val { font-size: 14px; font-weight: 600; }
+  .overlay-row-val { font-size: 14px; font-weight: 500; }
 
   /* Language toggle */
-  .lang-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; width: fit-content; }
-  .lang-btn { padding: 8px 16px; font-size: 13px; font-weight: 600; background: none; border: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
-  .lang-btn.active { background: var(--accent); color: #1a1000; }
-
-  /* Variant buttons */
-  .variant-bar { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-  .variant-btn { padding: 7px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; border: 1px solid var(--border2); background: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
-  .variant-btn:hover { border-color: var(--border-accent); }
-  .variant-btn.active { background: var(--accent); border-color: var(--accent); color: #1a1000; }
-
-  /* Quantity controls */
-  .qty-ctrl { display: flex; align-items: center; gap: 0; border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; width: fit-content; }
-  .qty-btn { width: 40px; height: 40px; background: var(--surface2); border: none; color: var(--text); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-  .qty-btn:active { background: var(--surface3); }
-  .qty-val { min-width: 44px; text-align: center; font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text); background: var(--surface); padding: 0 4px; line-height: 40px; }
-
-  /* Set completion progress */
-  .set-progress { margin-bottom: 10px; }
-  .set-progress-bar { height: 5px; background: var(--surface2); border-radius: 3px; margin-top: 5px; overflow: hidden; }
-  .set-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 3px; transition: width 0.5s cubic-bezier(0.34,1.2,0.64,1); }
-  .set-progress-label { font-size: 11px; color: var(--text3); font-weight: 500; }
+  .lang-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; width: fit-content; }
+  .lang-btn { padding: 6px 14px; font-size: 13px; font-weight: 500; background: none; border: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .lang-btn.active { background: var(--accent); color: #1a1200; }
 
   /* Price input */
   .price-wrap { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
   .price-input {
     flex: 1; background: var(--surface2); border: 1px solid var(--border2);
-    border-radius: var(--radius-sm); padding: 10px 14px;
-    color: var(--text); font-family: var(--font-body); font-size: 16px; outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border-radius: var(--radius-sm); padding: 8px 12px;
+    color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none;
+    transition: border-color 0.2s;
   }
-  .price-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .price-input:focus { border-color: var(--accent); }
 
   /* Buttons */
   .btn {
-    padding: 14px 20px; border-radius: var(--radius-sm);
+    padding: 12px 20px; border-radius: var(--radius-sm);
     font-family: var(--font-display); font-weight: 700; font-size: 14px;
     cursor: pointer; border: none; transition: all 0.15s; text-align: center;
-    letter-spacing: 0.2px;
   }
   .btn:active { transform: scale(0.97); }
-  .btn-primary {
-    background: linear-gradient(135deg, #f7c948, #e8a020);
-    color: #1a1000; width: 100%; margin-top: 12px;
-    box-shadow: 0 4px 16px rgba(247,201,72,0.25);
-  }
-  .btn-primary:hover { box-shadow: 0 4px 24px rgba(247,201,72,0.4); }
+  .btn-primary { background: var(--accent); color: #1a1200; width: 100%; margin-top: 12px; }
   .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); width: 100%; margin-top: 8px; }
-  .btn-danger { background: none; color: var(--red); border: 1px solid rgba(255,107,107,0.4); width: 100%; margin-top: 8px; }
+  .btn-danger { background: none; color: var(--red); border: 1px solid var(--red); width: 100%; margin-top: 8px; }
   .btn-cm { background: var(--surface3); color: var(--blue); border: 1px solid var(--border2); display: flex; align-items: center; gap: 6px; justify-content: center; width: 100%; margin-top: 8px; }
 
   /* ── COLLECTION SCREEN ── */
   .collection-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px 12px 12px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px;
     display: flex; gap: 12px; align-items: center;
-    margin-bottom: 8px; cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-    position: relative; overflow: hidden;
+    margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s;
   }
-  .collection-item::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; background: var(--border2); border-radius: 16px 0 0 16px;
-    transition: background 0.2s;
-  }
-  .collection-item.variant-first_ed::before { background: var(--accent); }
-  .collection-item.variant-shadowless::before { background: var(--purple); }
-  .collection-item:hover { border-color: var(--border2); box-shadow: var(--shadow-card); transform: translateX(2px); }
-  .collection-item img { width: 56px; height: 76px; object-fit: contain; border-radius: 6px; background: var(--surface2); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .collection-item:hover { border-color: var(--border2); }
+  .collection-item img { width: 48px; height: 64px; object-fit: contain; border-radius: 6px; background: var(--surface2); flex-shrink: 0; }
   .ci-info { flex: 1; min-width: 0; }
-  .ci-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ci-meta { font-size: 11px; color: var(--text3); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .ci-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ci-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
   .ci-price { text-align: right; flex-shrink: 0; }
-  .ci-price .amount { font-family: var(--font-display); font-size: 17px; font-weight: 800; color: var(--green); }
-  .ci-price .lang-tag { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .ci-price .amount { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--green); }
+  .ci-price .lang-tag { font-size: 10px; color: var(--text3); }
 
-  .empty-state { text-align: center; padding: 64px 20px; color: var(--text3); }
-  .empty-state .big { font-size: 56px; margin-bottom: 14px; filter: grayscale(0.3); }
-  .empty-state p { font-size: 14px; line-height: 1.7; }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+  .empty-state .big { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
 
   .total-bar {
-    background: linear-gradient(135deg, rgba(247,201,72,0.1) 0%, rgba(232,160,32,0.05) 100%);
-    border: 1px solid var(--border-accent);
-    border-radius: var(--radius); padding: 16px 18px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 16px;
-    box-shadow: 0 0 30px var(--accent-glow);
   }
-  .total-bar .lbl { font-size: 12px; color: var(--text2); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
-  .total-bar .val { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--accent); text-shadow: 0 0 20px rgba(247,201,72,0.4); }
+  .total-bar .lbl { font-size: 13px; color: var(--text2); }
+  .total-bar .val { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--green); }
 
   /* Loading spinner */
-  .spinner { display: flex; justify-content: center; padding: 48px; }
-  .spinner-ring { width: 36px; height: 36px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; box-shadow: 0 0 12px var(--accent-glow); }
+  .spinner { display: flex; justify-content: center; padding: 40px; }
+  .spinner-ring { width: 32px; height: 32px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Toast */
   .toast {
-    position: fixed; bottom: calc(var(--nav-h) + 16px); left: 50%; transform: translateX(-50%) translateY(20px);
+    position: fixed; bottom: calc(var(--nav-h) + 12px); left: 50%; transform: translateX(-50%) translateY(20px);
     background: var(--surface3); border: 1px solid var(--border2);
-    color: var(--text); padding: 11px 20px; border-radius: 50px;
-    font-size: 13px; font-weight: 500;
-    opacity: 0; transition: all 0.25s cubic-bezier(0.34,1.2,0.64,1); pointer-events: none; z-index: 500;
-    white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    color: var(--text); padding: 10px 18px; border-radius: 50px;
+    font-size: 13px; opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 500;
+    white-space: nowrap;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  .screen-title { font-family: var(--font-display); font-size: 28px; font-weight: 800; margin-bottom: 4px; color: var(--text); letter-spacing: -0.5px; }
+  /* Photo screen */
+  .photo-section { background: var(--surface); border: 1px dashed var(--border2); border-radius: var(--radius); padding: 32px 20px; text-align: center; margin-top: 8px; }
+  .photo-icon { font-size: 40px; margin-bottom: 10px; }
+  .photo-label { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .photo-coming { display: inline-block; margin-top: 12px; padding: 4px 12px; background: var(--surface2); border-radius: 20px; font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.5px; }
+
+  .screen-title { font-family: var(--font-display); font-size: 26px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
   .screen-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
 
-  .no-results { text-align: center; padding: 48px 20px; color: var(--text3); font-size: 14px; }
-
-  /* Collections manager */
-  .coll-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .coll-row:last-child { border-bottom: none; }
-  .coll-row-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--text); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .coll-row-active { color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; }
-  .coll-row-btn { background: var(--surface2); border: 1px solid var(--border2); color: var(--text2); border-radius: 8px; padding: 5px 10px; font-size: 11px; cursor: pointer; flex-shrink: 0; transition: border-color 0.15s; }
-  .coll-row-btn:hover { border-color: var(--border-accent); color: var(--text); }
-  .coll-row-btn.danger { color: var(--red); border-color: rgba(255,107,107,0.3); }
-  .coll-row-btn.danger:hover { border-color: var(--red); }
-
-  /* Variant stamp overlay on card grid images */
-  .variant-stamp {
-    position: absolute; top: 7px; left: 7px; z-index: 2;
-    font-size: 8px; font-weight: 900; line-height: 1.2; text-align: center;
-    padding: 3px 5px; border-radius: 5px;
-    pointer-events: none; text-transform: uppercase; letter-spacing: 0.3px;
-  }
-  .stamp-1ed {
-    background: linear-gradient(135deg, #f7c948, #e8a020);
-    color: #1a1000; box-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  }
-  .stamp-sl {
-    background: linear-gradient(135deg, #c0c0d0, #8888aa);
-    color: #0b0b14; box-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  }
-
-  /* Photo upload button (scan screen) */
-  .photo-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface2); border: 2px dashed var(--border2); border-radius: var(--radius); padding: 20px; cursor: pointer; color: var(--text2); font-size: 14px; transition: all 0.2s; width: 100%; font-weight: 500; }
-  .photo-upload-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
-
-  /* Condition badges */
-  .condition-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
-  .cond-mint    { background: rgba(93,219,120,0.15); color: #5ddb78; border: 1px solid rgba(93,219,120,0.3); }
-  .cond-nm      { background: rgba(93,219,120,0.12); color: #5ddb78; border: 1px solid rgba(93,219,120,0.25); }
-  .cond-lp      { background: rgba(247,201,72,0.12); color: #f7c948; border: 1px solid rgba(247,201,72,0.25); }
-  .cond-played  { background: rgba(255,160,80,0.12); color: #ffa050; border: 1px solid rgba(255,160,80,0.25); }
-  .cond-hp      { background: rgba(255,107,107,0.12); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.25); }
-  .cond-dmg     { background: rgba(255,107,107,0.18); color: #ff5555; border: 1px solid rgba(255,107,107,0.35); }
-  .cond-unknown { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
-
-  /* PSA grading advice badge */
-  .psa-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
-  .psa-yes  { background: rgba(180,142,247,0.15); color: var(--purple); border: 1px solid rgba(180,142,247,0.35); }
-  .psa-maybe{ background: rgba(247,201,72,0.12);  color: var(--accent);  border: 1px solid rgba(247,201,72,0.25); }
-  .psa-no   { display: none; }
-
-  /* PSA section in overlay */
-  .psa-box { background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 14px; margin-top: 4px; }
-  .psa-verdict { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-  .psa-detail  { font-size: 12px; color: var(--text2); line-height: 1.6; }
-  .psa-est     { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; }
-  .psa-est-lbl { color: var(--text3); }
-  .psa-est-val { font-weight: 700; color: var(--text); }
-
-  /* Stats screen */
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; }
-  .stat-card-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 10px; }
-  .stat-big { font-family: var(--font-display); font-size: 36px; font-weight: 800; color: var(--accent); text-shadow: 0 0 24px rgba(247,201,72,0.35); }
-  .stat-sub { font-size: 13px; color: var(--text3); margin-top: 4px; }
-  .chart-wrap { width: 100%; height: 160px; position: relative; margin-top: 8px; }
-  .chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
-  .chart-label { font-size: 10px; fill: var(--text3); font-family: var(--font-body); }
-  .set-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .set-row:last-child { border-bottom: none; }
-  .set-row-name { font-size: 13px; color: var(--text); font-weight: 500; }
-  .set-row-count { font-size: 12px; color: var(--text3); }
-
-  /* ── API KEY SETUP SCREEN ── */
-  #setup-screen {
-    position: fixed; inset: 0; z-index: 999;
-    background: radial-gradient(ellipse at 50% 30%, rgba(247,201,72,0.06) 0%, var(--bg) 60%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 32px 24px;
-  }
-  .setup-logo { font-family: var(--font-display); font-size: 40px; font-weight: 800; color: var(--accent); margin-bottom: 6px; text-shadow: 0 0 32px rgba(247,201,72,0.4); }
-  .setup-tagline { font-size: 13px; color: var(--text3); margin-bottom: 40px; }
-  .setup-card { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 26px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-  .setup-card h2 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-  .setup-card p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
-  .setup-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-  .setup-step { display: flex; gap: 10px; align-items: flex-start; }
-  .setup-step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #1a1000; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-  .setup-step-txt { font-size: 13px; color: var(--text2); line-height: 1.5; padding-top: 3px; }
-  .setup-step-txt a { color: var(--blue); text-decoration: none; }
-  .setup-input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 14px; outline: none; margin-bottom: 10px; transition: border-color 0.2s, box-shadow 0.2s; }
-  .setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-  .setup-input::placeholder { color: var(--text3); }
-  .setup-error { font-size: 12px; color: var(--red); margin-bottom: 8px; display: none; }
-  .setup-note { font-size: 11px; color: var(--text3); margin-top: 10px; text-align: center; }
+  .no-results { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; }
 </style>
 </head>
 <body>
 
-<!-- API Key Setup Screen -->
-<div id="setup-screen">
-  <div class="setup-logo">PokeWaarde</div>
-  <div class="setup-tagline">Jouw Pokémon collectiebeheerder</div>
-  <div class="setup-card">
-    <h2>API-sleutels instellen</h2>
-    <p>De app heeft twee sleutels nodig: één voor kaartdata (verplicht) en één voor AI-scanning (optioneel).</p>
-
-    <div style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">① Pokémon TCG API — verplicht</div>
-    <div class="setup-steps" style="margin-bottom:12px;">
-      <div class="setup-step">
-        <div class="setup-step-num">1</div>
-        <div class="setup-step-txt">Ga naar <a href="https://dev.pokemontcg.io" target="_blank">dev.pokemontcg.io</a> en maak een gratis account aan</div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-step-num">2</div>
-        <div class="setup-step-txt">Kopieer je sleutel van het dashboard en plak hieronder</div>
-      </div>
-    </div>
-    <input class="setup-input" id="api-key-input" type="text" placeholder="Pokémon TCG sleutel…" autocomplete="off" spellcheck="false">
-    <div class="setup-error" id="setup-error">Voer een geldige Pokémon TCG sleutel in.</div>
-
-    <div style="border-top:1px solid var(--border);margin:16px 0;"></div>
-
-    <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">② Anthropic API — voor AI-scanning</div>
-    <div class="setup-steps" style="margin-bottom:12px;">
-      <div class="setup-step">
-        <div class="setup-step-num">1</div>
-        <div class="setup-step-txt">Ga naar <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> en maak een account aan</div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-step-num">2</div>
-        <div class="setup-step-txt">Voeg een betaalmethode toe — scanning kost ~€0,01–0,02 per foto. Nieuw account: $5 gratis tegoed.</div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-step-num">3</div>
-        <div class="setup-step-txt">Ga naar Settings → API Keys, maak een sleutel aan en plak hieronder</div>
-      </div>
-    </div>
-    <input class="setup-input" id="anthropic-key-input" type="text" placeholder="Anthropic sleutel (optioneel)…" autocomplete="off" spellcheck="false">
-    <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">Zonder Anthropic-sleutel werkt alles behalve de Scannen-functies.</div>
-
-    <button class="btn btn-primary" id="setup-save-btn" style="margin-top:0;">Opslaan &amp; starten</button>
-    <div class="setup-note">Sleutels worden lokaal opgeslagen op dit apparaat. Je kunt ze later aanpassen via de Statistieken-tab.</div>
-  </div>
-</div>
-
 <!-- Top bar -->
 <div class="topbar">
-  <div class="topbar-logo">
-    <svg class="topbar-pokeball" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="46" stroke="#f7c948" stroke-width="8"/>
-      <path d="M4 50 Q4 50 96 50" stroke="#f7c948" stroke-width="8"/>
-      <circle cx="50" cy="50" r="14" fill="#0b0b14" stroke="#f7c948" stroke-width="7"/>
-      <circle cx="50" cy="50" r="6" fill="#f7c948"/>
-    </svg>
-    <div>
-      <div class="topbar-title">PokeWaarde</div>
-      <div class="topbar-subtitle" id="topbar-coll-name">Mijn collectie</div>
-    </div>
+  <div>
+    <div class="topbar-title">PokeWaarde</div>
+    <div class="topbar-subtitle">Mijn collectie</div>
   </div>
   <div class="topbar-value">
     <div class="val" id="topbar-total">€0,00</div>
@@ -547,15 +304,6 @@
     </button>
     <div id="set-cards-title" class="screen-title" style="font-size:18px;margin-bottom:2px;"></div>
     <div id="set-cards-meta" class="screen-sub"></div>
-    <div class="set-progress" id="set-progress" style="display:none">
-      <div class="set-progress-label" id="set-progress-label"></div>
-      <div class="set-progress-bar"><div class="set-progress-fill" id="set-progress-fill" style="width:0%"></div></div>
-      <div id="set-value-label" style="font-size:11px;color:var(--accent);margin-top:4px;font-weight:600;"></div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-      <div class="variant-bar" id="set-variant-bar" style="display:none;flex:1;margin-bottom:0;"></div>
-      <button id="variant-info-btn" style="display:none;background:none;border:1px solid var(--border2);color:var(--text3);border-radius:50%;width:24px;height:24px;font-size:13px;cursor:pointer;flex-shrink:0;line-height:1;">ℹ</button>
-    </div>
     <div class="spinner" id="cards-spinner"><div class="spinner-ring"></div></div>
     <div class="card-grid" id="cards-in-set"></div>
   </div>
@@ -564,44 +312,17 @@
 <!-- SCREEN: Collection -->
 <div class="screen" id="screen-collection">
   <div class="screen-title">Collectie</div>
-  <div class="screen-sub">Jouw kaarten &amp; waarden</div>
+  <div class="screen-sub">Jouw kaarten & waarden</div>
 
-  <!-- Search -->
-  <div class="search-wrap" style="margin-bottom:10px;">
-    <span class="search-icon">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    </span>
-    <input type="text" id="coll-search" placeholder="Zoek in collectie…" autocomplete="off">
-  </div>
-
-  <!-- Filter pills -->
   <div class="pills" id="coll-filter">
     <button class="pill active" data-filter="all">Alles</button>
-    <button class="pill" data-filter="standard">Standaard</button>
-    <button class="pill" data-filter="first_ed">1e Editie</button>
-    <button class="pill" data-filter="shadowless">Shadowless</button>
-  </div>
-
-  <!-- Sort controls -->
-  <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
-    <span style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:1px;text-transform:uppercase;">Sorteer</span>
-    <div class="pills" id="coll-sort" style="margin-bottom:0;">
-      <button class="pill active" data-sort="date">Toegevoegd</button>
-      <button class="pill" data-sort="value">Waarde</button>
-      <button class="pill" data-sort="roi">ROI</button>
-      <button class="pill" data-sort="name">Naam</button>
-      <button class="pill" data-sort="set">Set</button>
-      <button class="pill" data-sort="psa">PSA</button>
-    </div>
-    <button id="sort-dir-btn" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer;" title="Omgekeerde volgorde">↓</button>
+    <button class="pill" data-filter="NL">Nederlands</button>
+    <button class="pill" data-filter="EN">Engels</button>
   </div>
 
   <div id="collection-total" class="total-bar" style="display:none">
-    <div>
-      <div class="lbl">Totale waarde</div>
-      <div class="val" id="coll-total-val">€0,00</div>
-    </div>
-    <button onclick="exportCSV()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0;">⬇ CSV</button>
+    <div class="lbl">Totale waarde</div>
+    <div class="val" id="coll-total-val">€0,00</div>
   </div>
 
   <div id="collection-list"></div>
@@ -614,227 +335,28 @@
 
 <!-- SCREEN: Scan -->
 <div class="screen" id="screen-scan">
-  <div class="screen-title">AI Scanner</div>
-  <div class="screen-sub">Kaart herkennen of conditie beoordelen</div>
+  <div class="screen-title">Foto scannen</div>
+  <div class="screen-sub">Kaartconditie beoordelen met AI</div>
 
-  <!-- Tab switcher -->
-  <div class="pills" id="scan-tabs" style="margin-bottom:20px;">
-    <button class="pill active" data-tab="identify">🔍 Herkennen</button>
-    <button class="pill" data-tab="grade">📋 Conditie</button>
-    <button class="pill" data-tab="appraise">💰 Taxeren</button>
+  <div class="photo-section">
+    <div class="photo-icon">📷</div>
+    <div class="photo-label">Maak een foto van je kaart om de conditie automatisch te laten beoordelen door AI (Mint, Near Mint, Excellent, enz.)</div>
+    <div class="photo-coming">Binnenkort beschikbaar</div>
   </div>
 
-  <!-- TAB: Identify card -->
-  <div id="scan-tab-identify">
-    <div class="section-label">Foto van de kaart</div>
-    <label class="photo-upload-btn" for="photo-identify">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      Maak foto of kies afbeelding
-    </label>
-    <input type="file" id="photo-identify" accept="image/*" capture="environment" style="display:none">
-    <img id="preview-identify" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:280px;object-fit:contain;">
-    <button class="btn btn-primary" id="identify-btn" style="margin-top:16px;" disabled>Herken kaart met AI</button>
-    <div class="spinner" id="identify-spinner" style="display:none"><div class="spinner-ring"></div></div>
-    <div class="condition-result" id="identify-result" style="display:none;">
-      <div style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:4px;" id="identify-name"></div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:12px;" id="identify-meta"></div>
-      <button class="btn btn-primary" id="identify-direct-btn" style="margin-top:0;display:none;">⚡ Direct toevoegen aan collectie</button>
-      <button class="btn btn-secondary" id="identify-search-btn" style="margin-top:8px;">🔍 Zoek op in bladeren</button>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px;">💡 Direct toevoegen opent de kaart meteen — Zoeken toont alle varianten in de bladeren-tab.</div>
+  <div class="section-label" style="margin-top:24px;">Hoe het werkt</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">1</div>
+      <div style="font-size:13px;color:var(--text2);padding-top:4px;">Maak een duidelijke foto van je kaart, voor- en achterkant</div>
     </div>
-  </div>
-
-  <!-- TAB: Grade condition -->
-  <div id="scan-tab-grade" style="display:none;">
-    <div class="section-label">Voorkant van de kaart</div>
-    <label class="photo-upload-btn" for="photo-front">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      Kies of maak foto (voorkant)
-    </label>
-    <input type="file" id="photo-front" accept="image/*" capture="environment" style="display:none">
-    <img id="preview-front" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:260px;object-fit:contain;">
-    <div class="section-label" style="margin-top:16px;">Achterkant van de kaart</div>
-    <label class="photo-upload-btn" for="photo-back">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      Kies of maak foto (achterkant)
-    </label>
-    <input type="file" id="photo-back" accept="image/*" capture="environment" style="display:none">
-    <img id="preview-back" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:260px;object-fit:contain;">
-    <button class="btn btn-primary" id="scan-btn" style="margin-top:20px;" disabled>Beoordeel conditie met AI</button>
-    <div class="spinner" id="scan-spinner" style="display:none"><div class="spinner-ring"></div></div>
-    <div class="condition-result" id="condition-result">
-      <div style="font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:6px;" id="cond-grade"></div>
-      <div style="font-size:13px;color:var(--text2);line-height:1.6;" id="cond-desc"></div>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px;">💡 Let op: voor de AI-scan is een Anthropic API-sleutel vereist.</div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">2</div>
+      <div style="font-size:13px;color:var(--text2);padding-top:4px;">AI analyseert hoeken, krassen en slijtage</div>
     </div>
-  </div>
-
-  <!-- TAB: Quick appraise (no collection interaction) -->
-  <div id="scan-tab-appraise" style="display:none;">
-    <div style="background:var(--surface2);border:1px solid var(--border-accent);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.6;">
-      📸 Foto een kaart van iemand anders om de huidige Cardmarket-waarde te zien — zonder iets toe te voegen aan je collectie.
-    </div>
-    <div class="section-label">Foto van de kaart</div>
-    <label class="photo-upload-btn" for="photo-appraise">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      Maak foto of kies afbeelding
-    </label>
-    <input type="file" id="photo-appraise" accept="image/*" capture="environment" style="display:none">
-    <img id="preview-appraise" style="width:100%;border-radius:12px;display:none;margin-top:10px;max-height:280px;object-fit:contain;">
-    <button class="btn btn-primary" id="appraise-btn" style="margin-top:16px;" disabled>💰 Taxeer met AI</button>
-    <div class="spinner" id="appraise-spinner" style="display:none"><div class="spinner-ring"></div></div>
-
-    <!-- Result card -->
-    <div id="appraise-result" style="display:none;margin-top:16px;">
-      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;">
-        <!-- Card image + identity -->
-        <div style="display:flex;gap:14px;padding:16px;align-items:flex-start;">
-          <img id="appraise-card-img" src="" alt="" style="width:72px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.4);flex-shrink:0;display:none;">
-          <div style="flex:1;min-width:0;">
-            <div style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:2px;" id="appraise-name">—</div>
-            <div style="font-size:12px;color:var(--text2);margin-bottom:2px;" id="appraise-set">—</div>
-            <div style="font-size:11px;color:var(--text3);" id="appraise-rarity">—</div>
-          </div>
-        </div>
-        <!-- Price breakdown -->
-        <div style="border-top:1px solid var(--border);padding:14px 16px;">
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:12px;">Cardmarket Prijzen (EUR)</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
-            <div style="text-align:center;">
-              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--accent);" id="appraise-trend">—</div>
-              <div style="font-size:10px;color:var(--text3);margin-top:2px;">Trend</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text);" id="appraise-avg7">—</div>
-              <div style="font-size:10px;color:var(--text3);margin-top:2px;">7-daags gem.</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text);" id="appraise-low">—</div>
-              <div style="font-size:10px;color:var(--text3);margin-top:2px;">Laagste</div>
-            </div>
-          </div>
-          <!-- NL Dutch price note -->
-          <div style="font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 10px;margin-bottom:12px;" id="appraise-note"></div>
-          <!-- Action buttons -->
-          <div style="display:flex;gap:8px;">
-            <button class="btn btn-cm" id="appraise-cm-btn" style="flex:1;margin-top:0;">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-              Cardmarket NL
-            </button>
-            <button class="btn btn-cm" id="appraise-mp-btn" style="flex:1;margin-top:0;color:var(--accent);">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-              Marktplaats
-            </button>
-          </div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text3);margin-top:10px;text-align:center;">Prijzen zijn algemene Cardmarket EUR-trends. Klik Cardmarket NL voor Nederlandse aanbiedingen.</div>
-    </div>
-
-    <div id="appraise-error" style="display:none;margin-top:16px;background:var(--surface);border:1px solid rgba(255,107,107,0.3);border-radius:var(--radius-sm);padding:14px;">
-      <div style="font-size:14px;font-weight:600;color:var(--red);margin-bottom:4px;">Kon kaart niet herkennen</div>
-      <div style="font-size:12px;color:var(--text3);">Probeer een duidelijkere foto met goede belichting, rechthoekig op de kaart gericht.</div>
-    </div>
-  </div>
-</div>
-
-<!-- SCREEN: Stats -->
-<div class="screen" id="screen-stats">
-  <div class="screen-title">Statistieken</div>
-  <div class="screen-sub">Waarde &amp; voortgang</div>
-  <div class="stat-card">
-    <div class="stat-card-title">Totale waarde</div>
-    <div class="stat-big" id="stats-total">€0,00</div>
-    <div class="stat-sub" id="stats-count">0 kaarten</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-title">Waardegeschiedenis</div>
-    <div class="chart-wrap" id="chart-wrap">
-      <div style="color:var(--text3);font-size:13px;padding-top:40px;text-align:center;">Nog geen geschiedenis — open de app dagelijks om de grafiek op te bouwen.</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-title">Kaarten per set</div>
-    <div id="stats-sets"><div style="color:var(--text3);font-size:13px;">Nog geen kaarten in collectie.</div></div>
-  </div>
-
-  <div class="stat-card" style="margin-top:8px;">
-    <div class="stat-card-title">Collecties</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Elke collectie heeft een eigen kaartlijst en prijsgeschiedenis.</div>
-    <div id="collections-manager"></div>
-    <div style="display:flex;gap:8px;margin-top:12px;">
-      <input id="new-coll-input" type="text" placeholder="Naam nieuwe collectie…"
-        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
-      <button id="new-coll-btn"
-        style="background:var(--accent);border:none;color:#1a1000;border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;">
-        + Nieuw
-      </button>
-    </div>
-  </div>
-
-  <div class="stat-card" style="margin-top:8px;">
-    <div class="stat-card-title">Instellingen</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">API-sleutels bijwerken</div>
-
-    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Pokémon TCG sleutel</div>
-    <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <input id="settings-ptcg-key" type="text" placeholder="Huidige sleutel…" autocomplete="off" spellcheck="false"
-        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
-      <button onclick="saveSettingsKey('ptcg')"
-        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap;">
-        Opslaan
-      </button>
-    </div>
-
-    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Anthropic sleutel <span style="color:var(--text3);font-weight:400;">(voor AI-scanning)</span></div>
-    <div style="display:flex;gap:8px;margin-bottom:8px;">
-      <input id="settings-anthropic-key" type="text" placeholder="sk-ant-…" autocomplete="off" spellcheck="false"
-        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
-      <button onclick="saveSettingsKey('anthropic')"
-        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap;">
-        Opslaan
-      </button>
-    </div>
-    <div style="font-size:11px;color:var(--text3);">Sleutels worden alleen lokaal opgeslagen op dit apparaat. <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue);">console.anthropic.com</a></div>
-
-    <div style="border-top:1px solid var(--border);margin:16px 0;"></div>
-
-    <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Supabase sync</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.6;">
-      Synchroniseer je collecties tussen apparaten via Supabase (gratis).
-      <a href="https://supabase.com" target="_blank" style="color:var(--blue);">supabase.com</a> →
-      Nieuw project → Settings → API Keys → kopieer Project URL en Publishable key.
-    </div>
-    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Project URL</div>
-    <div style="display:flex;gap:8px;margin-bottom:10px;">
-      <input id="settings-sb-url" type="text" placeholder="https://xxxx.supabase.co" autocomplete="off" spellcheck="false"
-        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
-    </div>
-    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Publishable key <span style="color:var(--text3);font-weight:400;">(voorheen: anon key)</span></div>
-    <div style="display:flex;gap:8px;margin-bottom:10px;">
-      <input id="settings-sb-key" type="text" placeholder="sb_publishable_… of eyJhbGci…" autocomplete="off" spellcheck="false"
-        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:8px;">
-      <button id="sb-save-btn" style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;">
-        Opslaan
-      </button>
-      <button id="sb-sync-btn" style="flex:1;background:var(--accent);border:none;color:#1a1000;border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;">
-        ☁ Nu synchroniseren
-      </button>
-    </div>
-    <div id="sb-status" style="font-size:11px;color:var(--text3);min-height:16px;"></div>
-    <div style="font-size:11px;color:var(--text3);margin-top:8px;line-height:1.6;">
-      Voer eenmalig in de Supabase SQL-editor uit (Dashboard → SQL Editor):<br>
-      <code style="display:block;background:var(--surface);border-radius:6px;padding:8px;margin-top:6px;font-size:10px;color:var(--accent);white-space:pre-wrap;">CREATE TABLE IF NOT EXISTS pokewaarde_collections (
-  id text PRIMARY KEY,
-  name text,
-  cards jsonb DEFAULT '[]',
-  history jsonb DEFAULT '[]',
-  updated_at timestamptz DEFAULT now()
-);
-ALTER TABLE pokewaarde_collections ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CHECK (true);</code>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#1a1200;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">3</div>
+      <div style="font-size:13px;color:var(--text2);padding-top:4px;">De conditie wordt opgeslagen bij je kaart in de collectie</div>
     </div>
   </div>
 </div>
@@ -849,62 +371,17 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M19 11H5M19 11a2 2 0 010 4H5a2 2 0 010-4M19 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4M5 15v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg>
     Collectie
   </button>
-  <button class="nav-btn" id="nav-scan-btn" data-screen="scan" style="display:none;">
+  <button class="nav-btn" data-screen="scan">
     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
     Scannen
   </button>
-  <button class="nav-btn" data-screen="stats">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    Statistieken
-  </button>
 </nav>
-
-<!-- Variant info overlay -->
-<div id="variant-info-overlay" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);overflow-y:auto;">
-  <div style="max-width:480px;margin:0 auto;padding:20px 16px 48px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <div style="font-family:var(--font-display);font-size:20px;font-weight:800;">Drukversies uitgelegd</div>
-      <button id="variant-info-close" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:50%;width:32px;height:32px;font-size:20px;cursor:pointer;line-height:1;">×</button>
-    </div>
-    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px;">De eerste Pokémon sets (Base Set t/m Neo Destiny) werden in drie versies gedrukt. Elke versie heeft subtiele maar belangrijke visuele verschillen die de waarde sterk beïnvloeden.</p>
-
-    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="background:linear-gradient(135deg,#f7c948,#e8a020);color:#1a1000;font-size:10px;font-weight:900;padding:4px 8px;border-radius:6px;">1ST ED.</div>
-        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;">1e Editie</div>
-      </div>
-      <p style="font-size:12px;color:var(--text2);line-height:1.7;">De eerste druk. Herkenbaar aan het <strong style="color:var(--text);">Edition 1 stempel</strong> — een klein rond logo linksonder de kaartafbeelding. Zeldzaamst en meest waardevol. Een Base Set Charizard 1e Editie PSA 10 is tienduizenden euro's waard.</p>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="background:linear-gradient(135deg,#c0c0d0,#8888aa);color:#0b0b14;font-size:10px;font-weight:900;padding:4px 8px;border-radius:6px;">SHADOWLESS</div>
-        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;">Shadowless</div>
-      </div>
-      <p style="font-size:12px;color:var(--text2);line-height:1.7;">De tweede druk. <strong style="color:var(--text);">Geen schaduw</strong> langs het Pokémon kader, en geen Edition 1 stempel. Zeldzamer dan Unlimited, maar minder dan 1e Editie. Waarde ligt typisch 2–4× hoger dan Unlimited.</p>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="background:var(--surface2);color:var(--text2);font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid var(--border2);">STANDAARD</div>
-        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;">Unlimited (Standaard)</div>
-      </div>
-      <p style="font-size:12px;color:var(--text2);line-height:1.7;">De reguliere massadruk. Herkenbaar aan de <strong style="color:var(--text);">schaduw</strong> rechts en onderaan het Pokémon kader. Geen stempel. Verreweg het meest voorkomend.</p>
-    </div>
-
-    <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;">
-      <div style="font-size:12px;color:var(--text2);font-weight:600;margin-bottom:4px;">💡 Hoe herken je ze?</div>
-      <div style="font-size:12px;color:var(--text3);line-height:1.7;">Kijk <strong style="color:var(--text2);">linksonder de kaartafbeelding</strong> voor het Edition 1 stempel. Dan naar de <strong style="color:var(--text2);">rechterkant van het Pokémon kader</strong>: schaduw → Unlimited. Geen schaduw, geen stempel → Shadowless.</div>
-    </div>
-  </div>
-</div>
 
 <!-- Card detail overlay -->
 <div class="overlay" id="card-overlay">
   <div class="overlay-sheet">
     <div class="overlay-handle"></div>
     <img id="ov-img" class="overlay-img" src="" alt="">
-    <div id="ov-img-note" style="display:none;font-size:11px;color:var(--text3);background:var(--surface2);border-radius:8px;padding:8px 12px;margin-bottom:8px;text-align:center;line-height:1.5;"></div>
     <div class="overlay-name" id="ov-name"></div>
     <div class="overlay-set" id="ov-set"></div>
 
@@ -931,50 +408,17 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
       <button class="lang-btn" data-lang="EN">🇬🇧 EN</button>
     </div>
 
-    <div class="section-label" style="margin-top:16px;">Variant</div>
-    <div class="variant-bar" id="ov-variant-bar"></div>
-
-    <div class="section-label" style="margin-top:16px;">Huidige prijs (Cardmarket)</div>
+    <div class="section-label" style="margin-top:16px;">Prijs (Cardmarket)</div>
     <div class="price-wrap">
       <span style="color:var(--text2);font-size:18px;">€</span>
       <input type="number" class="price-input" id="ov-price" placeholder="0,00" min="0" step="0.01">
     </div>
-    <div style="font-size:11px;color:var(--text3);margin-top:6px;" id="ov-price-status">Prijs wordt opgehaald van Cardmarket…</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:6px;">Voer de prijs handmatig in van Cardmarket</div>
 
-    <div class="section-label" style="margin-top:14px;">Betaald (aankoopprijs)</div>
-    <div class="price-wrap">
-      <span style="color:var(--text2);font-size:18px;">€</span>
-      <input type="number" class="price-input" id="ov-paid" placeholder="0,00" min="0" step="0.01">
-    </div>
-
-    <div class="section-label" style="margin-top:16px;">Aantal</div>
-    <div class="qty-ctrl">
-      <button class="qty-btn" id="qty-minus">−</button>
-      <div class="qty-val" id="qty-display">1</div>
-      <button class="qty-btn" id="qty-plus">+</button>
-    </div>
-
-    <div class="section-label" style="margin-top:16px;">Conditie</div>
-    <div class="pills" id="ov-condition-pills" style="flex-wrap:wrap;gap:5px;margin-bottom:0;">
-      <button class="pill active" data-cond="">Onbekend</button>
-      <button class="pill" data-cond="M">Mint</button>
-      <button class="pill" data-cond="NM">Near Mint</button>
-      <button class="pill" data-cond="LP">Lightly Played</button>
-      <button class="pill" data-cond="MP">Mod. Played</button>
-      <button class="pill" data-cond="HP">Heavily Played</button>
-      <button class="pill" data-cond="DMG">Damaged</button>
-    </div>
-
-    <div style="display:flex;gap:8px;margin-top:8px;">
-      <button class="btn btn-cm" id="ov-cm-btn" style="flex:1;margin-top:0;">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        Cardmarket
-      </button>
-      <button class="btn btn-cm" id="ov-mp-btn" style="flex:1;margin-top:0;color:var(--accent);">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        Marktplaats
-      </button>
-    </div>
+    <button class="btn btn-cm" id="ov-cm-btn">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      Open op Cardmarket
+    </button>
 
     <div id="ov-action-add">
       <button class="btn btn-primary" id="ov-add-btn">+ Toevoegen aan collectie</button>
@@ -982,15 +426,6 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
     <div id="ov-action-remove" style="display:none">
       <button class="btn btn-primary" id="ov-save-btn">Wijzigingen opslaan</button>
       <button class="btn btn-danger" id="ov-remove-btn">Verwijder uit collectie</button>
-    </div>
-    <div class="section-label" style="margin-top:16px;">PSA Beoordeling</div>
-    <div class="psa-box" id="ov-psa-box">
-      <div class="psa-verdict" id="ov-psa-verdict">—</div>
-      <div class="psa-detail" id="ov-psa-detail"></div>
-      <div class="psa-est" id="ov-psa-est" style="display:none">
-        <div><div class="psa-est-lbl">Geschatte PSA kosten</div><div class="psa-est-val" id="ov-psa-cost">—</div></div>
-        <div style="text-align:right"><div class="psa-est-lbl">Geschatte PSA 10 waarde</div><div class="psa-est-val" id="ov-psa-val">—</div></div>
-      </div>
     </div>
     <button class="btn btn-secondary" id="ov-close-btn">Sluiten</button>
   </div>
@@ -1002,395 +437,21 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
 const API = 'https://api.pokemontcg.io/v2';
 let sets = [];
 let currentCard = null;
-let selectedVariant = 'standard';
 let selectedLang = 'NL';
-let selectedQty = 1;
 let collFilter = 'all';
-let collSort = 'date';
-let collSortAsc = false;
-let collSearch = '';
-let selectedCondition = '';
-let selectedPaid = 0;
-// Scan-to-add: temporary values set by the scanner before opening the overlay
-let _scanDetectedLang = null;
-let _scanDetectedCondition = null;
-// Card detail cache — avoids re-fetching the same card from the API on repeated taps
-const cardCache = new Map();
 
-// ── MULTI-COLLECTION STORAGE ──
-
-function initCollections() {
-  let index = getCollections();
-  if (!index) {
-    const defaultId = 'coll_' + Date.now();
-    const legacy = localStorage.getItem('pokecoll');
-    const legacyHist = localStorage.getItem('pokehist');
-    index = [{ id: defaultId, name: 'Mijn collectie', createdAt: Date.now() }];
-    localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
-    setActiveCollId(defaultId);
-    if (legacy) { localStorage.setItem('coll_' + defaultId, legacy); localStorage.removeItem('pokecoll'); }
-    if (legacyHist) { localStorage.setItem('hist_' + defaultId, legacyHist); localStorage.removeItem('pokehist'); }
-  }
-  if (!activeCollId() || !index.find(c => c.id === activeCollId())) {
-    setActiveCollId(index[0].id);
-  }
-  return index;
-}
-// Cache active collection ID and index in memory
-let _activeCollId = '';
-let _collIndex    = null;  // cached collections index
-
-function activeCollId() {
-  if (!_activeCollId) _activeCollId = localStorage.getItem('active_coll_id') || '';
-  return _activeCollId;
-}
-function setActiveCollId(id) {
-  _activeCollId = id;
-  localStorage.setItem('active_coll_id', id);
-}
-function getCollections() {
-  if (_collIndex) return _collIndex;
-  try { _collIndex = JSON.parse(localStorage.getItem('coll_index') || 'null'); } catch { _collIndex = null; }
-  return _collIndex;
-}
-function invalidateCollIndex() { _collIndex = null; }
-function activeCollName() {
-  const idx = getCollections() || [];
-  const active = idx.find(c => c.id === activeCollId());
-  return active ? active.name : 'Collectie';
-}
-function getHistory() {
-  try { return JSON.parse(localStorage.getItem('hist_' + activeCollId()) || '[]'); } catch { return []; }
-}
-function recordSnapshot(total) {
-  const hist = getHistory();
-  const today = new Date().toISOString().slice(0, 10);
-  if (total === undefined) total = calcTotal();
-  if (hist.length && hist[hist.length - 1].date === today) {
-    hist[hist.length - 1].value = total;
-  } else {
-    hist.push({ date: today, value: total });
-  }
-  if (hist.length > 90) hist.splice(0, hist.length - 90);
-  localStorage.setItem('hist_' + activeCollId(), JSON.stringify(hist));
-}
-const FIRST_ED_SETS = new Set([
-  'base1','jungle','fossil','teamrocket','gym1','gym2',
-  'neo1','neo2','neo3','neo4','si1','basep'
-]);
-const SHADOWLESS_SETS = new Set(['base1']);
-let API_KEY       = localStorage.getItem('ptcg_api_key') || '';
-let ANTHROPIC_KEY = localStorage.getItem('anthropic_api_key') || '';
-
-function apiFetch(url) {
-  return fetch(url, { headers: API_KEY ? { 'X-Api-Key': API_KEY } : {} });
-}
-
-// ── SETUP SCREEN ──
-// Try config.json first (lets friends use the app without entering a key).
-// Falls back to localStorage key, then shows setup screen if nothing found.
-async function checkSetup() {
-  if (!API_KEY) {
-    try {
-      const r = await fetch('./config.json');
-      if (r.ok) {
-        const cfg = await r.json();
-        if (cfg.ptcg_key && cfg.ptcg_key.length >= 10) {
-          API_KEY = cfg.ptcg_key;
-          // Don't store in localStorage — key lives in the file
-        }
-        if (cfg.anthropic_key && cfg.anthropic_key.length >= 10 && !ANTHROPIC_KEY) {
-          ANTHROPIC_KEY = cfg.anthropic_key;
-          updateScanTabVisibility();
-        }
-      }
-    } catch { /* config.json not present — continue to localStorage/setup */ }
-  }
-
-  if (!API_KEY) {
-    document.getElementById('setup-screen').style.display = 'flex';
-  } else {
-    document.getElementById('setup-screen').style.display = 'none';
-    if (ANTHROPIC_KEY) document.getElementById('anthropic-key-input').value = ANTHROPIC_KEY;
-    loadSets();
-    if (SB_URL && SB_KEY) sbPull().catch(() => {});
-  }
-}
-
-document.getElementById('setup-save-btn').addEventListener('click', async () => {
-  const key         = document.getElementById('api-key-input').value.trim();
-  const anthropicKey = document.getElementById('anthropic-key-input').value.trim();
-  const errEl       = document.getElementById('setup-error');
-
-  if (!key || key.length < 10) {
-    errEl.textContent = 'Voer een geldige Pokémon TCG sleutel in.';
-    errEl.style.display = 'block';
-    return;
-  }
-  errEl.style.display = 'none';
-
-  // Save Pokémon TCG key
-  API_KEY = key;
-  localStorage.setItem('ptcg_api_key', key);
-
-  // Save Anthropic key if provided (optional — scanning still works without it)
-  if (anthropicKey && anthropicKey.startsWith('sk-ant-')) {
-    ANTHROPIC_KEY = anthropicKey;
-    localStorage.setItem('anthropic_api_key', anthropicKey);
-  } else if (anthropicKey && anthropicKey.length > 10) {
-    // Accept any non-empty key that looks plausible (future-proofing)
-    ANTHROPIC_KEY = anthropicKey;
-    localStorage.setItem('anthropic_api_key', anthropicKey);
-  }
-
-  document.getElementById('setup-screen').style.display = 'none';
-  loadSets();
-  updateScanTabVisibility();
-});
-
-// Collection stored in localStorage — keyed by active collection ID
+// Collection stored in localStorage
 function getCollection() {
-  try { return JSON.parse(localStorage.getItem('coll_' + activeCollId()) || '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem('pokecoll') || '[]'); } catch { return []; }
 }
 function saveCollection(coll) {
-  localStorage.setItem('coll_' + activeCollId(), JSON.stringify(coll));
+  localStorage.setItem('pokecoll', JSON.stringify(coll));
 }
-
-// ── COLLECTION MANAGEMENT ──
-function updateTopbarCollName() {
-  const el = document.getElementById('topbar-coll-name');
-  if (el) el.textContent = activeCollName();
+function isInCollection(cardId) {
+  return getCollection().some(c => c.id === cardId);
 }
-function switchCollection(id) {
-  setActiveCollId(id);
-  updateTopbarCollName();
-  cardCache.clear();
-  const switchColl = getCollection();
-  const switchTotal = calcTotal(switchColl);
-  updateTopbarTotal(switchColl);
-  recordSnapshot(switchTotal);
-  renderCollection();
-  renderCollectionsManager();
-  showToast('✓ Gewisseld naar: ' + activeCollName());
-}
-function createCollection(name) {
-  if (!name || !name.trim()) return;
-  name = name.trim();
-  const index = getCollections() || [];
-  const id = 'coll_' + Date.now();
-  index.push({ id, name, createdAt: Date.now() });
-  localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
-  switchCollection(id);
-}
-function renameCollection(id, newName) {
-  if (!newName || !newName.trim()) return;
-  const index = getCollections() || [];
-  const entry = index.find(c => c.id === id);
-  if (!entry) return;
-  entry.name = newName.trim();
-  localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
-  if (id === activeCollId()) updateTopbarCollName();
-  renderCollectionsManager();
-  showToast('✓ Naam gewijzigd');
-}
-function deleteCollection(id) {
-  const index = getCollections() || [];
-  if (index.length <= 1) { showToast('⚠️ Laatste collectie kan niet verwijderd worden'); return; }
-  const name = (index.find(c => c.id === id) || {}).name || '';
-  if (!confirm('Weet je zeker dat je "' + name + '" wilt verwijderen? Dit kan niet ongedaan worden gemaakt.')) return;
-  const newIndex = index.filter(c => c.id !== id);
-  localStorage.setItem('coll_index', JSON.stringify(newIndex));
-  localStorage.removeItem('coll_' + id);
-  localStorage.removeItem('hist_' + id);
-  if (activeCollId() === id) switchCollection(newIndex[0].id);
-  else renderCollectionsManager();
-  showToast('Collectie verwijderd');
-}
-function promptRename(id, currentName) {
-  const newName = prompt('Nieuwe naam:', currentName);
-  if (newName) renameCollection(id, newName);
-}
-function renderCollectionsManager() {
-  const el = document.getElementById('collections-manager');
-  if (!el) return;
-  const index = getCollections() || [];
-  const activeId = activeCollId();
-  // Use data attributes to avoid any quoting issues in onclick handlers
-  el.innerHTML = index.map(c => {
-    const escaped = c.name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
-    return `<div class="coll-row" data-id="${c.id}">
-      <div class="coll-row-name" title="${escaped}">${escaped}</div>
-      ${c.id === activeId
-        ? '<div class="coll-row-active">Actief</div>'
-        : `<button class="coll-row-btn coll-activate">Activeer</button>`}
-      <button class="coll-row-btn coll-rename" title="Naam wijzigen">✏️</button>
-      <button class="coll-row-btn danger coll-delete" title="Verwijderen">🗑</button>
-    </div>`;
-  }).join('');
-  // Wire buttons via event delegation — no inline onclick needed
-  el.querySelectorAll('.coll-row').forEach(row => {
-    const id   = row.dataset.id;
-    const name = (index.find(c => c.id === id) || {}).name || '';
-    const act  = row.querySelector('.coll-activate');
-    const ren  = row.querySelector('.coll-rename');
-    const del  = row.querySelector('.coll-delete');
-    if (act) act.onclick = () => switchCollection(id);
-    if (ren) ren.onclick = () => { const n = prompt('Nieuwe naam:', name); if (n) renameCollection(id, n); };
-    if (del) del.onclick = () => deleteCollection(id);
-  });
-}
-
-// ── SUPABASE SYNC ──
-let SB_URL = localStorage.getItem('sb_url') || '';
-let SB_KEY = localStorage.getItem('sb_key') || '';
-
-function sbHeaders() {
-  return {
-    'Content-Type': 'application/json',
-    'apikey': SB_KEY,
-    'Authorization': 'Bearer ' + SB_KEY,
-    'Prefer': 'resolution=merge-duplicates'
-  };
-}
-
-async function sbPush(collId) {
-  if (!SB_URL || !SB_KEY) return;
-  const coll = getCollection();
-  const hist = getHistory();
-  const name = activeCollName();
-  try {
-    const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
-      method: 'POST',
-      headers: sbHeaders(),
-      body: JSON.stringify({ id: collId, name, cards: coll, history: hist, updated_at: new Date().toISOString() })
-    });
-    if (!r.ok) throw new Error(await r.text());
-  } catch(e) { console.warn('Supabase push failed:', e); }
-}
-
-async function sbPull() {
-  if (!SB_URL || !SB_KEY) return false;
-  const sbStatus = document.getElementById('sb-status');
-  if (sbStatus) { sbStatus.style.color = 'var(--text3)'; sbStatus.textContent = 'Synchroniseren…'; }
-  try {
-    // Outer try wraps entire pull to catch network errors, JSON parse errors, etc.
-    const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?select=*`, { headers: sbHeaders() });
-    if (!r.ok) throw new Error(await r.text());
-    const rows = await r.json();
-    if (!Array.isArray(rows)) throw new Error('Unexpected response — not an array');
-    if (!rows.length) {
-      // Nothing in Supabase yet — push all local collections directly
-      const index = getCollections() || [];
-      for (const c of index) {
-        // Read each collection's data directly without changing active_coll_id
-        const cards = (() => { try { return JSON.parse(localStorage.getItem('coll_' + c.id) || '[]'); } catch { return []; } })();
-        const hist  = (() => { try { return JSON.parse(localStorage.getItem('hist_'  + c.id) || '[]'); } catch { return []; } })();
-        await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
-          method: 'POST', headers: sbHeaders(),
-          body: JSON.stringify({ id: c.id, name: c.name, cards, history: hist, updated_at: new Date().toISOString() })
-        }).catch(() => {});
-      }
-      if (sbStatus) { sbStatus.style.color = 'var(--green)'; sbStatus.textContent = '✓ Lokale data geüpload naar Supabase'; }
-      return true;
-    }
-    // Merge: for each remote collection, update local if remote is newer
-    let index = getCollections() || [];
-    let changed = false;
-    for (const row of rows) {
-      const localEntry = index.find(c => c.id === row.id);
-      if (!localEntry) {
-        // New collection from another device — add it
-        index.push({ id: row.id, name: row.name, createdAt: Date.now() });
-        localStorage.setItem('coll_' + row.id, JSON.stringify(row.cards || []));
-        localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
-        changed = true;
-      } else {
-        // Update local data with remote
-        localEntry.name = row.name;
-        localStorage.setItem('coll_' + row.id, JSON.stringify(row.cards || []));
-        localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
-        changed = true;
-      }
-    }
-    if (changed) {
-      localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
-      updateTopbarCollName();
-      renderCollection();
-      updateTopbarTotal();
-      renderCollectionsManager();
-    }
-    if (sbStatus) { sbStatus.style.color = 'var(--green)'; sbStatus.textContent = `✓ Gesynchroniseerd — ${rows.length} collectie(s)`; }
-    return true;
-  } catch(e) {
-    if (sbStatus) { sbStatus.style.color = 'var(--red)'; sbStatus.textContent = '✗ Sync mislukt: ' + e.message; }
-    return false;
-  }
-}
-
-// Supabase auto-push is called explicitly after each save (see save/add/remove handlers)
-
-// Wire collections create button (script is at bottom of body, DOM already ready)
-const _newCollBtn = document.getElementById('new-coll-btn');
-if (_newCollBtn) _newCollBtn.addEventListener('click', () => {
-  const inp = document.getElementById('new-coll-input');
-  if (inp && inp.value.trim()) { createCollection(inp.value); inp.value = ''; }
-});
-
-// ── VARIANT INFO OVERLAY ──
-document.getElementById('variant-info-btn').addEventListener('click', () => {
-  document.getElementById('variant-info-overlay').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-});
-document.getElementById('variant-info-close').addEventListener('click', () => {
-  document.getElementById('variant-info-overlay').style.display = 'none';
-  document.body.style.overflow = '';
-});
-document.getElementById('variant-info-overlay').addEventListener('click', e => {
-  if (e.target === e.currentTarget) {
-    e.currentTarget.style.display = 'none';
-    document.body.style.overflow = '';
-  }
-});
-
-// ── POST-SAVE HELPER ──
-// Called after every add/save/remove to update UI consistently
-function afterSave(coll, toastMsg, doRenderCollection) {
-  saveCollection(coll);
-  if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
-  const t = calcTotal(coll);
-  updateTopbarTotal(coll);
-  recordSnapshot(t);
-  closeOverlay();
-  showToast(toastMsg);
-  if (doRenderCollection && document.getElementById('screen-collection').classList.contains('active')) renderCollection();
-  refreshGridBadges();
-}
-
-// ── QTY BUTTON INIT ──
-function initQtyButtons() {
-  document.getElementById('qty-minus').addEventListener('click', () => {
-    if (selectedQty > 1) { selectedQty--; document.getElementById('qty-display').textContent = selectedQty; }
-  });
-  document.getElementById('qty-plus').addEventListener('click', () => {
-    selectedQty++; document.getElementById('qty-display').textContent = selectedQty;
-  });
-}
-
-// ── SCAN TAB VISIBILITY ──
-function updateScanTabVisibility() {
-  const btn = document.getElementById('nav-scan-btn');
-  if (!btn) return;
-  btn.style.display = ANTHROPIC_KEY ? 'flex' : 'none';
-  // If currently on scan screen with no key, redirect to browse
-  if (!ANTHROPIC_KEY) {
-    const scanScreen = document.getElementById('screen-scan');
-    if (scanScreen && scanScreen.classList.contains('active')) {
-      (_allNavBtns || document.querySelectorAll('.nav-btn')).forEach(b => b.classList.remove('active'));
-      (_navScreens || document.querySelectorAll('.screen')).forEach(s => s.classList.remove('active'));
-      document.querySelector('[data-screen="browse"]').classList.add('active');
-      document.getElementById('screen-browse').classList.add('active');
-    }
-  }
+function getCollectionItem(cardId) {
+  return getCollection().find(c => c.id === cardId);
 }
 
 // Toast
@@ -1402,78 +463,34 @@ function showToast(msg) {
 }
 
 // Total value
-function calcTotal(coll) {
-  // Accept pre-read collection to avoid an extra localStorage round-trip
-  if (!coll) coll = getCollection();
-  return coll.reduce((s, c) => s + (parseFloat(c.price) || 0) * (c.qty || 1), 0);
+function calcTotal() {
+  const coll = getCollection();
+  return coll.reduce((s, c) => s + (parseFloat(c.price) || 0), 0);
 }
-function updateTopbarTotal(coll) {
-  document.getElementById('topbar-total').textContent = '€' + calcTotal(coll).toFixed(2).replace('.', ',');
+function updateTopbarTotal() {
+  document.getElementById('topbar-total').textContent = '€' + calcTotal().toFixed(2).replace('.', ',');
 }
 
-// Nav — cache NodeLists once, excluding scan tab (visibility controlled separately)
-const _navBtns    = document.querySelectorAll('.nav-btn:not(#nav-scan-btn)');
-const _navScreens = document.querySelectorAll('.screen');
-const _allNavBtns = document.querySelectorAll('.nav-btn'); // includes scan, for active-state clearing
-_navBtns.forEach(btn => {
+// Nav
+document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    _allNavBtns.forEach(b => b.classList.remove('active'));
-    _navScreens.forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('screen-' + btn.dataset.screen).classList.add('active');
     if (btn.dataset.screen === 'collection') renderCollection();
-    if (btn.dataset.screen === 'stats') { renderStats(); renderCollectionsManager(); }
   });
-});
-// Scan tab button wired separately so it participates in active-state clearing
-document.getElementById('nav-scan-btn').addEventListener('click', () => {
-  _allNavBtns.forEach(b => b.classList.remove('active'));
-  _navScreens.forEach(s => s.classList.remove('active'));
-  document.getElementById('nav-scan-btn').classList.add('active');
-  document.getElementById('screen-scan').classList.add('active');
-});
-
-// ── COLLECTION CONTROLS ──
-document.getElementById('coll-search').addEventListener('input', e => {
-  collSearch = e.target.value.trim().toLowerCase();
-  renderCollection();
-});
-
-document.getElementById('coll-sort').querySelectorAll('.pill').forEach(p => {
-  p.addEventListener('click', () => {
-    document.querySelectorAll('#coll-sort .pill').forEach(x => x.classList.remove('active'));
-    p.classList.add('active');
-    collSort = p.dataset.sort;
-    renderCollection();
-  });
-});
-
-document.getElementById('sort-dir-btn').addEventListener('click', () => {
-  collSortAsc = !collSortAsc;
-  document.getElementById('sort-dir-btn').textContent = collSortAsc ? '↑' : '↓';
-  renderCollection();
 });
 
 // ── SETS ──
-let currentSetCards = [];
-let currentVariant = 'standard';
-
 async function loadSets() {
   try {
-    const r = await apiFetch(`${API}/sets?pageSize=250`);
+    const r = await fetch(`${API}/sets?orderBy=-releaseDate&pageSize=250`);
     const d = await r.json();
-    sets = (d.data || []).sort((a, b) => {
-      const da = a.releaseDate || '0000/00/00';
-      const db = b.releaseDate || '0000/00/00';
-      return da.localeCompare(db);
-    });
+    sets = d.data || [];
     renderSets(sets);
   } catch(e) {
-    document.getElementById('sets-spinner').innerHTML = `<div style="padding:20px;text-align:center">
-  <p style="color:var(--red);font-size:13px;margin-bottom:12px;">Sets konden niet worden geladen.</p>
-  <p style="color:var(--text3);font-size:12px;line-height:1.6;margin-bottom:14px;">Mogelijke oorzaken: ongeldige API-sleutel, of de app wordt lokaal geopend (file://) in plaats van via een webserver.</p>
-  <button onclick="localStorage.removeItem('ptcg_api_key');location.reload()" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;">Andere sleutel invoeren</button>
-</div>`
+    document.getElementById('sets-spinner').innerHTML = '<p style="color:var(--text3);font-size:13px;">Sets konden niet worden geladen. Controleer je internetverbinding.</p>';
   }
 }
 
@@ -1496,11 +513,6 @@ function renderSets(data) {
 function openSet(setId) {
   const set = sets.find(s => s.id === setId);
   if (!set) return;
-  // Reset state for new set
-  currentVariant = 'standard';
-  currentSetCards = [];
-  document.getElementById('set-progress').style.display = 'none';
-  document.getElementById('set-variant-bar').style.display = 'none';
   document.getElementById('sets-view').style.display = 'none';
   document.getElementById('search-results-wrap').style.display = 'none';
   document.getElementById('set-cards-view').style.display = 'block';
@@ -1508,37 +520,15 @@ function openSet(setId) {
   document.getElementById('set-cards-meta').textContent = `${set.series} · ${set.releaseDate || ''}`;
   document.getElementById('cards-spinner').style.display = 'flex';
   document.getElementById('cards-in-set').innerHTML = '';
-
-  // Show variant buttons for eligible sets
-  const varBar = document.getElementById('set-variant-bar');
-  let vHtml = '<button class="variant-btn active" data-variant="standard">Standaard</button>';
-  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
-  if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
-  if (FIRST_ED_SETS.has(setId) || SHADOWLESS_SETS.has(setId)) {
-    varBar.innerHTML = vHtml;
-    varBar.style.display = 'flex';
-    document.getElementById('variant-info-btn').style.display = 'flex';
-    varBar.querySelectorAll('.variant-btn').forEach(b => {
-      b.addEventListener('click', () => {
-        varBar.querySelectorAll('.variant-btn').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        currentVariant = b.dataset.variant;
-        const vc = renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
-        updateSetProgress(currentSetCards, vc);
-      });
-    });
-  }
   loadCardsInSet(setId);
 }
 
 async function loadCardsInSet(setId) {
   try {
-    const r = await apiFetch(`${API}/cards?q=set.id:${setId}&orderBy=number&pageSize=250`);
+    const r = await fetch(`${API}/cards?q=set.id:${setId}&orderBy=number&pageSize=250`);
     const d = await r.json();
-    currentSetCards = d.data || [];
     document.getElementById('cards-spinner').style.display = 'none';
-    const gridColl = renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
-    updateSetProgress(currentSetCards, gridColl);
+    renderCardGrid(d.data || [], document.getElementById('cards-in-set'));
   } catch(e) {
     document.getElementById('cards-spinner').innerHTML = '<p style="color:var(--text3);font-size:13px;">Kon kaarten niet laden.</p>';
   }
@@ -1547,7 +537,6 @@ async function loadCardsInSet(setId) {
 document.getElementById('back-to-sets').addEventListener('click', () => {
   document.getElementById('set-cards-view').style.display = 'none';
   document.getElementById('sets-view').style.display = 'block';
-  document.getElementById('variant-info-btn').style.display = 'none';
 });
 
 // ── SEARCH ──
@@ -1571,68 +560,27 @@ document.getElementById('search-input').addEventListener('input', e => {
 });
 
 async function doSearch(q) {
-  // Reset previous results before each search
-  const searchResults = document.getElementById('search-results');
-  const searchSpinner = document.getElementById('search-spinner');
-  const noResults     = document.getElementById('search-no-results');
-  searchResults.innerHTML = '';
-  noResults.style.display = 'none';
-  searchSpinner.style.display = 'flex';
   try {
-    // First try exact match (quoted), then fall back to prefix/wildcard match
-    let r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`"${q}"`)}&pageSize=30&orderBy=-set.releaseDate`);
-    let d = await r.json();
-    let cards = d.data || [];
-    if (!cards.length) {
-      r = await apiFetch(`${API}/cards?q=name:${encodeURIComponent(`${q}*`)}&pageSize=30&orderBy=-set.releaseDate`);
-      d = await r.json();
-      cards = d.data || [];
-    }
-    searchSpinner.style.display = 'none';
-    if (!cards.length) { noResults.style.display = 'block'; return; }
-    renderCardGrid(cards, searchResults, 'standard');
+    const r = await fetch(`${API}/cards?q=name:"${encodeURIComponent(q)}"&pageSize=30&orderBy=-set.releaseDate`);
+    const d = await r.json();
+    document.getElementById('search-spinner').style.display = 'none';
+    const cards = d.data || [];
+    if (!cards.length) { document.getElementById('search-no-results').style.display = 'block'; return; }
+    renderCardGrid(cards, document.getElementById('search-results'));
   } catch {
-    searchSpinner.style.display = 'none';
-    noResults.style.display = 'block';
+    document.getElementById('search-spinner').style.display = 'none';
+    document.getElementById('search-no-results').style.display = 'block';
   }
 }
 
 // ── CARD GRID RENDER ──
-function updateSetProgress(cards, coll) {
-  if (!coll) coll = getCollection();
-  const total = cards.length;
-  if (!total) return;
-  const cardIds = new Set(cards.map(c => c.id));
-  const setItems = coll.filter(c => cardIds.has(c.id));
-  const owned = new Set(setItems.map(c => c.id)).size;
-  const pct = Math.round((owned / total) * 100);
-  const setVal = setItems.reduce((s, c) => s + (parseFloat(c.price) || 0) * (c.qty || 1), 0);
-  const prog = document.getElementById('set-progress');
-  if (!prog) return;
-  prog.style.display = 'block';
-  document.getElementById('set-progress-label').textContent = `${owned} / ${total} kaarten in collectie (${pct}%)`;
-  document.getElementById('set-progress-fill').style.width = pct + '%';
-  const valEl = document.getElementById('set-value-label');
-  if (valEl) valEl.textContent = setVal > 0 ? `Waarde in collectie: €${setVal.toFixed(2).replace('.',',')}` : '';
-}
-
-function renderCardGrid(cards, container, forVariant = 'standard') {
+function renderCardGrid(cards, container) {
   const coll = getCollection();
   container.innerHTML = cards.map(c => {
-    const collEntry = coll.find(x => x.id === c.id && (x.variant || 'standard') === forVariant);
-    const anyEntry  = coll.find(x => x.id === c.id);
-    const inColl = !!collEntry;
+    const inColl = coll.some(x => x.id === c.id);
     const img = c.images?.small || '';
-    const variantLabel = forVariant === 'first_ed' ? '🥇 1e Ed' : forVariant === 'shadowless' ? '✨ Shadowless' : '';
-    const qtyLabel = collEntry && (collEntry.qty || 1) > 1 ? ` ×${collEntry.qty}` : '';
-    const variantStamp = forVariant === 'first_ed'
-      ? `<div class="variant-stamp stamp-1ed">1st<br>Ed.</div>`
-      : forVariant === 'shadowless'
-        ? `<div class="variant-stamp stamp-sl">Shadow<br>less</div>`
-        : '';
-    return `<div class="poke-card ${inColl ? 'in-collection' : ''}" data-id="${c.id}" data-variant="${forVariant}">
-      ${inColl ? `<div class="in-badge">✓ ${variantLabel || 'In collectie'}${qtyLabel}</div>` : (anyEntry ? '<div class="in-badge" style="background:var(--surface3);color:var(--text2);">✓ Andere variant</div>' : '')}
-      ${variantStamp}
+    return `<div class="poke-card ${inColl ? 'in-collection' : ''}" data-id="${c.id}">
+      ${inColl ? '<div class="in-badge">✓ In collectie</div>' : ''}
       <img src="${img}" alt="${c.name}" loading="lazy">
       <div class="poke-card-info">
         <div class="poke-card-name">${c.name}</div>
@@ -1640,469 +588,52 @@ function renderCardGrid(cards, container, forVariant = 'standard') {
       </div>
     </div>`;
   }).join('');
-  // Event delegation — one listener on container instead of one per card
-  container.onclick = e => {
-    const el = e.target.closest('.poke-card');
-    if (!el) return;
-    const card = cards.find(c => c.id === el.dataset.id);
-    if (card) openCardDetail(card, el.dataset.variant || 'standard');
-  };
-  return coll;
+  container.querySelectorAll('.poke-card').forEach(el => {
+    el.addEventListener('click', () => {
+      const card = cards.find(c => c.id === el.dataset.id);
+      if (card) openCardDetail(card);
+    });
+  });
 }
-
-// ── CARDMARKET URL BUILDER ──
-// Maps pokemontcg.io set IDs to Cardmarket's URL set slug and card code prefix.
-// Format: { setSlug: 'Base-Set', code: 'BS' }
-// Card URL strategy:
-//   - base1: direct link with V1/V2/V3 by print run (always reliable)
-//   - promo sets with numPrefix (bwp, smp, swshp, svp): direct link (always reliable)
-//   - Celebrations (swsh75): direct link with CELBS-{n} pattern (confirmed)
-//   - All other sets: search URL within the set — V prefix is per-card and unguessable
-//   - CM_CARD_OVERRIDES: explicit overrides for cards with unusual numbering (e.g. Ancient Mew)
-const CM_SET_MAP = {
-  // ── WotC era ──
-  'base1':       { slug: 'Base-Set',              code: 'BS'    },
-  'base2':       { slug: 'Base-Set-2',            code: 'B2',  v: false },
-  'jungle':      { slug: 'Jungle',                code: 'JU',  v: false },
-  'fossil':      { slug: 'Fossil',                code: 'FO',  v: false },
-  'teamrocket':  { slug: 'Team-Rocket',           code: 'TR',  v: false },
-  'gym1':        { slug: 'Gym-Heroes',            code: 'G1',  v: false },
-  'gym2':        { slug: 'Gym-Challenge',         code: 'G2',  v: false },
-  'neo1':        { slug: 'Neo-Genesis',           code: 'N1',  v: false },
-  'neo2':        { slug: 'Neo-Discovery',         code: 'N2',  v: false },
-  'neo3':        { slug: 'Neo-Revelation',        code: 'N3',  v: false },
-  'neo4':        { slug: 'Neo-Destiny',           code: 'N4',  v: false },
-  'si1':         { slug: 'Southern-Islands',      code: 'SI',  v: false },
-  'lc':          { slug: 'Legendary-Collection',  code: 'LC',  v: false },
-  // ── e-Card era ──
-  'ecard1':      { slug: 'Expedition-Base-Set',   code: 'EX',  v: false },
-  'ecard2':      { slug: 'Aquapolis',             code: 'AQ',  v: false },
-  'ecard3':      { slug: 'Skyridge',              code: 'SK',  v: false },
-  // ── EX era ──
-  'ex1':         { slug: 'EX-Ruby-Sapphire',           code: 'RS',  v: false },
-  'ex2':         { slug: 'EX-Sandstorm',               code: 'SS',  v: false },
-  'ex3':         { slug: 'EX-Dragon',                  code: 'DR',  v: false },
-  'ex4':         { slug: 'EX-Team-Magma-vs-Team-Aqua', code: 'MA',  v: false },
-  'ex5':         { slug: 'EX-Hidden-Legends',          code: 'HL',  v: false },
-  'ex6':         { slug: 'EX-FireRed-LeafGreen',       code: 'FL',  v: false },
-  'ex7':         { slug: 'EX-Team-Rocket-Returns',     code: 'TRR', v: false },
-  'ex8':         { slug: 'EX-Deoxys',                  code: 'DX',  v: false },
-  'ex9':         { slug: 'EX-Emerald',                 code: 'EM',  v: false },
-  'ex10':        { slug: 'EX-Unseen-Forces',           code: 'UF',  v: false },
-  'ex11':        { slug: 'EX-Delta-Species',           code: 'DS',  v: false },
-  'ex12':        { slug: 'EX-Legend-Maker',            code: 'LM',  v: false },
-  'ex13':        { slug: 'EX-Holon-Phantoms',          code: 'HP',  v: false },
-  'ex14':        { slug: 'EX-Crystal-Guardians',       code: 'CG',  v: false },
-  'ex15':        { slug: 'EX-Dragon-Frontiers',        code: 'DF',  v: false },
-  'ex16':        { slug: 'EX-Power-Keepers',           code: 'PK',  v: false },
-  // ── Diamond & Pearl era ──
-  'dp1':         { slug: 'Diamond-Pearl',              code: 'DP',  v: false },
-  'dp2':         { slug: 'Mysterious-Treasures',       code: 'MT',  v: false },
-  'dp3':         { slug: 'Secret-Wonders',             code: 'SW',  v: false },
-  'dp4':         { slug: 'Great-Encounters',           code: 'GE',  v: false },
-  'dp5':         { slug: 'Majestic-Dawn',              code: 'MD',  v: false },
-  'dp6':         { slug: 'Legends-Awakened',           code: 'LA',  v: false },
-  'dp7':         { slug: 'Stormfront',                 code: 'SF',  v: false },
-  // ── Platinum era ──
-  'pl1':         { slug: 'Platinum',                   code: 'PL',  v: false },
-  'pl2':         { slug: 'Rising-Rivals',              code: 'RR',  v: false },
-  'pl3':         { slug: 'Supreme-Victors',            code: 'SV',  v: false },
-  'pl4':         { slug: 'Arceus',                     code: 'AR',  v: false },
-  // ── HeartGold SoulSilver era ──
-  'hgss1':       { slug: 'HeartGold-SoulSilver',       code: 'HS',  v: false },
-  'hgss2':       { slug: 'Unleashed',                  code: 'UL',  v: false },
-  'hgss3':       { slug: 'Undaunted',                  code: 'UD',  v: false },
-  'hgss4':       { slug: 'Triumphant',                 code: 'TM',  v: false },
-  'col1':        { slug: 'Call-of-Legends',            code: 'CL',  v: false },
-  // ── Black & White era ──
-  'bw1':         { slug: 'Black-White',                code: 'BW',  v: false },
-  'bw2':         { slug: 'Emerging-Powers',            code: 'EP',  v: false },
-  'bw3':         { slug: 'Noble-Victories',            code: 'NV',  v: false },
-  'bw4':         { slug: 'Next-Destinies',             code: 'ND',  v: false },
-  'bw5':         { slug: 'Dark-Explorers',             code: 'DE',  v: false },
-  'bw6':         { slug: 'Dragons-Exalted',            code: 'DRX', v: false },
-  'bw7':         { slug: 'Boundaries-Crossed',         code: 'BC',  v: false },
-  'bw8':         { slug: 'Plasma-Storm',               code: 'PS',  v: false },
-  'bw9':         { slug: 'Plasma-Freeze',              code: 'PF',  v: false },
-  'bw10':        { slug: 'Plasma-Blast',               code: 'PB',  v: false },
-  'bw11':        { slug: 'Legendary-Treasures',        code: 'LT',  v: false },
-  // ── XY era ──
-  'xy1':         { slug: 'XY',                         code: 'XY',  v: false },
-  'xy2':         { slug: 'Flashfire',                  code: 'FF',  v: false },
-  'xy3':         { slug: 'Furious-Fists',              code: 'FUF',v: false },
-  'xy4':         { slug: 'Phantom-Forces',             code: 'PHF',v: false },
-  'xy5':         { slug: 'Primal-Clash',               code: 'PRC',v: false },
-  'xy6':         { slug: 'Roaring-Skies',              code: 'ROS',v: false },
-  'xy7':         { slug: 'Ancient-Origins',            code: 'AOR',v: false },
-  'xy8':         { slug: 'BREAKthrough',               code: 'BKT',v: false },
-  'xy9':         { slug: 'BREAKpoint',                 code: 'BKP',v: false },
-  'xy10':        { slug: 'Fates-Collide',              code: 'FCO',v: false },
-  'xy11':        { slug: 'Steam-Siege',                code: 'STS',v: false },
-  'xy12':        { slug: 'Evolutions',                 code: 'EVO',v: false },
-  // ── Sun & Moon era ──
-  'sm1':         { slug: 'Sun-Moon',                   code: 'SUM',v: false },
-  'sm2':         { slug: 'Guardians-Rising',           code: 'GRI',v: false },
-  'sm3':         { slug: 'Burning-Shadows',            code: 'BUS',v: false },
-  'sm35':        { slug: 'Shining-Legends',            code: 'SLG',v: false },
-  'sm4':         { slug: 'Crimson-Invasion',           code: 'CIN',v: false },
-  'sm5':         { slug: 'Ultra-Prism',                code: 'UPR',v: false },
-  'sm6':         { slug: 'Forbidden-Light',            code: 'FLI',v: false },
-  'sm7':         { slug: 'Celestial-Storm',            code: 'CES',v: false },
-  'sm75':        { slug: 'Dragon-Majesty',             code: 'DRM', v: false },
-  'sm8':         { slug: 'Lost-Thunder',               code: 'LOT',v: false },
-  'sm9':         { slug: 'Team-Up',                    code: 'TEU',v: false },
-  'sm10':        { slug: 'Unbroken-Bonds',             code: 'UNB',v: false },
-  'sm11':        { slug: 'Unified-Minds',              code: 'UNM',v: false },
-  'sm115':       { slug: 'Hidden-Fates',               code: 'HIF', v: false },
-  'sm12':        { slug: 'Cosmic-Eclipse',             code: 'CEC',v: false },
-  // ── Sword & Shield era ──
-  'swsh1':       { slug: 'Sword-Shield',               code: 'SSH',v: false },
-  'swsh2':       { slug: 'Rebel-Clash',                code: 'RCL',v: false },
-  'swsh3':       { slug: 'Darkness-Ablaze',            code: 'DAA',v: false },
-  'swsh35':      { slug: 'Champions-Path',             code: 'CPA',v: false },
-  'swsh4':       { slug: 'Vivid-Voltage',              code: 'VIV',v: false },
-  'swsh45':      { slug: 'Shining-Fates',              code: 'SHF',v: false },
-  'swsh5':       { slug: 'Battle-Styles',              code: 'BST',v: false },
-  'swsh6':       { slug: 'Chilling-Reign',             code: 'CRE',v: false },
-  'swsh7':       { slug: 'Evolving-Skies',             code: 'EVS',v: false },
-  'swsh75':      { slug: 'Celebrations',               code: 'CELBS', v: true,  numPrefix: false, sep: '-' },
-  'swsh8':       { slug: 'Fusion-Strike',              code: 'FST',v: false },
-  'swsh9':       { slug: 'Brilliant-Stars',            code: 'BRS',v: false },
-  'swsh10':      { slug: 'Astral-Radiance',            code: 'ASR',v: false },
-  'swsh105':     { slug: 'Pokemon-GO',                 code: 'PGO',v: false },
-  'swsh11':      { slug: 'Lost-Origin',                code: 'LOR',v: false },
-  'swsh12':      { slug: 'Silver-Tempest',             code: 'SIT',v: false },
-  'swsh125':     { slug: 'Crown-Zenith',               code: 'CRZ',v: false },
-  // ── Scarlet & Violet era ──
-  'sv1':         { slug: 'Scarlet-Violet',             code: 'SVI',v: false },
-  'sv2':         { slug: 'Paldea-Evolved',             code: 'PAL',v: false },
-  'sv3':         { slug: 'Obsidian-Flames',            code: 'OBF',v: false },
-  'sv3pt5':      { slug: 'Pokemon-151',                code: 'MEW',v: false },
-  'sv4':         { slug: 'Paradox-Rift',               code: 'PAR',v: false },
-  'sv4pt5':      { slug: 'Paldean-Fates',             code: 'PAF', v: false },
-  'sv5':         { slug: 'Temporal-Forces',            code: 'TEF',v: false },
-  'sv6':         { slug: 'Twilight-Masquerade',        code: 'TWM',v: false },
-  'sv6pt5':      { slug: 'Shrouded-Fable',             code: 'SFA',v: false },
-  'sv7':         { slug: 'Stellar-Crown',              code: 'SCR',v: false },
-  'sv8':         { slug: 'Surging-Sparks',             code: 'SSP',v: false },
-  'sv8pt5':      { slug: 'Prismatic-Evolutions',       code: 'PRE',v: false },
-  'sv9':         { slug: 'Journey-Together',           code: 'JTG',v: false },
-  'sv9pt5':      { slug: 'Destined-Rivals',            code: 'DRI',v: false },
-  // ── Promos ──
-  // Format notes: v=true → adds V1- prefix; numPrefix=true → number already has set code prefix
-  // 'basep' is the correct pokemontcg.io ID for Wizards Black Star Promos
-  'basep':       { slug: 'Wizards-Black-Star-Promos',  code: 'WP',   v: false, numPrefix: false },
-  'bwp':         { slug: 'BW-Black-Star-Promos',       code: 'BW',   v: false, numPrefix: true  },
-  'xy0':         { slug: 'XY-Black-Star-Promos',       code: 'XY',   v: true,  numPrefix: false },
-  'smp':         { slug: 'SM-Black-Star-Promos',       code: 'SM',   v: true,  numPrefix: true  },
-  'swshp':       { slug: 'SWSH-Black-Star-Promos',     code: 'SWSH', v: true,  numPrefix: true  },
-  'svp':         { slug: 'SV-Black-Star-Promos',       code: 'SVP',  v: true,  numPrefix: true  },
-  // ── Movie & special promos ──
-  'mpr':         { slug: 'Promos',                     code: 'PR',   v: false, numPrefix: false },
-  'xyp':         { slug: 'XY-Promos',                  code: 'XYP',  v: false, numPrefix: false },
-  // ── POP series (Player Reward packs) ──
-  'pop1':        { slug: 'POP-Series-1',               code: 'POP1',v: false },
-  'pop2':        { slug: 'POP-Series-2',               code: 'POP2',v: false },
-  'pop3':        { slug: 'POP-Series-3',               code: 'POP3',v: false },
-  'pop4':        { slug: 'POP-Series-4',               code: 'POP4',v: false },
-  'pop5':        { slug: 'POP-Series-5',               code: 'POP5',v: false },
-  'pop6':        { slug: 'POP-Series-6',               code: 'POP6',v: false },
-  'pop7':        { slug: 'POP-Series-7',               code: 'POP7',v: false },
-  'pop8':        { slug: 'POP-Series-8',               code: 'POP8',v: false },
-  'pop9':        { slug: 'POP-Series-9',               code: 'POP9',v: false },
-  // ── Other special sets ──
-  'dpp':         { slug: 'DP-Promos',                  code: 'DPP', v: false },
-  'hsp':         { slug: 'HGSS-Promos',                code: 'HSP', v: false },
-  'det1':        { slug: 'Detective-Pikachu',           code: 'DET', v: false },
-  'swsh45sv':    { slug: 'Shining-Fates-Shiny-Vault',  code: 'SHF', v: false },
-  'swsh12pt5gg': { slug: 'Crown-Zenith-Galarian-Gallery', code: 'CRZ',v: false },
-};
-
-// Per-card Cardmarket overrides — for cards where pokemontcg.io set/number
-// doesn't match Cardmarket's grouping or numbering.
-// Key: pokemontcg.io card ID  Value: { slug, code, number } to use in URL
-const CM_CARD_OVERRIDES = {
-  // Ancient Mew is NOT in the pokemontcg.io API under any name.
-  // It must be added as a custom card (see manual add feature).
-  // The regular Mew promo (basep-8) links to Wizards-Black-Star-Promos via the search fallback.
-};
-
-// Cardmarket version numbers for Base Set print runs:
-//   V1 = Unlimited (most common)
-//   V2 = Shadowless
-//   V3 = 1st Edition
-// All other sets have only one version per card number, so no Vn suffix is used.
-const BASE1_VERSION = { standard: 'V1', shadowless: 'V2', first_ed: 'V3' };
-
-// Build a Cardmarket set-level search URL — reliable fallback when direct card URL is uncertain
-// Include collector number in search (Cardmarket supports "{name} {code}{number}" queries)
-function cmSearchUrl(langPath, name, setSlug, langParam, countryParam, code, number) {
-  // Cardmarket search with name + code+number is more precise than name alone
-  const searchTerm = code && number ? encodeURIComponent(`${name} ${code}${number}`) : encodeURIComponent(name);
-  const params = [langParam, countryParam].filter(Boolean).join('');
-  const query = `?searchString=${searchTerm}` + (params || '');
-  return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}${query}`;
-}
-
-function buildCardmarketUrl(card, langPath, langParam, countryParam, variant) {
-  const setId    = card.set?.id || '';
-  const name     = card.name || '';
-  const number   = card.number || '';
-  const nameSlug = name.replace(/[^a-zA-Z0-9 \-]/g, '').trim().replace(/ +/g, '-');
-  const params   = [langParam, countryParam].filter(Boolean).join('');
-  const query    = params ? '?' + params.replace(/^&/, '') : '';
-
-  // Check per-card override first (handles unnumbered promos like Ancient Mew)
-  const cardId   = `${setId}-${number}`;
-  const override = CM_CARD_OVERRIDES[cardId];
-  if (override) {
-    const cardSlug = `${nameSlug}-${override.code}${override.number}`;
-    return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${override.slug}/${cardSlug}${query}`;
-  }
-
-  const entry = CM_SET_MAP[setId];
-
-  if (entry) {
-    if (setId === 'base1') {
-      // Base Set: V1/V2/V3 maps exactly to Unlimited/Shadowless/1st Ed — always reliable
-      const ver = BASE1_VERSION[variant || 'standard'] || 'V1';
-      const cardSlug = `${nameSlug}-${ver}-${entry.code}${number}`;
-      return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
-    }
-
-    if (entry.numPrefix) {
-      // Promo sets where the number already contains the set prefix (BW32, SM04, SWSH018…)
-      // The doubling pattern (BWBW32, SMSM04) is consistent across the whole set — reliable
-      const vPart    = entry.v ? 'V1-' : '';
-      const sep      = entry.sep || '';
-      const numPart  = `${entry.code}${number}`;
-      const cardSlug = `${nameSlug}-${vPart}${numPart}`;
-      return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
-    }
-
-    if (entry.sep) {
-      // Sets with a separator in the code (e.g. Celebrations: CELBS-4) — confirmed pattern
-      const vPart    = entry.v ? 'V1-' : '';
-      const numPart  = `${entry.code}${entry.sep}${number}`;
-      const cardSlug = `${nameSlug}-${vPart}${numPart}`;
-      return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${entry.slug}/${cardSlug}${query}`;
-    }
-
-    // All other sets: V prefix is per-card and unpredictable — use search URL
-    return cmSearchUrl(langPath, name, entry.slug, langParam, countryParam, entry.code, number);
-  }
-
-  // Set not in map: fall back to set name as slug
-  const setSlug = (card.set?.name || '').replace(/[^a-zA-Z0-9\-]/g, '-').replace(/-+/g, '-');
-  return cmSearchUrl(langPath, name, setSlug, langParam, countryParam, null, null);
-}
-
-// ── CARDMARKET PRICE FETCH (from pokemontcg.io card object) ──
-function fetchCardmarketPrice(card, collSnap) {
-  // Prices are already on the card object from pokemontcg.io — no extra API call needed.
-  // Field: card.cardmarket.prices.{trendPrice, averageSellPrice, lowPrice, avg1, avg7, avg30}
-  const statusEl = document.getElementById('ov-price-status');
-  const priceEl  = _ovPriceEl;
-
-  const cm = card.cardmarket?.prices;
-  if (!cm) {
-    statusEl.style.color = 'var(--text3)';
-    statusEl.textContent = 'Geen Cardmarket prijsdata beschikbaar.';
-    return;
-  }
-
-  // trendPrice is the best single reference value; fall back to averageSellPrice then lowPrice
-  const price = cm.trendPrice ?? cm.averageSellPrice ?? cm.lowPrice ?? null;
-  if (price === null) {
-    statusEl.style.color = 'var(--text3)';
-    statusEl.textContent = 'Geen Cardmarket prijsdata beschikbaar.';
-    return;
-  }
-
-  // Only auto-fill if there is no existing saved price for this card
-  // collSnap is already in scope from openCardDetail
-  const cmExisting = collSnap ? collSnap.find(c => c.id === card.id) : getCollection().find(c => c.id === card.id);
-  if (!cmExisting || !cmExisting.price) {
-    priceEl.value = price.toFixed(2);
-  }
-
-  const avg7  = cm.avg7  ?? price;
-  const avg30 = cm.avg30 ?? price;
-  statusEl.style.color = 'var(--green)';
-
-  // For Base Set non-standard variants, the API returns a blended price across all
-  // print runs (Unlimited + Shadowless + 1st Edition listings combined).
-  // Warn the user and point them to the correct Cardmarket version page.
-  const isBase1AltVariant = (card.set?.id === 'base1') &&
-    (selectedVariant === 'first_ed' || selectedVariant === 'shadowless');
-  if (isBase1AltVariant) {
-    const varName    = selectedVariant === 'first_ed' ? '1e Editie' : 'Shadowless';
-    const verLabel   = selectedVariant === 'first_ed' ? 'V3' : 'V2';
-    statusEl.style.color = 'var(--accent)';
-    statusEl.textContent = `⚠️ Gemengde prijs (alle drukken) — trend €${price.toFixed(2)}. `
-      + `${varName} (${verLabel}) heeft een hogere marktprijs. Klik Cardmarket voor de echte ${varName}-prijs.`;
-  } else {
-    statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
-  }
-}
-
-// ── Cached overlay NodeLists and elements — queried once at startup ──
-const _condPills = document.querySelectorAll('#ov-condition-pills .pill');
-const _langBtns  = document.querySelectorAll('#lang-toggle .lang-btn');
-const _ovPriceEl = _ovPriceEl;
-const _ovPaidEl  = _ovPaidEl;
 
 // ── CARD DETAIL OVERLAY ──
-function openCardDetail(card, variantHint = 'standard') {
+function openCardDetail(card) {
   currentCard = card;
-  const setId = card.set?.id || '';
-  // Read collection once for this overlay — reused by all lookups below
-  const collSnap = getCollection();
-  const allEntries = collSnap.filter(c => c.id === card.id);
-  // Match on variant + lang + condition for full uniqueness
-  const existing = allEntries.find(c =>
-    (c.variant   || 'standard') === variantHint &&
-    (c.lang      || 'NL')       === selectedLang &&
-    (c.condition || '')         === selectedCondition
-  ) || allEntries.find(c => (c.variant || 'standard') === variantHint) || allEntries[0] || null;
-  selectedVariant = existing ? (existing.variant || 'standard') : variantHint;
+  const existing = getCollectionItem(card.id);
+  selectedLang = existing ? existing.lang : 'NL';
 
   document.getElementById('ov-img').src = card.images?.large || card.images?.small || '';
-
-  // Show disclaimer for WotC cards in a non-standard variant — pokemontcg.io only has
-  // one image per card regardless of print run (1st Ed / Shadowless / Unlimited look
-  // nearly identical in photos but differ subtly in border shadow and stamp).
-  const imgNote = document.getElementById('ov-img-note');
-  if (imgNote) {
-    const isWotCCard   = WOTC_SETS.has(card.set?.id || '');
-    const isAltVariant = selectedVariant === 'first_ed' || selectedVariant === 'shadowless';
-    if (isWotCCard && isAltVariant) {
-      const variantName = selectedVariant === 'first_ed' ? '1e Editie' : 'Shadowless';
-      imgNote.textContent = `⚠️ Afbeelding toont de Unlimited versie — geen aparte scans beschikbaar per druk. Kijk op de kaart zelf voor de ${variantName} kenmerken.`;
-      imgNote.style.display = 'block';
-    } else {
-      imgNote.style.display = 'none';
-    }
-  }
   document.getElementById('ov-name').textContent = card.name;
   document.getElementById('ov-set').textContent = `${card.set?.name || ''} · #${card.number || '?'}`;
   document.getElementById('ov-setname').textContent = card.set?.name || '-';
   document.getElementById('ov-num').textContent = `${card.number || '?'} / ${card.set?.printedTotal || card.set?.total || '?'}`;
   document.getElementById('ov-rarity').textContent = card.rarity || '-';
   document.getElementById('ov-type').textContent = (card.types || []).join(', ') || (card.supertype || '-');
-  _ovPriceEl.value = existing ? (existing.price || '') : '';
-  selectedPaid = existing ? (existing.pricePaid || 0) : 0;
-  _ovPaidEl.value = selectedPaid ? selectedPaid : '';
-  selectedQty = existing ? (existing.qty || 1) : 1;
-  document.getElementById('qty-display').textContent = selectedQty;
-  fetchCardmarketPrice(card, collSnap);
-  // qty buttons wired once at startup via initQtyButtons()
+  document.getElementById('ov-price').value = existing ? (existing.price || '') : '';
 
-  // Variant buttons: Standard always; 1st Ed for eligible sets; Shadowless for Base Set only
-  const vBar = document.getElementById('ov-variant-bar');
-  let vHtml = '<button class="variant-btn" data-variant="standard">Standaard</button>';
-  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
-  if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
-  vBar.innerHTML = vHtml;
-  vBar.querySelectorAll('.variant-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.variant === selectedVariant);
-    b.onclick = () => {
-      selectedVariant = b.dataset.variant;
-      // Pre-fill price from any existing entry for this variant (first match)
-      const variantEntry = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
-      _ovPriceEl.value = variantEntry ? (variantEntry.price || '') : '';
-      _ovPaidEl.value  = variantEntry ? (variantEntry.pricePaid || '') : '';
-      vBar.querySelectorAll('.variant-btn').forEach(x => x.classList.toggle('active', x.dataset.variant === selectedVariant));
-      // Recheck add/remove state for full key (variant+lang+condition)
-      refreshActionButtons();
-      // Refresh price status + CM link for new variant
-      fetchCardmarketPrice(card, collSnap);
-      const vLangPath     = selectedLang === 'NL' ? 'nl' : 'en';
-      const vLangParam    = selectedLang === 'NL' ? '&language=7' : '&language=1';
-      const vCountryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
-      document.getElementById('ov-cm-btn').onclick = () => {
-        window.open(buildCardmarketUrl(card, vLangPath, vLangParam, vCountryParam, selectedVariant), '_blank');
-      };
-    };
-  });
-
-  // Condition pills
-  selectedCondition = existing ? (existing.condition || '') : (_scanDetectedCondition || '');
-  if (_scanDetectedCondition) { _scanDetectedCondition = null; } // consume once
-
-  // Helper: recheck add/remove state for the current variant+lang+condition combination
-  function refreshActionButtons() {
-    const match = collSnap.find(c =>
-      c.id === card.id &&
-      (c.variant   || 'standard') === selectedVariant &&
-      (c.lang      || 'NL')       === selectedLang &&
-      (c.condition || '')         === selectedCondition
-    );
-    document.getElementById('ov-action-add').style.display    = match ? 'none'  : 'block';
-    document.getElementById('ov-action-remove').style.display = match ? 'block' : 'none';
-  }
-
-  _condPills.forEach(b => {
-    b.classList.toggle('active', b.dataset.cond === selectedCondition);
-    b.onclick = () => {
-      selectedCondition = b.dataset.cond;
-      _condPills.forEach(x => x.classList.toggle('active', x.dataset.cond === selectedCondition));
-      refreshActionButtons();
-    };
-  });
-
-  // Language toggle
-  selectedLang = existing ? (existing.lang || 'NL') : (_scanDetectedLang || 'NL');
-  if (_scanDetectedLang) { _scanDetectedLang = null; } // consume once
-  _langBtns.forEach(b => {
+  // Lang toggle
+  document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === selectedLang);
     b.onclick = () => {
       selectedLang = b.dataset.lang;
-      _langBtns.forEach(x => x.classList.toggle('active', x.dataset.lang === selectedLang));
-      refreshActionButtons();
+      document.querySelectorAll('.lang-btn').forEach(x => x.classList.toggle('active', x.dataset.lang === selectedLang));
     };
   });
 
-  // Marktplaats link
-  document.getElementById('ov-mp-btn').onclick = () => {
-    const q = encodeURIComponent(`Pokemon kaart ${card.name} ${card.set?.name || ''}`);
-    window.open(`https://www.marktplaats.nl/q/${q}/#sortBy:SORT_INDEX|sortOrder:DECREASING`, '_blank');
-  };
-
-  // Cardmarket link — builds the most precise URL possible using a set slug mapping table.
-  // Falls back to a search URL if the set isn't in the mapping.
+  // Cardmarket link
   document.getElementById('ov-cm-btn').onclick = () => {
-    const langPath = selectedLang === 'NL' ? 'nl' : 'en';
-    const langParam = selectedLang === 'NL' ? '&language=7' : '&language=1';
-    const countryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
-    const url = buildCardmarketUrl(card, langPath, langParam, countryParam, selectedVariant);
+    const name = card.name.replace(/ /g, '+');
+    const lang = selectedLang === 'NL' ? '&language=7' : '&language=1';
+    const url = `https://www.cardmarket.com/nl/Pokemon/Products/Search?searchString=${name}${lang}`;
     window.open(url, '_blank');
   };
 
-  // Set initial add/remove button state based on full key (variant+lang+condition)
-  refreshActionButtons();
-
-  // PSA advice — only show if card is in collection (we need price + condition)
-  const psaItem = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
-  const psaBox  = document.getElementById('ov-psa-box');
-  const psaEst  = document.getElementById('ov-psa-est');
-  if (psaItem && psaItem.price) {
-    const adv = psaAdvice(psaItem);
-    document.getElementById('ov-psa-verdict').textContent = adv.verdict;
-    document.getElementById('ov-psa-detail').textContent  = adv.detail;
-    if (adv.psa10Est) {
-      document.getElementById('ov-psa-cost').textContent = `~€${adv.psaCostEur}`;
-      document.getElementById('ov-psa-val').textContent  = `~€${adv.psa10Est.toFixed(0)}`;
-      psaEst.style.display = 'flex';
-    } else {
-      psaEst.style.display = 'none';
-    }
-    psaBox.style.borderColor = adv.level === 'yes' ? 'rgba(180,142,247,0.4)' : adv.level === 'maybe' ? 'rgba(247,201,72,0.3)' : 'var(--border2)';
+  if (existing) {
+    document.getElementById('ov-action-add').style.display = 'none';
+    document.getElementById('ov-action-remove').style.display = 'block';
   } else {
-    document.getElementById('ov-psa-verdict').textContent = '—';
-    document.getElementById('ov-psa-detail').textContent  = 'Voeg deze kaart toe aan je collectie met een prijs om een PSA beoordeling te zien.';
-    psaEst.style.display = 'none';
-    psaBox.style.borderColor = 'var(--border2)';
+    document.getElementById('ov-action-add').style.display = 'block';
+    document.getElementById('ov-action-remove').style.display = 'none';
   }
 
   document.getElementById('card-overlay').classList.add('open');
@@ -2110,56 +641,38 @@ function openCardDetail(card, variantHint = 'standard') {
 
 document.getElementById('ov-add-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const price = parseFloat(_ovPriceEl.value) || 0;
+  const price = parseFloat(document.getElementById('ov-price').value) || 0;
   const coll = getCollection();
-  const existIdx = coll.findIndex(c =>
-    c.id === currentCard.id &&
-    (c.variant   || 'standard') === selectedVariant &&
-    (c.lang      || 'NL')       === selectedLang &&
-    (c.condition || '')         === selectedCondition
-  );
-  if (existIdx >= 0) {
-    // Card+variant already exists — update instead of creating duplicate
-    coll[existIdx].qty = (coll[existIdx].qty || 1) + selectedQty;
-    coll[existIdx].price = price;
-    coll[existIdx].pricePaid = parseFloat(_ovPaidEl.value) || 0;
-    coll[existIdx].lang = selectedLang;
-    coll[existIdx].condition = selectedCondition;
-    coll[existIdx].priceUpdated = Date.now();
-  } else {
-    coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', setId: currentCard.set?.id || '', number: currentCard.number || '', img: currentCard.images?.small || '', variant: selectedVariant, lang: selectedLang, qty: selectedQty, price, pricePaid: parseFloat(_ovPaidEl.value)||0, rarity: currentCard.rarity || '', condition: selectedCondition, priceUpdated: Date.now() });
-  }
-  afterSave(coll, '✓ Kaart toegevoegd aan collectie', false);
+  coll.push({ id: currentCard.id, name: currentCard.name, set: currentCard.set?.name || '', number: currentCard.number || '', img: currentCard.images?.small || '', lang: selectedLang, price, rarity: currentCard.rarity || '' });
+  saveCollection(coll);
+  updateTopbarTotal();
+  closeOverlay();
+  showToast('✓ Kaart toegevoegd aan collectie');
+  refreshGridBadges();
 });
 
 document.getElementById('ov-save-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const price = parseFloat(_ovPriceEl.value) || 0;
+  const price = parseFloat(document.getElementById('ov-price').value) || 0;
   const coll = getCollection();
-  const idx = coll.findIndex(c =>
-    c.id === currentCard.id &&
-    (c.variant   || 'standard') === selectedVariant &&
-    (c.lang      || 'NL')       === selectedLang &&
-    (c.condition || '')         === selectedCondition
-  ) >= 0 ? coll.findIndex(c =>
-    c.id === currentCard.id &&
-    (c.variant   || 'standard') === selectedVariant &&
-    (c.lang      || 'NL')       === selectedLang &&
-    (c.condition || '')         === selectedCondition
-  ) : coll.findIndex(c => c.id === currentCard.id && (c.variant || 'standard') === selectedVariant);
-  if (idx >= 0) { coll[idx].price = price; coll[idx].pricePaid = parseFloat(_ovPaidEl.value)||0; coll[idx].variant = selectedVariant; coll[idx].lang = selectedLang; coll[idx].qty = selectedQty; coll[idx].condition = selectedCondition; coll[idx].priceUpdated = Date.now(); }
-  afterSave(coll, '✓ Wijzigingen opgeslagen', true);
+  const idx = coll.findIndex(c => c.id === currentCard.id);
+  if (idx >= 0) { coll[idx].price = price; coll[idx].lang = selectedLang; }
+  saveCollection(coll);
+  updateTopbarTotal();
+  closeOverlay();
+  showToast('✓ Wijzigingen opgeslagen');
+  if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
 });
 
 document.getElementById('ov-remove-btn').addEventListener('click', () => {
   if (!currentCard) return;
-  const coll = getCollection().filter(c => !(
-    c.id === currentCard.id &&
-    (c.variant   || 'standard') === selectedVariant &&
-    (c.lang      || 'NL')       === selectedLang &&
-    (c.condition || '')         === selectedCondition
-  ));
-  afterSave(coll, 'Kaart verwijderd uit collectie', true);
+  const coll = getCollection().filter(c => c.id !== currentCard.id);
+  saveCollection(coll);
+  updateTopbarTotal();
+  closeOverlay();
+  showToast('Kaart verwijderd uit collectie');
+  if (document.getElementById('screen-collection').classList.contains('active')) renderCollection();
+  refreshGridBadges();
 });
 
 document.getElementById('ov-close-btn').addEventListener('click', closeOverlay);
@@ -2171,28 +684,19 @@ function closeOverlay() {
 }
 
 function refreshGridBadges() {
+  // Re-render current grid to update badges without full reload
+  const containers = ['search-results', 'cards-in-set', 'set-grid'];
+  // Just re-fetch collection and update DOM badges
   const coll = getCollection();
   document.querySelectorAll('.poke-card').forEach(el => {
-    const forVariant = el.dataset.variant || 'standard';
-    const collEntry = coll.find(x => x.id === el.dataset.id && (x.variant || 'standard') === forVariant);
-    const anyEntry  = coll.find(x => x.id === el.dataset.id);
-    el.classList.toggle('in-collection', !!collEntry);
-    let badge = el.querySelector('.in-badge');
-    if (collEntry) {
-      const variantLabel = forVariant === 'first_ed' ? '🥇 1e Ed' : forVariant === 'shadowless' ? '✨ Shadowless' : 'In collectie';
-      const qtyLabel = (collEntry.qty || 1) > 1 ? ` ×${collEntry.qty}` : '';
-      if (!badge) { badge = document.createElement('div'); badge.className = 'in-badge'; el.prepend(badge); }
-      badge.style.background = ''; badge.style.color = '';
-      badge.textContent = `✓ ${variantLabel}${qtyLabel}`;
-    } else if (anyEntry) {
-      if (!badge) { badge = document.createElement('div'); badge.className = 'in-badge'; el.prepend(badge); }
-      badge.style.background = 'var(--surface3)'; badge.style.color = 'var(--text2)';
-      badge.textContent = '✓ Andere variant';
-    } else if (badge) {
-      badge.remove();
-    }
+    const inColl = coll.some(x => x.id === el.dataset.id);
+    el.classList.toggle('in-collection', inColl);
+    const existing = el.querySelector('.in-badge');
+    if (inColl && !existing) {
+      const b = document.createElement('div'); b.className = 'in-badge'; b.textContent = '✓ In collectie';
+      el.prepend(b);
+    } else if (!inColl && existing) { existing.remove(); }
   });
-  if (document.getElementById('set-progress')) updateSetProgress(currentSetCards, coll);
 }
 
 // ── COLLECTION SCREEN ──
@@ -2205,772 +709,60 @@ document.getElementById('coll-filter').querySelectorAll('.pill').forEach(p => {
   });
 });
 
-// ── PSA GRADING ADVISOR ──
-// WotC-era sets (higher vintage premium)
-const WOTC_SETS = new Set([
-  'base1','base2','jungle','fossil','teamrocket','gym1','gym2',
-  'neo1','neo2','neo3','neo4','si1','lc','basep','mpr',
-  'ecard1','ecard2','ecard3'
-]);
-
-function psaAdvice(item) {
-  const price   = parseFloat(item.price) || 0;
-  const cond    = item.condition || '';
-  const setId   = item.setId || '';
-  const variant = item.variant || 'standard';
-  const rarity  = (item.rarity || '').toLowerCase();
-
-  // ── Condition gate ──
-  // Must be NM or better to have realistic shot at PSA 9-10
-  const condOk      = cond === 'M' || cond === 'NM';
-  const condBad     = cond === 'LP' || cond === 'MP' || cond === 'HP' || cond === 'DMG';
-  const condUnknown = cond === '';
-
-  // ── Era multiplier ──
-  const isWotC    = WOTC_SETS.has(setId);
-  const isFirstEd = variant === 'first_ed';
-  const isShadowless = variant === 'shadowless';
-
-  // Estimated PSA 10 multiplier based on era + variant
-  let multiplier = 2.5; // modern baseline
-  if (isWotC) multiplier = isFirstEd ? 8 : isShadowless ? 6 : 4;
-  else if (isFirstEd) multiplier = 3.5;
-
-  // ── Rarity bonus ──
-  const isSecret = rarity.includes('secret') || rarity.includes('special') || rarity.includes('illustration');
-  const isUltra  = rarity.includes('ultra') || rarity.includes('rare ultra') || rarity.includes('rare rainbow');
-  if (isSecret || isUltra) multiplier *= 1.2;
-
-  // ── PSA cost estimate (Economy tier, EUR) ──
-  const psaCostEur = price >= 500 ? 75 : price >= 200 ? 50 : 30;
-
-  // ── Potential PSA 10 value ──
-  const psa10Est = price * multiplier;
-  const profit   = psa10Est - price - psaCostEur;
-
-  // ── Decision ──
-  let verdict, detail, level;
-
-  if (condBad) {
-    level   = 'no';
-    verdict = '❌ Niet de moeite waard';
-    detail  = `Conditie ${cond} is te slecht voor PSA — een hoge graad is onwaarschijnlijk en de kosten dekken de waardestijging niet.`;
-  } else if (price < 15) {
-    level   = 'no';
-    verdict = '❌ Niet de moeite waard';
-    detail  = `Huidige waarde (€${price.toFixed(2)}) is te laag. PSA kosten (~€30) zouden de potentiële winst overstijgen.`;
-  } else if (price < 50 && !isWotC) {
-    level   = 'no';
-    verdict = '❌ Grenseval — sla over';
-    detail  = `Waarde is te laag voor niet-vintage kaarten. Overweeg alleen als conditie perfect Mint is en je zeker weet dat het NM+ is.`;
-  } else if (condUnknown) {
-    level   = 'maybe';
-    verdict = '❓ Conditie onbekend';
-    detail  = `Gebruik de Conditie-scanner (Scannen-tab) om te bepalen of de kaart in aanmerking komt. Een PSA 10 zou circa €${psa10Est.toFixed(0)} kunnen opleveren.`;
-  } else if (!condOk) {
-    level   = 'no';
-    verdict = '❌ Conditie te laag';
-    detail  = `${cond} is onvoldoende voor een winstgevende PSA inzending. PSA 7 of lager verkoopt soms voor minder dan raw.`;
-  } else if (profit > 200 || (isWotC && profit > 50)) {
-    level   = 'yes';
-    verdict = '⭐ Sterk aanbevolen';
-    detail  = isFirstEd
-      ? `1e Editie vintage kaarten met goede conditie zijn ideaal voor PSA. Hoge multiplier (~${multiplier}×) en beperkte PSA 10 populatie drijven de premie op.`
-      : isWotC
-        ? `WotC-era kaart in goede conditie — vintage multiplier (~${multiplier}×) rechtvaardigt grading kosten ruimschoots.`
-        : `Hoge waarde en goede conditie. Potentieel ~${multiplier}× waardestijging in PSA 10.`;
-  } else if (profit > 30) {
-    level   = 'maybe';
-    verdict = '🤔 Mogelijk interessant';
-    detail  = `Winstpotentieel aanwezig maar niet zeker. Stuur alleen in als de kaart perfect gecentreerd is, geen hoekschade heeft en een schoon oppervlak.`;
-  } else {
-    level   = 'no';
-    verdict = '❌ Niet de moeite waard';
-    detail  = `Verwachte winst na PSA kosten (€${psaCostEur}) is te laag (€${profit.toFixed(0)}). Behoud de kaart als raw.`;
-  }
-
-  return { level, verdict, detail, psaCostEur, psa10Est: level !== 'no' ? psa10Est : null };
-}
-
-const CONDITION_CLASS = {M:'cond-mint',NM:'cond-nm',LP:'cond-lp',MP:'cond-played',HP:'cond-hp',DMG:'cond-dmg'};
-function conditionClass(c) { return CONDITION_CLASS[c] || 'cond-unknown'; }
-
-// ── Named helpers for renderCollection ──
-function roiHtml(c) {
-  const cur  = (parseFloat(c.price) || 0) * (c.qty || 1);
-  const paid = (parseFloat(c.pricePaid) || 0) * (c.qty || 1);
-  if (!paid || !c.price) return '';
-  const diff = cur - paid;
-  const pct  = Math.round((diff / paid) * 100);
-  const col  = diff >= 0 ? 'var(--green)' : 'var(--red)';
-  const sign = diff >= 0 ? '+' : '';
-  return `<div style="font-size:10px;color:${col};font-weight:700;">${sign}€${Math.abs(diff).toFixed(2).replace('.',',')} (${sign}${pct}%)</div>`;
-}
-
-function variantLabel(variant) {
-  return variant === 'first_ed' ? '1e Editie' : variant === 'shadowless' ? 'Shadowless' : 'Standaard';
-}
-
-function collectionItemHtml(c, psaCache) {
-  const v          = c.variant || 'standard';
-  const condBadge  = c.condition ? `<span class="condition-badge ${conditionClass(c.condition)}">${c.condition}</span>` : '';
-  const psaAdv     = psaCache.get(c.id + v) || psaAdvice(c);
-  const psaBadge   = psaAdv.level !== 'no' ? `<span class="psa-badge psa-${psaAdv.level}">PSA${psaAdv.level === 'yes' ? '⭐' : '?'}</span>` : '';
-  const priceStr   = c.price ? '€' + parseFloat(c.price).toFixed(2).replace('.', ',') : '—';
-  const langFlag   = c.lang === 'NL' ? '🇳🇱' : '🇬🇧';
-  return `<div class="collection-item variant-${v}" data-id="${c.id}" data-variant="${v}">
-    <img src="${c.img}" alt="${c.name}" onerror="this.src=''">
-    <div class="ci-info">
-      <div class="ci-name">${c.name}${(c.qty||1)>1?` <span style="font-size:11px;color:var(--text3);">×${c.qty}</span>`:''}</div>
-      <div class="ci-meta">${c.set} · #${c.number}</div>
-      <div class="ci-meta" style="margin-top:3px;">${c.rarity || ''} ${condBadge}</div>
-    </div>
-    <div class="ci-price">
-      <div class="amount">${priceStr}</div>
-      ${roiHtml(c)}
-      <div class="lang-tag">${langFlag} ${variantLabel(v)}</div>
-      ${psaBadge}
-    </div>
-  </div>`;
-}
-
 function renderCollection() {
-  // Read collection once — avoids multiple localStorage reads per render
   let coll = getCollection();
-
-  // Pre-compute PSA advice for all items so sort and badge share the same result
-  const psaCache = new Map();
-  coll.forEach(c => psaCache.set(c.id + (c.variant || 'standard'), psaAdvice(c)));
-
-  // Filter
-  if (collFilter !== 'all') coll = coll.filter(c => (c.variant || 'standard') === collFilter);
-  if (collSearch) {
-    const q = collSearch; // already lowercased
-    coll = coll.filter(c =>
-      c.name.toLowerCase().includes(q) ||
-      (c.set || '').toLowerCase().includes(q) ||
-      (c.number || '').toLowerCase().includes(q)
-    );
-  }
-
-  // Sort using cached PSA advice
-  coll = [...coll].sort((a, b) => {
-    let va, vb;
-    if (collSort === 'value') {
-      va = (parseFloat(a.price)||0)*(a.qty||1);
-      vb = (parseFloat(b.price)||0)*(b.qty||1);
-    } else if (collSort === 'roi') {
-      va = a.pricePaid > 0 ? ((parseFloat(a.price)||0) - a.pricePaid) / a.pricePaid : -999;
-      vb = b.pricePaid > 0 ? ((parseFloat(b.price)||0) - b.pricePaid) / b.pricePaid : -999;
-    } else if (collSort === 'psa') {
-      const lvl = { yes: 2, maybe: 1, no: 0 };
-      va = lvl[(psaCache.get(a.id + (a.variant||'standard')) || {level:'no'}).level] || 0;
-      vb = lvl[(psaCache.get(b.id + (b.variant||'standard')) || {level:'no'}).level] || 0;
-    } else if (collSort === 'name') {
-      va = a.name; vb = b.name;
-    } else if (collSort === 'set') {
-      va = (a.set||'') + (a.number||'').padStart(6,'0');
-      vb = (b.set||'') + (b.number||'').padStart(6,'0');
-    } else {
-      va = a.priceUpdated || 0; vb = b.priceUpdated || 0;
-    }
-    if (va < vb) return collSortAsc ? -1 : 1;
-    if (va > vb) return collSortAsc ? 1 : -1;
-    return 0;
-  });
+  if (collFilter !== 'all') coll = coll.filter(c => c.lang === collFilter);
 
   const totalBar = document.getElementById('collection-total');
-  const empty    = document.getElementById('coll-empty');
-  const list     = document.getElementById('collection-list');
+  const empty = document.getElementById('coll-empty');
+  const list = document.getElementById('collection-list');
 
   if (!coll.length) {
     totalBar.style.display = 'none';
     empty.style.display = 'block';
-    list.innerHTML = collSearch ? '<div class="no-results">Geen kaarten gevonden voor deze zoekopdracht.</div>' : '';
+    list.innerHTML = '';
     return;
   }
 
   empty.style.display = 'none';
   totalBar.style.display = 'flex';
 
-  // Total from filtered+sorted coll (uses already-read data, no extra localStorage call)
-  const total = coll.reduce((s, c) => s + (parseFloat(c.price)||0) * (c.qty||1), 0);
+  const total = coll.reduce((s, c) => s + (parseFloat(c.price) || 0), 0);
   document.getElementById('coll-total-val').textContent = '€' + total.toFixed(2).replace('.', ',');
 
-  list.innerHTML = coll.map(c => collectionItemHtml(c, psaCache)).join('');
-
-  // Event delegation — one listener on the container
-  list.onclick = async e => {
-    const el = e.target.closest('.collection-item');
-    if (!el) return;
-    const item = coll.find(c => c.id === el.dataset.id && (c.variant||'standard') === el.dataset.variant);
-    if (!item) return;
-    try {
-      const cached = cardCache.get(item.id);
-      if (cached) { openCardDetail(cached, item.variant || 'standard'); return; }
-      const r = await apiFetch(`${API}/cards/${item.id}`);
-      const d = await r.json();
-      if (d.data) { cardCache.set(item.id, d.data); openCardDetail(d.data, item.variant || 'standard'); }
-    } catch { showToast('Kon kaartdetails niet laden'); }
-  };
-}
-
-// Shared Anthropic API request headers
-function anthropicHeaders() {
-  return {
-    'Content-Type': 'application/json',
-    'x-api-key': ANTHROPIC_KEY,
-    'anthropic-version': '2023-06-01',
-    'anthropic-dangerous-direct-browser-access': 'true'
-  };
-}
-
-// Grade score bar — used in condition grading result display
-function gradeScoreBar(label, score) {
-  const w   = Math.round((score / 10) * 100);
-  const col = score >= 9 ? 'var(--green)' : score >= 7 ? 'var(--accent)' : score >= 5 ? '#ffa050' : 'var(--red)';
-  return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
-    <div style="width:70px;font-size:11px;color:var(--text3);">${label}</div>
-    <div style="flex:1;height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;">
-      <div style="width:${w}%;height:100%;background:${col};border-radius:3px;"></div>
+  list.innerHTML = coll.map(c => `
+    <div class="collection-item" data-id="${c.id}">
+      <img src="${c.img}" alt="${c.name}" onerror="this.src=''">
+      <div class="ci-info">
+        <div class="ci-name">${c.name}</div>
+        <div class="ci-meta">${c.set} · #${c.number}</div>
+        <div class="ci-meta" style="margin-top:3px;">${c.rarity || ''}</div>
+      </div>
+      <div class="ci-price">
+        <div class="amount">${c.price ? '€' + parseFloat(c.price).toFixed(2).replace('.', ',') : '—'}</div>
+        <div class="lang-tag">${c.lang === 'NL' ? '🇳🇱 NL' : '🇬🇧 EN'}</div>
+      </div>
     </div>
-    <div style="font-size:11px;font-weight:700;color:${col};width:16px;text-align:right;">${score}</div>
-  </div>`;
-}
+  `).join('');
 
-// ── SCAN / FILE HELPERS ──
-function fileToB64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result.split(',')[1]);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
-}
-
-// ── SCAN SCREEN ──
-
-// Tab switching
-document.getElementById('scan-tabs').querySelectorAll('.pill').forEach(p => {
-  p.addEventListener('click', () => {
-    document.querySelectorAll('#scan-tabs .pill').forEach(x => x.classList.remove('active'));
-    p.classList.add('active');
-    document.getElementById('scan-tab-identify').style.display  = p.dataset.tab === 'identify'  ? 'block' : 'none';
-    document.getElementById('scan-tab-grade').style.display     = p.dataset.tab === 'grade'     ? 'block' : 'none';
-    document.getElementById('scan-tab-appraise').style.display  = p.dataset.tab === 'appraise'  ? 'block' : 'none';
-    // Hide stale results and reset scan state when switching tabs
-    if (p.dataset.tab === 'identify')  { document.getElementById('identify-result').style.display  = 'none'; photoIdentifyB64 = null; }
-    if (p.dataset.tab === 'grade')     { document.getElementById('condition-result').style.display = 'none'; photoFrontB64 = null; photoBackB64 = null; document.getElementById('scan-btn').disabled = true; }
-    if (p.dataset.tab === 'appraise')  { document.getElementById('appraise-result').style.display = 'none'; document.getElementById('appraise-error').style.display = 'none'; photoAppraiseB64 = null; }
-  });
-});
-
-// ── TAB 1: Card Identifier ──
-let photoIdentifyB64 = null;
-
-document.getElementById('photo-identify').addEventListener('change', async e => {
-  const file = e.target.files[0]; if (!file) return;
-  photoIdentifyB64 = await fileToB64(file);
-  const img = document.getElementById('preview-identify');
-  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
-  img._objUrl = URL.createObjectURL(file);
-  img.src = img._objUrl; img.style.display = 'block';
-  document.getElementById('identify-btn').disabled = false;
-  document.getElementById('identify-result').style.display = 'none';
-});
-
-document.getElementById('identify-btn').addEventListener('click', async () => {
-  if (!ANTHROPIC_KEY) { showToast('⚠️ Voeg eerst een Anthropic API-sleutel toe via Statistieken → Instellingen'); return; }
-  const btn     = document.getElementById('identify-btn');
-  const spinner = document.getElementById('identify-spinner');
-  const result  = document.getElementById('identify-result');
-  btn.disabled = true; spinner.style.display = 'flex'; result.style.display = 'none';
-  // Reset search button visibility on each attempt
-  document.getElementById('identify-search-btn').style.display = '';
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: anthropicHeaders(),
-      body: JSON.stringify({
-        model: 'claude-opus-4-7',
-        max_tokens: 300,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoIdentifyB64 } },
-            { type: 'text', text: 'This is a Pokémon TCG card. Identify it precisely using the card art, set symbol, collector number, and any visible text. Respond ONLY with valid JSON, no markdown: {"name":"Charizard","set":"Base Set","setId":"base1","number":"4","language":"Dutch","rarity":"Rare Holo","condition":"NM"}. Rules: always use English card name; setId is the pokemontcg.io set ID (e.g. base1, jungle, swsh1, sv3pt5); detect language from card text (Dutch/English/French/German/Japanese/etc); estimate condition as M/NM/LP/MP/HP/DMG from visible wear. If you cannot identify, return {"error":"could not identify"}.' }
-          ]
-        }]
-      })
-    });
-    const data = await response.json();
-    const text = data.content?.map(i => i.text || '').join('') || '';
-    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
-
-    if (parsed.error) throw new Error(parsed.error);
-
-    document.getElementById('identify-name').textContent = parsed.name || 'Onbekende kaart';
-    document.getElementById('identify-meta').textContent =
-      `${parsed.set || ''}${parsed.number ? ' · #' + parsed.number : ''}${parsed.language ? ' · ' + parsed.language : ''}${parsed.rarity ? ' · ' + parsed.rarity : ''}`;
-
-    // Store full parsed result for the action buttons
-    document.getElementById('identify-result').dataset.parsed = JSON.stringify(parsed);
-    document.getElementById('identify-search-btn').dataset.name = parsed.name || '';
-
-    // Try to auto-fetch the card and show "Direct toevoegen" button
-    const directBtn = document.getElementById('identify-direct-btn');
-    directBtn.style.display = 'none';
-    if (parsed.setId && parsed.number) {
+  list.querySelectorAll('.collection-item').forEach(el => {
+    el.addEventListener('click', async () => {
+      const allColl = getCollection();
+      const item = allColl.find(c => c.id === el.dataset.id);
+      if (!item) return;
+      // Fetch full card data then open overlay
       try {
-        // Build pokemontcg.io card ID: setId-number (e.g. base1-4)
-        const cardId = `${parsed.setId}-${parsed.number}`;
-        const cached = cardCache.get(cardId);
-        let cardData = cached;
-        if (!cardData) {
-          const cr = await apiFetch(`${API}/cards/${cardId}`);
-          if (cr.ok) { const cd = await cr.json(); cardData = cd.data; if (cardData) cardCache.set(cardId, cardData); }
-        }
-        if (cardData) {
-          // Pre-select the detected language
-          directBtn.dataset.cardId = cardId;
-          directBtn.dataset.lang = parsed.language && parsed.language.toLowerCase().includes('dutch') ? 'NL' : 'EN';
-          directBtn.dataset.condition = parsed.condition || '';
-          directBtn.style.display = 'block';
-        }
-      } catch { /* direct add not available, fallback to search */ }
-    }
-
-    result.style.display = 'block';
-  } catch(e) {
-    document.getElementById('identify-name').textContent = 'Kon kaart niet herkennen';
-    document.getElementById('identify-meta').textContent = 'Probeer een duidelijkere foto met goede belichting.';
-    document.getElementById('identify-search-btn').style.display = 'none';
-    document.getElementById('identify-direct-btn').style.display = 'none';
-    result.style.display = 'block';
-  }
-  spinner.style.display = 'none'; btn.disabled = false;
-});
-
-// Direct add button — opens card overlay pre-filled with detected language and condition
-document.getElementById('identify-direct-btn').addEventListener('click', async () => {
-  const btn = document.getElementById('identify-direct-btn');
-  const cardId   = btn.dataset.cardId;
-  const lang     = btn.dataset.lang || 'NL';
-  const condition = btn.dataset.condition || '';
-  if (!cardId) return;
-  try {
-    const cached = cardCache.get(cardId);
-    let cardData = cached;
-    if (!cardData) {
-      const r = await apiFetch(`${API}/cards/${cardId}`);
-      const d = await r.json();
-      cardData = d.data;
-      if (cardData) cardCache.set(cardId, cardData);
-    }
-    if (!cardData) { showToast('Kaartdata niet gevonden'); return; }
-    // Open overlay — selectedLang and selectedCondition will be set inside openCardDetail
-    // We pass the detected values via temporary globals then openCardDetail reads them
-    _scanDetectedLang = lang;
-    _scanDetectedCondition = condition;
-    openCardDetail(cardData, 'standard');
-  } catch { showToast('Kon kaartdetails niet laden'); }
-});
-
-// Wire identify → search (fallback): switch to browse and pre-fill search
-document.getElementById('identify-search-btn').addEventListener('click', () => {
-  const name = document.getElementById('identify-search-btn').dataset.name;
-  if (!name) return;
-  _allNavBtns.forEach(b => b.classList.remove('active'));
-  _navScreens.forEach(s => s.classList.remove('active'));
-  document.querySelector('[data-screen="browse"]').classList.add('active');
-  document.getElementById('screen-browse').classList.add('active');
-  const input = document.getElementById('search-input');
-  input.value = name;
-  input.dispatchEvent(new Event('input'));
-});
-
-// ── TAB 3: Quick Appraise ──
-let photoAppraiseB64 = null;
-
-document.getElementById('photo-appraise').addEventListener('change', async e => {
-  const file = e.target.files[0]; if (!file) return;
-  photoAppraiseB64 = await fileToB64(file);
-  const img = document.getElementById('preview-appraise');
-  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
-  img._objUrl = URL.createObjectURL(file);
-  img.src = img._objUrl; img.style.display = 'block';
-  document.getElementById('appraise-btn').disabled = false;
-  document.getElementById('appraise-result').style.display = 'none';
-  document.getElementById('appraise-error').style.display = 'none';
-});
-
-document.getElementById('appraise-btn').addEventListener('click', async () => {
-  if (!ANTHROPIC_KEY) { showToast('⚠️ Voeg eerst een Anthropic API-sleutel toe via Statistieken → Instellingen'); return; }
-  const btn     = document.getElementById('appraise-btn');
-  const spinner = document.getElementById('appraise-spinner');
-  btn.disabled = true; spinner.style.display = 'flex';
-  document.getElementById('appraise-result').style.display = 'none';
-  document.getElementById('appraise-error').style.display = 'none';
-
-  try {
-    // Step 1: identify the card with Opus 4.7
-    const aiResp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: anthropicHeaders(),
-      body: JSON.stringify({
-        model: 'claude-opus-4-7',
-        max_tokens: 200,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoAppraiseB64 } },
-            { type: 'text', text: 'Identify this Pokémon TCG card precisely. Respond ONLY with valid JSON, no markdown: {"name":"Charizard","set":"Base Set","setId":"base1","number":"4","rarity":"Rare Holo","language":"Dutch"}. setId is the pokemontcg.io set ID. If unidentifiable return {"error":"unidentifiable"}.' }
-          ]
-        }]
-      })
+        const r = await fetch(`${API}/cards/${item.id}`);
+        const d = await r.json();
+        if (d.data) openCardDetail(d.data);
+      } catch { showToast('Kon kaartdetails niet laden'); }
     });
-    const aiData = await aiResp.json();
-    const aiText = aiData.content?.map(i => i.text || '').join('') || '';
-    const card = JSON.parse(aiText.replace(/```json|```/g, '').trim());
-    if (card.error) throw new Error('unidentifiable');
-
-    // Step 2: fetch price data from pokemontcg.io using the identified card
-    const cardId = `${card.setId}-${card.number}`;
-    let cardData = cardCache.get(cardId);
-    if (!cardData) {
-      const r = await apiFetch(`${API}/cards/${cardId}`);
-      if (!r.ok) throw new Error('api error');
-      const d = await r.json();
-      cardData = d.data;
-      if (cardData) cardCache.set(cardId, cardData);
-    }
-    if (!cardData) throw new Error('no card data');
-
-    const cm = cardData.cardmarket?.prices;
-    const trend = cm?.trendPrice ?? null;
-    const avg7  = cm?.avg7 ?? null;
-    const low   = cm?.lowPrice ?? null;
-
-    const fmt = v => v != null ? '€' + v.toFixed(2).replace('.', ',') : '—';
-
-    // Populate result
-    document.getElementById('appraise-name').textContent    = card.name;
-    document.getElementById('appraise-set').textContent     = `${card.set || cardData.set?.name || ''} · #${card.number}`;
-    document.getElementById('appraise-rarity').textContent  = card.rarity || cardData.rarity || '';
-    document.getElementById('appraise-trend').textContent   = fmt(trend);
-    document.getElementById('appraise-avg7').textContent    = fmt(avg7);
-    document.getElementById('appraise-low').textContent     = fmt(low);
-
-    // Card image from API
-    const cardImg = document.getElementById('appraise-card-img');
-    const imgUrl = cardData.images?.small || cardData.images?.large || '';
-    if (imgUrl) { cardImg.src = imgUrl; cardImg.style.display = 'block'; }
-    else { cardImg.style.display = 'none'; }
-
-    // Dutch price note
-    const isNL = (card.language || '').toLowerCase().includes('dutch');
-    document.getElementById('appraise-note').textContent = isNL
-      ? '🇳🇱 Nederlandse kaart gedetecteerd. Cardmarket NL filtert op NL-verkoper en Nederlandse taal voor een nauwkeuriger prijsbeeld.'
-      : '🇬🇧 Engelse kaart gedetecteerd. Cardmarket-prijs is een algemeen Europees gemiddelde.';
-
-    // Wire Cardmarket link
-    const langPath    = isNL ? 'nl' : 'en';
-    const langParam   = isNL ? '&language=7' : '&language=1';
-    const countryParam = isNL ? '&sellerCountry=150' : '';
-    document.getElementById('appraise-cm-btn').onclick = () => {
-      window.open(buildCardmarketUrl(cardData, langPath, langParam, countryParam), '_blank');
-    };
-
-    // Wire Marktplaats link
-    document.getElementById('appraise-mp-btn').onclick = () => {
-      const q = encodeURIComponent(`Pokemon kaart ${card.name} ${card.set || ''}`);
-      window.open(`https://www.marktplaats.nl/q/${q}/#sortBy:SORT_INDEX|sortOrder:DECREASING`, '_blank');
-    };
-
-    document.getElementById('appraise-result').style.display = 'block';
-
-  } catch(e) {
-    document.getElementById('appraise-error').style.display = 'block';
-  }
-
-  spinner.style.display = 'none'; btn.disabled = false;
-});
-
-// ── TAB 2: Condition grading (AI condition grading) ──
-let photoFrontB64 = null;
-let photoBackB64 = null;
-
-document.getElementById('photo-front').addEventListener('change', async e => {
-  const file = e.target.files[0]; if (!file) return;
-  photoFrontB64 = await fileToB64(file);
-  const img = document.getElementById('preview-front');
-  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
-  img._objUrl = URL.createObjectURL(file);
-  img.src = img._objUrl; img.style.display = 'block';
-  document.getElementById('scan-btn').disabled = !(photoFrontB64 && photoBackB64);
-});
-
-document.getElementById('photo-back').addEventListener('change', async e => {
-  const file = e.target.files[0]; if (!file) return;
-  photoBackB64 = await fileToB64(file);
-  const img = document.getElementById('preview-back');
-  if (img._objUrl) URL.revokeObjectURL(img._objUrl);
-  img._objUrl = URL.createObjectURL(file);
-  img.src = img._objUrl; img.style.display = 'block';
-  document.getElementById('scan-btn').disabled = !(photoFrontB64 && photoBackB64);
-});
-
-document.getElementById('scan-btn').addEventListener('click', async () => {
-  if (!ANTHROPIC_KEY) { showToast('⚠️ Voeg eerst een Anthropic API-sleutel toe via Statistieken → Instellingen'); return; }
-  const btn = document.getElementById('scan-btn');
-  const spinner = document.getElementById('scan-spinner');
-  const result = document.getElementById('condition-result');
-  btn.disabled = true; spinner.style.display = 'flex'; result.style.display = 'none';
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: anthropicHeaders(),
-      body: JSON.stringify({
-        model: 'claude-opus-4-7',
-        max_tokens: 600,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoFrontB64 } },
-            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoBackB64 } },
-            { type: 'text', text: 'You are an expert Pokémon TCG card grader with PSA/BGS experience. Examine the front and back photos carefully at high resolution. Score each criterion 1-10 (10=perfect): centering (front), corners (all four), edges (all four sides), surface (scratches, print lines, haze). Then derive a TCG grade: Mint (M)=all 9-10, Near Mint (NM)=minor flaw one area, Lightly Played (LP)=visible wear limited areas, Moderately Played (MP)=clear wear multiple areas, Heavily Played (HP)=major wear, Damaged (DMG)=structural damage. Respond ONLY with valid JSON, no markdown: {"grade":"NM","label":"Near Mint","centering":9,"corners":8,"edges":9,"surface":8,"summary":"Light corner wear on bottom-left. Surface and edges clean. Would likely grade PSA 8-9."}' }
-          ]
-        }]
-      })
-    });
-    const data = await response.json();
-    const text = data.content?.map(i => i.text || '').join('') || '';
-    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
-    const gradeClass = {M:'cond-mint',NM:'cond-nm',LP:'cond-lp',MP:'cond-played',HP:'cond-hp',DMG:'cond-dmg'}[parsed.grade] || 'cond-unknown';
-    document.getElementById('cond-grade').innerHTML = `<span class="condition-badge ${gradeClass}">${parsed.grade}</span> ${parsed.label}`;
-    // Show criteria scores if available
-    const hasScores = parsed.centering && parsed.corners && parsed.edges && parsed.surface;
-    document.getElementById('cond-desc').innerHTML = hasScores
-      ? `<div style="margin-bottom:10px;">
-          ${gradeScoreBar('Centrering', parsed.centering)}
-          ${gradeScoreBar('Hoeken',     parsed.corners)}
-          ${gradeScoreBar('Randen',     parsed.edges)}
-          ${gradeScoreBar('Oppervlak',  parsed.surface)}
-        </div><div style="font-size:13px;color:var(--text2);line-height:1.6;">${parsed.summary}</div>`
-      : `<div style="font-size:13px;color:var(--text2);line-height:1.6;">${parsed.summary}</div>`;
-    result.style.display = 'block';
-  } catch(e) {
-    document.getElementById('cond-grade').textContent = 'Fout bij beoordeling';
-    document.getElementById('cond-desc').textContent = 'Zorg dat beide foto\'s goed zichtbaar zijn en probeer opnieuw.';
-    document.getElementById('condition-result').style.display = 'block';
-  }
-  spinner.style.display = 'none'; btn.disabled = false;
-});
-
-// ── CSV EXPORT ──
-function exportCSV() {
-  const coll = getCollection();
-  if (!coll.length) { showToast('Geen kaarten om te exporteren'); return; }
-  const headers = ['Naam','Set','Nummer','Variant','Taal','Zeldzaamheid','Conditie','Aantal','Betaald (€)','Prijs (€)','Totale waarde (€)','ROI (€)','ROI (%)'];
-  const rows = coll.map(c => {
-    const cur  = (parseFloat(c.price)||0)*(c.qty||1);
-    const paid = (parseFloat(c.pricePaid)||0)*(c.qty||1);
-    const roi  = paid > 0 ? (cur - paid) : '';
-    const roiP = paid > 0 ? (((cur-paid)/paid)*100).toFixed(1) : '';
-    return [
-      `"${(c.name||'').replace(/"/g,'""')}"`,
-      `"${(c.set||'').replace(/"/g,'""')}"`,
-      c.number || '',
-      c.variant === 'first_ed' ? '1e Editie' : c.variant === 'shadowless' ? 'Shadowless' : 'Standaard',
-      c.lang || 'NL',
-      `"${(c.rarity||'').replace(/"/g,'""')}"`,
-      c.condition || '',
-      c.qty || 1,
-      paid ? paid.toFixed(2) : '',
-      (parseFloat(c.price)||0).toFixed(2),
-      cur.toFixed(2),
-      roi !== '' ? roi.toFixed(2) : '',
-      roiP
-    ].join(',');
   });
-  const csv = [headers.join(','), ...rows].join('\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'pokewaarde-collectie.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('✓ CSV geëxporteerd');
-}
-
-// ── STATS SCREEN ──
-function renderStats() {
-  const coll = getCollection();
-  const total = calcTotal(coll);
-  const cardCount = coll.reduce((s, c) => s + (c.qty || 1), 0);
-  document.getElementById('stats-total').textContent = '€' + total.toFixed(2).replace('.', ',');
-  const totalPaid = coll.reduce((s,c) => s + (parseFloat(c.pricePaid)||0)*(c.qty||1), 0);
-  const roiDiff = total - totalPaid;
-  const roiPct  = totalPaid > 0 ? Math.round((roiDiff/totalPaid)*100) : null;
-  const roiTxt  = totalPaid > 0
-    ? ` · ROI: ${roiDiff>=0?'+':''}€${Math.abs(roiDiff).toFixed(2).replace('.',',')} (${roiDiff>=0?'+':''}${roiPct}%)`
-    : '';
-  document.getElementById('stats-count').textContent = `${cardCount} kaart${cardCount !== 1 ? 'en' : ''} · ${coll.length} uniek${roiTxt}`;
-
-  const hist = getHistory();
-  const chartWrap = document.getElementById('chart-wrap');
-  if (hist.length < 2) {
-    chartWrap.innerHTML = '<div style="color:var(--text3);font-size:13px;padding-top:40px;text-align:center;">Open de app dagelijks om de grafiek op te bouwen.</div>';
-  } else {
-    const vals = hist.map(h => h.value);
-    const minV = Math.min(...vals); const maxV = Math.max(...vals);
-    const range = maxV - minV || 1;
-    const W = 300; const H = 140; const PAD = 8;
-    const pts = hist.map((h, i) => {
-      const x = PAD + (i / (hist.length - 1)) * (W - PAD * 2);
-      const y = H - PAD - ((h.value - minV) / range) * (H - PAD * 3);
-      return `${x},${y}`;
-    }).join(' ');
-    chartWrap.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-      <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#f7c948" stop-opacity="0.25"/>
-        <stop offset="100%" stop-color="#f7c948" stop-opacity="0"/>
-      </linearGradient></defs>
-      <polygon points="${pts} ${W-PAD},${H} ${PAD},${H}" fill="url(#cg)"/>
-      <polyline points="${pts}" fill="none" stroke="#f7c948" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-      <text x="${PAD}" y="${H-1}" class="chart-label">${hist[0].date.slice(5)}</text>
-      <text x="${W-PAD}" y="${H-1}" class="chart-label" text-anchor="end">${hist[hist.length-1].date.slice(5)}</text>
-      <text x="${PAD}" y="11" class="chart-label">€${maxV.toFixed(0)}</text>
-      <text x="${PAD}" y="${H-12}" class="chart-label">€${minV.toFixed(0)}</text>
-    </svg>`;
-  }
-
-  const setsEl = document.getElementById('stats-sets');
-  const bySet = {};
-  coll.forEach(c => { if (!bySet[c.set]) bySet[c.set] = 0; bySet[c.set] += (c.qty || 1); });
-  if (!Object.keys(bySet).length) {
-    setsEl.innerHTML = '<div style="color:var(--text3);font-size:13px;">Nog geen kaarten in collectie.</div>';
-  } else {
-    setsEl.innerHTML = Object.entries(bySet).sort((a, b) => b[1] - a[1])
-      .map(([s, n]) => `<div class="set-row"><div class="set-row-name">${s}</div><div class="set-row-count">${n} kaart${n!==1?'en':''}</div></div>`).join('');
-  }
-
-  // Pre-fill settings inputs with current (masked) keys
-  const ptcgInput = document.getElementById('settings-ptcg-key');
-  const anthInput = document.getElementById('settings-anthropic-key');
-  if (ptcgInput && API_KEY)       ptcgInput.placeholder  = API_KEY.slice(0,6) + '••••••••' + API_KEY.slice(-4);
-  if (anthInput && ANTHROPIC_KEY) anthInput.placeholder  = ANTHROPIC_KEY.slice(0,10) + '••••••••' + ANTHROPIC_KEY.slice(-4);
-
-  // Supabase settings
-  const sbUrlInput = document.getElementById('settings-sb-url');
-  const sbKeyInput = document.getElementById('settings-sb-key');
-  const sbSaveBtn  = document.getElementById('sb-save-btn');
-  const sbSyncBtn  = document.getElementById('sb-sync-btn');
-  const sbStatus   = document.getElementById('sb-status');
-  if (sbUrlInput && SB_URL) sbUrlInput.placeholder = SB_URL;
-  if (sbKeyInput && SB_KEY) sbKeyInput.placeholder  = SB_KEY.slice(0,12) + '••••••••';
-  // Note: sbSaveBtn and sbSyncBtn are wired once at startup (see initSupabaseButtons)
-}
-
-function initSupabaseButtons() {
-  const sbSaveBtn  = document.getElementById('sb-save-btn');
-  const sbSyncBtn  = document.getElementById('sb-sync-btn');
-  if (sbSaveBtn) sbSaveBtn.addEventListener('click', () => {
-    const sbStatus   = document.getElementById('sb-status');
-    const url = document.getElementById('settings-sb-url')?.value.trim() || '';
-    const key = document.getElementById('settings-sb-key')?.value.trim() || '';
-    if (!url || !url.startsWith('https://')) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='Voer een geldige URL in (https://…)';} return; }
-    if (!key || key.length < 20) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='Voer een geldige publishable key in (sb_publishable_… of eyJ…)';} return; }
-    SB_URL = url; SB_KEY = key;
-    localStorage.setItem('sb_url', url); localStorage.setItem('sb_key', key);
-    document.getElementById('settings-sb-url').value = '';
-    document.getElementById('settings-sb-url').placeholder = url;
-    document.getElementById('settings-sb-key').value = '';
-    document.getElementById('settings-sb-key').placeholder = key.slice(0,16) + '••••••••';
-    if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent='✓ Supabase instellingen opgeslagen';}
-  });
-  if (sbSyncBtn) sbSyncBtn.addEventListener('click', () => sbPull());
-}
-
-function saveSettingsKey(type) {
-  if (type === 'ptcg') {
-    const val = document.getElementById('settings-ptcg-key').value.trim();
-    if (!val || val.length < 10) { showToast('⚠️ Voer een geldige sleutel in'); return; }
-    API_KEY = val;
-    localStorage.setItem('ptcg_api_key', val);
-    document.getElementById('settings-ptcg-key').value = '';
-    document.getElementById('settings-ptcg-key').placeholder = val.slice(0,6) + '••••••••' + val.slice(-4);
-    showToast('✓ Pokémon TCG sleutel opgeslagen');
-  } else {
-    const val = document.getElementById('settings-anthropic-key').value.trim();
-    if (!val || val.length < 10) { showToast('⚠️ Voer een geldige sleutel in'); return; }
-    ANTHROPIC_KEY = val;
-    localStorage.setItem('anthropic_api_key', val);
-    document.getElementById('settings-anthropic-key').value = '';
-    document.getElementById('settings-anthropic-key').placeholder = val.slice(0,10) + '••••••••' + val.slice(-4);
-    updateScanTabVisibility();
-    showToast('✓ Anthropic sleutel opgeslagen');
-  }
-}
-
-// ── PRICE AUTO-UPDATE (background, once per 24h per card) ──
-async function updateCollectionPrices() {
-  // Fetch fresh card data from pokemontcg.io (which includes Cardmarket prices)
-  // for any card not updated in the last 24 hours.
-  const coll = getCollection();
-  const now = Date.now();
-  let anyUpdated = false;
-
-  // Batch: collect IDs that need updating
-  const toUpdate = coll.filter(item => now - (item.priceUpdated || 0) >= 86400000);
-  if (!toUpdate.length) return;
-
-  // Deduplicate by card id — multiple variants share one market price, one fetch is enough
-  const seenIds = new Set();
-  const uniqueToUpdate = toUpdate.filter(item => { if (seenIds.has(item.id)) return false; seenIds.add(item.id); return true; });
-  for (const item of uniqueToUpdate) {
-    try {
-      const r = await apiFetch(`${API}/cards/${item.id}`);
-      if (!r.ok) continue;
-      const d = await r.json();
-      const cm = d.data?.cardmarket?.prices;
-      if (!cm) continue;
-      const price = cm.trendPrice ?? cm.averageSellPrice ?? cm.lowPrice ?? null;
-      if (price === null) continue;
-      // Update all entries in coll with this id (different variants share a market price)
-      coll.filter(c => c.id === item.id).forEach(c => {
-        c.price = price;
-        c.priceUpdated = now;
-      });
-      anyUpdated = true;
-      // Small delay to avoid rate limiting
-      await new Promise(r => setTimeout(r, 150));
-    } catch { /* skip silently */ }
-  }
-
-  if (anyUpdated) {
-    saveCollection(coll);
-    if (SB_URL && SB_KEY) sbPush(activeCollId()).catch(() => {});
-    updateTopbarTotal();
-    recordSnapshot();
-    showToast('✓ Prijzen bijgewerkt');
-  }
 }
 
 // Init
 updateTopbarTotal();
-recordSnapshot();
-initCollections();
-updateTopbarCollName();
-initSupabaseButtons();
-initQtyButtons();
-updateScanTabVisibility();
-// checkSetup is async (fetches config.json) — run in IIFE
-(async () => {
-  await checkSetup();
-  setTimeout(updateCollectionPrices, 3000);
-})();
+loadSets();
 </script>
 </body>
 </html>
