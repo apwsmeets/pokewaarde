@@ -558,7 +558,7 @@
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
       <div class="variant-bar" id="set-variant-bar" style="display:none;flex:1;margin-bottom:0;"></div>
-      <button id="variant-info-btn" style="display:none;background:none;border:1px solid var(--border2);color:var(--text3);border-radius:50%;width:24px;height:24px;font-size:13px;cursor:pointer;flex-shrink:0;line-height:1;">ℹ</button>
+      <button id="variant-info-btn" style="display:none;background:var(--accent);border:none;color:#1a1000;border-radius:50%;width:26px;height:26px;font-size:13px;font-weight:900;cursor:pointer;flex-shrink:0;line-height:1;box-shadow:0 2px 8px rgba(247,201,72,0.4);">ℹ</button>
     </div>
     <div class="spinner" id="cards-spinner"><div class="spinner-ring"></div></div>
     <div class="card-grid" id="cards-in-set"></div>
@@ -963,7 +963,10 @@ CREATE POLICY "public rw" ON pokewaarde_collections FOR ALL USING (true) WITH CH
       <button class="lang-btn" data-lang="EN">🇬🇧 EN</button>
     </div>
 
-    <div class="section-label" style="margin-top:16px;">Variant</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:16px;margin-bottom:6px;">
+      <div class="section-label" style="margin:0;">Variant</div>
+      <button id="ov-variant-info-btn" style="background:var(--accent);border:none;color:#1a1000;border-radius:50%;width:22px;height:22px;font-size:12px;font-weight:900;cursor:pointer;line-height:1;flex-shrink:0;box-shadow:0 2px 8px rgba(247,201,72,0.4);">ℹ</button>
+    </div>
     <div class="variant-bar" id="ov-variant-bar"></div>
 
     <div class="section-label" style="margin-top:16px;">Huidige prijs (Cardmarket)</div>
@@ -1386,6 +1389,10 @@ if (_newCollBtn) _newCollBtn.addEventListener('click', () => {
 
 // ── VARIANT INFO OVERLAY ──
 document.getElementById('variant-info-btn').addEventListener('click', () => {
+  document.getElementById('variant-info-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+});
+document.getElementById('ov-variant-info-btn').addEventListener('click', () => {
   document.getElementById('variant-info-overlay').style.display = 'block';
   document.body.style.overflow = 'hidden';
 });
