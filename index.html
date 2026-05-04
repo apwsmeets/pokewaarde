@@ -251,6 +251,8 @@
   /* Variant buttons */
   .variant-bar { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
   .variant-btn { padding: 7px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; border: 1px solid var(--border2); background: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .print-run-btn { padding: 7px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; border: 1px solid var(--border2); background: none; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .print-run-btn.active { background: var(--accent); border-color: var(--accent); color: #1a1000; }
   .variant-btn:hover { border-color: var(--border-accent); }
   .variant-btn.active { background: var(--accent); border-color: var(--accent); color: #1a1000; }
 
@@ -2111,8 +2113,8 @@ function openCardDetail(card, variantHint = 'standard') {
   }
 
   const vBar = document.getElementById('ov-variant-bar');
-  let vHtml = '<button class="variant-btn print-run-btn" data-run="standard">Unlimited</button>';
-  if (hasShadowless) vHtml += '<button class="variant-btn print-run-btn" data-run="shadowless">✨ Shadowless</button>';
+  let vHtml = '<button class="print-run-btn" data-run="standard">Unlimited</button>';
+  if (hasShadowless) vHtml += '<button class="print-run-btn" data-run="shadowless">✨ Shadowless</button>';
   if (hasFirstEd) {
     vHtml += `<label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:var(--text2);cursor:pointer;">
       <input type="checkbox" id="ov-first-ed-cb" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;" ${_isFirstEd ? 'checked' : ''}>
