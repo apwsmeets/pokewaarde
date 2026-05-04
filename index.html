@@ -1909,12 +1909,21 @@ function cmSearchUrl(langPath, name, setSlug, langParam, countryParam, code, num
   return `https://www.cardmarket.com/${langPath}/Pokemon/Products/Singles/${setSlug}${query}`;
 }
 
-function buildCardmarketUrl(card, langPath, langParam, countryParam, variant) {
+// Cardmarket minCondition values (their EU scale):
+// MT=1, NM=2, EX=3, GD=4, LP=5, PL=6, PO=7
+// Our app uses US-style: M→1, NM→2, LP→3(EX), MP→4(GD), HP→6(PL), DMG→7(PO)
+const CM_CONDITION_MAP = { M: 1, NM: 2, LP: 3, MP: 4, HP: 6, DMG: 7 };
+
+function buildCardmarketUrl(card, langPath, langParam, countryParam, variant, condition) {
   const setId    = card.set?.id || '';
   const name     = card.name || '';
   const number   = card.number || '';
   const nameSlug = name.replace(/[^a-zA-Z0-9 \-]/g, '').trim().replace(/ +/g, '-');
-  const params   = [langParam, countryParam].filter(Boolean).join('');
+  // Build extra filter params: condition and first edition flag
+  const condNum   = condition ? CM_CONDITION_MAP[condition] : null;
+  const condParam = condNum ? `&minCondition=${condNum}` : '';
+  const firstEdParam = (variant === 'first_ed') ? '&isFirstEd=Y' : '';
+  const params   = [langParam, countryParam, condParam, firstEdParam].filter(Boolean).join('');
   const query    = params ? '?' + params.replace(/^&/, '') : '';
 
   // Check per-card override first (handles unnumbered promos like Ancient Mew)
@@ -2086,7 +2095,7 @@ function openCardDetail(card, variantHint = 'standard') {
       const vLangParam    = selectedLang === 'NL' ? '&language=12' : '&language=1';
       const vCountryParam = '';
       document.getElementById('ov-cm-btn').onclick = () => {
-        window.open(buildCardmarketUrl(card, vLangPath, vLangParam, vCountryParam, selectedVariant), '_blank');
+        window.open(buildCardmarketUrl(card, vLangPath, vLangParam, vCountryParam, selectedVariant, selectedCondition), '_blank');
       };
     };
   });
@@ -2140,7 +2149,7 @@ function openCardDetail(card, variantHint = 'standard') {
     const langPath = 'en';
     const langParam = selectedLang === 'NL' ? '&language=12' : '&language=1';
     const countryParam = '';
-    const url = buildCardmarketUrl(card, langPath, langParam, countryParam, selectedVariant);
+    const url = buildCardmarketUrl(card, langPath, langParam, countryParam, selectedVariant, selectedCondition);
     window.open(url, '_blank');
   };
 
@@ -2744,7 +2753,7 @@ document.getElementById('appraise-btn').addEventListener('click', async () => {
     const langParam   = isNL ? '&language=12' : '&language=1';
     const countryParam = '';
     document.getElementById('appraise-cm-btn').onclick = () => {
-      window.open(buildCardmarketUrl(cardData, langPath, langParam, countryParam), '_blank');
+      window.open(buildCardmarketUrl(cardData, langPath, langParam, countryParam, null, null), '_blank');
     };
 
     // Wire Marktplaats link
