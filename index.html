@@ -1576,23 +1576,45 @@ function openSet(setId) {
   document.getElementById('cards-spinner').style.display = 'flex';
   document.getElementById('cards-in-set').innerHTML = '';
 
-  // Show variant buttons for eligible sets
+  // Show variant controls for eligible sets — print run buttons + 1st Ed checkbox
   const varBar = document.getElementById('set-variant-bar');
-  let vHtml = '<button class="variant-btn active" data-variant="standard">Unlimited</button>';
-  if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
-  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
-  if (FIRST_ED_SETS.has(setId) || SHADOWLESS_SETS.has(setId)) {
+  const bHasShadowless = SHADOWLESS_SETS.has(setId);
+  const bHasFirstEd    = FIRST_ED_SETS.has(setId);
+  if (bHasShadowless || bHasFirstEd) {
+    let bPrintRun  = 'standard';
+    let bIsFirstEd = false;
+    function bComputeVariant() {
+      if (bPrintRun === 'shadowless') return bIsFirstEd ? 'first_ed_shadowless' : 'shadowless';
+      return bIsFirstEd ? 'first_ed' : 'standard';
+    }
+    function bRefresh() {
+      currentVariant = bComputeVariant();
+      varBar.querySelectorAll('.print-run-btn').forEach(x =>
+        x.classList.toggle('active', x.dataset.run === bPrintRun));
+      const vc = renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
+      updateSetProgress(currentSetCards, vc);
+    }
+    let vHtml = '<button class="print-run-btn active" data-run="standard">Unlimited</button>';
+    if (bHasShadowless) vHtml += '<button class="print-run-btn" data-run="shadowless">✨ Shadowless</button>';
+    if (bHasFirstEd) {
+      vHtml += `<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;">
+        <input type="checkbox" id="browse-first-ed-cb" style="width:15px;height:15px;accent-color:var(--accent);cursor:pointer;">
+        🥇 1e Editie
+      </label>`;
+    }
     varBar.innerHTML = vHtml;
     varBar.style.display = 'flex';
     document.getElementById('variant-info-btn').style.display = 'flex';
-    varBar.querySelectorAll('.variant-btn').forEach(b => {
+    varBar.querySelectorAll('.print-run-btn').forEach(b => {
       b.addEventListener('click', () => {
-        varBar.querySelectorAll('.variant-btn').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        currentVariant = b.dataset.variant;
-        const vc = renderCardGrid(currentSetCards, document.getElementById('cards-in-set'), currentVariant);
-        updateSetProgress(currentSetCards, vc);
+        bPrintRun = b.dataset.run;
+        bRefresh();
       });
+    });
+    const bCb = document.getElementById('browse-first-ed-cb');
+    if (bCb) bCb.addEventListener('change', () => {
+      bIsFirstEd = bCb.checked;
+      bRefresh();
     });
   }
   loadCardsInSet(setId);
@@ -2012,13 +2034,12 @@ function fetchCardmarketPrice(card, collSnap) {
   // print runs (Unlimited + Shadowless + 1st Edition listings combined).
   // Warn the user and point them to the correct Cardmarket version page.
   const isBase1AltVariant = (card.set?.id === 'base1') &&
-    (selectedVariant === 'first_ed' || selectedVariant === 'shadowless');
+    (selectedVariant !== 'standard');
   if (isBase1AltVariant) {
-    const varName    = selectedVariant === 'first_ed' ? '1e Editie' : 'Shadowless';
-    const verLabel   = selectedVariant === 'first_ed' ? 'V3' : 'V2';
+    const varName = variantLabel(selectedVariant);
     statusEl.style.color = 'var(--accent)';
     statusEl.textContent = `⚠️ Gemengde prijs (alle drukken) — trend €${price.toFixed(2)}. `
-      + `${varName} (${verLabel}) heeft een hogere marktprijs. Klik Cardmarket voor de echte ${varName}-prijs.`;
+      + `${varName} heeft een hogere marktprijs. Klik Cardmarket voor de echte ${varName}-prijs.`;
   } else {
     statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
   }
