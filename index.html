@@ -104,6 +104,10 @@
     font-family: var(--font-body); font-size: 10px; cursor: pointer;
     transition: color 0.2s; position: relative; padding-top: 6px;
   }
+  .nav-btn[style*="display:none"], .nav-btn[style*="display: none"] {
+    display: none !important; flex: 0 !important; width: 0 !important;
+    padding: 0 !important; overflow: hidden !important; pointer-events: none !important;
+  }
   .nav-btn::before {
     content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
     width: 0; height: 2px; background: var(--accent); border-radius: 0 0 2px 2px;
@@ -1486,7 +1490,10 @@ async function loadSets() {
     sets = (d.data || []).sort((a, b) => {
       const da = a.releaseDate || '0000/00/00';
       const db = b.releaseDate || '0000/00/00';
-      return da.localeCompare(db);
+      // Use direct string comparison — "YYYY/MM/DD" format sorts correctly lexicographically
+      if (da < db) return -1;
+      if (da > db) return 1;
+      return 0;
     });
     renderSets(sets);
   } catch(e) {
@@ -2877,20 +2884,7 @@ function renderStats() {
       .map(([s, n]) => `<div class="set-row"><div class="set-row-name">${s}</div><div class="set-row-count">${n} kaart${n!==1?'en':''}</div></div>`).join('');
   }
 
-  // Pre-fill settings inputs with current (masked) keys
-  const ptcgInput = document.getElementById('settings-ptcg-key');
-  const anthInput = document.getElementById('settings-anthropic-key');
-  if (ptcgInput && API_KEY)       ptcgInput.placeholder  = API_KEY.slice(0,6) + '••••••••' + API_KEY.slice(-4);
-  if (anthInput && ANTHROPIC_KEY) anthInput.placeholder  = ANTHROPIC_KEY.slice(0,10) + '••••••••' + ANTHROPIC_KEY.slice(-4);
-
-  // Supabase settings
-  const sbUrlInput = document.getElementById('settings-sb-url');
-  const sbKeyInput = document.getElementById('settings-sb-key');
-  const sbSaveBtn  = document.getElementById('sb-save-btn');
-  const sbSyncBtn  = document.getElementById('sb-sync-btn');
-  const sbStatus   = document.getElementById('sb-status');
-  if (sbUrlInput && SB_URL) sbUrlInput.placeholder = SB_URL;
-  if (sbKeyInput && SB_KEY) sbKeyInput.placeholder  = SB_KEY.slice(0,12) + '••••••••';
+  // Settings are rendered by renderSettingsScreen() when the Instellingen tab opens
   // Note: sbSaveBtn and sbSyncBtn are wired once at startup (see initSupabaseButtons)
 }
 
