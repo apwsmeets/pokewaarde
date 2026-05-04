@@ -2082,9 +2082,9 @@ function openCardDetail(card, variantHint = 'standard') {
       refreshActionButtons();
       // Refresh price status + CM link for new variant
       fetchCardmarketPrice(card, collSnap);
-      const vLangPath     = selectedLang === 'NL' ? 'nl' : 'en';
-      const vLangParam    = selectedLang === 'NL' ? '&language=7' : '&language=1';
-      const vCountryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
+      const vLangPath     = 'en';
+      const vLangParam    = selectedLang === 'NL' ? '&language=12' : '&language=1';
+      const vCountryParam = '';
       document.getElementById('ov-cm-btn').onclick = () => {
         window.open(buildCardmarketUrl(card, vLangPath, vLangParam, vCountryParam, selectedVariant), '_blank');
       };
@@ -2137,9 +2137,9 @@ function openCardDetail(card, variantHint = 'standard') {
   // Cardmarket link — builds the most precise URL possible using a set slug mapping table.
   // Falls back to a search URL if the set isn't in the mapping.
   document.getElementById('ov-cm-btn').onclick = () => {
-    const langPath = selectedLang === 'NL' ? 'nl' : 'en';
-    const langParam = selectedLang === 'NL' ? '&language=7' : '&language=1';
-    const countryParam = selectedLang === 'NL' ? '&sellerCountry=150' : '';
+    const langPath = 'en';
+    const langParam = selectedLang === 'NL' ? '&language=12' : '&language=1';
+    const countryParam = '';
     const url = buildCardmarketUrl(card, langPath, langParam, countryParam, selectedVariant);
     window.open(url, '_blank');
   };
@@ -2740,9 +2740,9 @@ document.getElementById('appraise-btn').addEventListener('click', async () => {
       : '🇬🇧 Engelse kaart gedetecteerd. Cardmarket-prijs is een algemeen Europees gemiddelde.';
 
     // Wire Cardmarket link
-    const langPath    = isNL ? 'nl' : 'en';
-    const langParam   = isNL ? '&language=7' : '&language=1';
-    const countryParam = isNL ? '&sellerCountry=150' : '';
+    const langPath    = 'en';
+    const langParam   = isNL ? '&language=12' : '&language=1';
+    const countryParam = '';
     document.getElementById('appraise-cm-btn').onclick = () => {
       window.open(buildCardmarketUrl(cardData, langPath, langParam, countryParam), '_blank');
     };
