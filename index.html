@@ -1279,17 +1279,20 @@ function sbHeaders() {
 
 async function sbPush(collId) {
   if (!SB_URL || !SB_KEY) return;
-  const coll = getCollection();
-  const hist = getHistory();
-  const name = activeCollName();
+  // Read the specific collection's data by ID — not the active collection
+  const idx   = getCollections() || [];
+  const entry = idx.find(c => c.id === collId);
+  if (!entry) return;
+  const cards = (() => { try { return JSON.parse(localStorage.getItem('coll_' + collId) || '[]'); } catch { return []; } })();
+  const hist  = (() => { try { return JSON.parse(localStorage.getItem('hist_'  + collId) || '[]'); } catch { return []; } })();
   try {
     const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
       method: 'POST',
       headers: sbHeaders(),
-      body: JSON.stringify({ id: collId, name, cards: coll, history: hist, updated_at: new Date().toISOString() })
+      body: JSON.stringify({ id: collId, name: entry.name, cards, history: hist, updated_at: new Date().toISOString() })
     });
     if (!r.ok) throw new Error(await r.text());
-  } catch(e) { console.warn('Supabase push failed:', e); }
+  } catch(e) { /* push failed silently — will retry on next save */ }
 }
 
 async function sbPull() {
@@ -1329,18 +1332,24 @@ async function sbPull() {
         localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
         changed = true;
       } else {
-        // Update local data with remote
-        localEntry.name = row.name;
-        localStorage.setItem('coll_' + row.id, JSON.stringify(row.cards || []));
-        localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
-        changed = true;
+        // Only overwrite local if remote was updated more recently
+        const remoteTime = row.updated_at ? new Date(row.updated_at).getTime() : 0;
+        const localCards = (() => { try { return JSON.parse(localStorage.getItem('coll_' + row.id) || '[]'); } catch { return []; } })();
+        // Check the most recent local card update as a proxy for local freshness
+        const localTime  = localCards.reduce((t, c) => Math.max(t, c.priceUpdated || 0), 0);
+        if (remoteTime >= localTime) {
+          localEntry.name = row.name;
+          localStorage.setItem('coll_' + row.id, JSON.stringify(row.cards || []));
+          localStorage.setItem('hist_' + row.id, JSON.stringify(row.history || []));
+          changed = true;
+        }
       }
     }
     if (changed) {
       localStorage.setItem('coll_index', JSON.stringify(index)); invalidateCollIndex();
       updateTopbarCollName();
       renderCollection();
-      updateTopbarTotal();
+      updateTopbarTotal(getCollection());
       renderCollectionsManager();
     }
     if (sbStatus) { sbStatus.style.color = 'var(--green)'; sbStatus.textContent = `✓ Gesynchroniseerd — ${rows.length} collectie(s)`; }
@@ -2903,7 +2912,7 @@ function initSupabaseButtons() {
     document.getElementById('settings-sb-url').placeholder = url;
     document.getElementById('settings-sb-key').value = '';
     document.getElementById('settings-sb-key').placeholder = key.slice(0,16) + '••••••••';
-    if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent='✓ Supabase instellingen opgeslagen';}
+    if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent='✓ Supabase instellingen opgeslagen — klik Synchroniseren om te starten';}
   });
   if (sbSyncBtn) sbSyncBtn.addEventListener('click', () => sbPull());
 }
