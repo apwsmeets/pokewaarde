@@ -1577,8 +1577,8 @@ function openSet(setId) {
   // Show variant buttons for eligible sets
   const varBar = document.getElementById('set-variant-bar');
   let vHtml = '<button class="variant-btn active" data-variant="standard">Unlimited</button>';
-  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
   if (SHADOWLESS_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
+  if (FIRST_ED_SETS.has(setId))   vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Editie</button>';
   if (FIRST_ED_SETS.has(setId) || SHADOWLESS_SETS.has(setId)) {
     varBar.innerHTML = vHtml;
     varBar.style.display = 'flex';
@@ -2074,36 +2074,70 @@ function openCardDetail(card, variantHint = 'standard') {
   fetchCardmarketPrice(card, collSnap);
   // qty buttons wired once at startup via initQtyButtons()
 
-  // Variant buttons: Standard always; 1st Ed for eligible sets; Shadowless for Base Set only
+  // Variant UI: two independent controls
+  //   Print run: Unlimited / Shadowless (only for base1)
+  //   1st Edition: toggle (only for FIRST_ED_SETS)
+  // Combined into selectedVariant: standard | shadowless | first_ed | first_ed_shadowless
+  const hasShadowless = SHADOWLESS_SETS.has(setId);
+  const hasFirstEd    = FIRST_ED_SETS.has(setId);
+
+  // Decompose current selectedVariant into print run + 1st Ed state
+  let _printRun = (selectedVariant === 'shadowless' || selectedVariant === 'first_ed_shadowless') ? 'shadowless' : 'standard';
+  let _isFirstEd = (selectedVariant === 'first_ed' || selectedVariant === 'first_ed_shadowless');
+
+  function _computeVariant() {
+    if (_printRun === 'shadowless') return _isFirstEd ? 'first_ed_shadowless' : 'shadowless';
+    return _isFirstEd ? 'first_ed' : 'standard';
+  }
+
+  function _onVariantChange() {
+    selectedVariant = _computeVariant();
+    const variantEntry = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
+    _ovPriceEl.value = variantEntry ? (variantEntry.price || '') : '';
+    _ovPaidEl.value  = variantEntry ? (variantEntry.pricePaid || '') : '';
+    refreshActionButtons();
+    fetchCardmarketPrice(card, collSnap);
+    document.getElementById('ov-cm-btn').onclick = () => {
+      const lp = selectedLang === 'NL' ? '&language=12' : '&language=1';
+      window.open(buildCardmarketUrl(card, 'en', lp, '', selectedVariant, selectedCondition), '_blank');
+    };
+    // Update print run button active states
+    const vBar = document.getElementById('ov-variant-bar');
+    vBar.querySelectorAll('.print-run-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.run === _printRun));
+    // Update 1st Ed checkbox
+    const cb = document.getElementById('ov-first-ed-cb');
+    if (cb) cb.checked = _isFirstEd;
+  }
+
   const vBar = document.getElementById('ov-variant-bar');
-  let vHtml = '<button class="variant-btn" data-variant="standard">Unlimited</button>';
-  if (FIRST_ED_SETS.has(setId)) vHtml += '<button class="variant-btn" data-variant="first_ed">🥇 1e Ed.</button>';
-  if (SHADOWLESS_SETS.has(setId)) {
-    vHtml += '<button class="variant-btn" data-variant="shadowless">✨ Shadowless</button>';
-    vHtml += '<button class="variant-btn" data-variant="first_ed_shadowless">🥇✨ 1e Ed. Shadowless</button>';
+  let vHtml = '<button class="variant-btn print-run-btn" data-run="standard">Unlimited</button>';
+  if (hasShadowless) vHtml += '<button class="variant-btn print-run-btn" data-run="shadowless">✨ Shadowless</button>';
+  if (hasFirstEd) {
+    vHtml += `<label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:var(--text2);cursor:pointer;">
+      <input type="checkbox" id="ov-first-ed-cb" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;" ${_isFirstEd ? 'checked' : ''}>
+      🥇 1e Editie
+    </label>`;
   }
   vBar.innerHTML = vHtml;
-  vBar.querySelectorAll('.variant-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.variant === selectedVariant);
+
+  // Wire print run buttons
+  vBar.querySelectorAll('.print-run-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.run === _printRun);
     b.onclick = () => {
-      selectedVariant = b.dataset.variant;
-      // Pre-fill price from any existing entry for this variant (first match)
-      const variantEntry = collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
-      _ovPriceEl.value = variantEntry ? (variantEntry.price || '') : '';
-      _ovPaidEl.value  = variantEntry ? (variantEntry.pricePaid || '') : '';
-      vBar.querySelectorAll('.variant-btn').forEach(x => x.classList.toggle('active', x.dataset.variant === selectedVariant));
-      // Recheck add/remove state for full key (variant+lang+condition)
-      refreshActionButtons();
-      // Refresh price status + CM link for new variant
-      fetchCardmarketPrice(card, collSnap);
-      const vLangPath     = 'en';
-      const vLangParam    = selectedLang === 'NL' ? '&language=12' : '&language=1';
-      const vCountryParam = '';
-      document.getElementById('ov-cm-btn').onclick = () => {
-        window.open(buildCardmarketUrl(card, vLangPath, vLangParam, vCountryParam, selectedVariant, selectedCondition), '_blank');
-      };
+      _printRun = b.dataset.run;
+      // Shadowless only available for base1 — if switching to non-shadowless set, reset
+      if (_printRun === 'shadowless' && !hasShadowless) _printRun = 'standard';
+      _onVariantChange();
     };
   });
+
+  // Wire 1st Ed checkbox
+  const _firstEdCb = document.getElementById('ov-first-ed-cb');
+  if (_firstEdCb) _firstEdCb.onchange = () => {
+    _isFirstEd = _firstEdCb.checked;
+    _onVariantChange();
+  };
 
   // Condition pills
   selectedCondition = existing ? (existing.condition || '') : (_scanDetectedCondition || '');
