@@ -837,6 +837,14 @@
         ☁ Nu synchroniseren
       </button>
     </div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <button id="sb-test-btn" style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:12px;cursor:pointer;">
+        🔍 Test verbinding
+      </button>
+      <button id="sb-push-btn" style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:12px;cursor:pointer;">
+        ↑ Forceer upload
+      </button>
+    </div>
     <div id="sb-status" style="font-size:11px;color:var(--text3);min-height:16px;"></div>
     <div style="font-size:11px;color:var(--text3);margin-top:8px;line-height:1.6;">
       Voer eenmalig in de Supabase SQL-editor uit:<br>
@@ -1286,13 +1294,18 @@ async function sbPush(collId) {
   const cards = (() => { try { return JSON.parse(localStorage.getItem('coll_' + collId) || '[]'); } catch { return []; } })();
   const hist  = (() => { try { return JSON.parse(localStorage.getItem('hist_'  + collId) || '[]'); } catch { return []; } })();
   try {
-    const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
+    // Use ?on_conflict=id so PostgREST knows to upsert on the primary key
+    const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?on_conflict=id`, {
       method: 'POST',
       headers: sbHeaders(),
       body: JSON.stringify({ id: collId, name: entry.name, cards, history: hist, updated_at: new Date().toISOString() })
     });
     if (!r.ok) throw new Error(await r.text());
-  } catch(e) { /* push failed silently — will retry on next save */ }
+  } catch(e) {
+    // Show error in settings screen if visible
+    const sbStatus = document.getElementById('sb-status');
+    if (sbStatus) { sbStatus.style.color = 'var(--red)'; sbStatus.textContent = '✗ Push mislukt: ' + e.message; }
+  }
 }
 
 async function sbPull() {
@@ -1312,7 +1325,7 @@ async function sbPull() {
         // Read each collection's data directly without changing active_coll_id
         const cards = (() => { try { return JSON.parse(localStorage.getItem('coll_' + c.id) || '[]'); } catch { return []; } })();
         const hist  = (() => { try { return JSON.parse(localStorage.getItem('hist_'  + c.id) || '[]'); } catch { return []; } })();
-        await fetch(`${SB_URL}/rest/v1/pokewaarde_collections`, {
+        await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?on_conflict=id`, {
           method: 'POST', headers: sbHeaders(),
           body: JSON.stringify({ id: c.id, name: c.name, cards, history: hist, updated_at: new Date().toISOString() })
         }).catch(() => {});
@@ -2915,6 +2928,53 @@ function initSupabaseButtons() {
     if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent='✓ Supabase instellingen opgeslagen — klik Synchroniseren om te starten';}
   });
   if (sbSyncBtn) sbSyncBtn.addEventListener('click', () => sbPull());
+
+  const sbTestBtn = document.getElementById('sb-test-btn');
+  const sbPushBtn = document.getElementById('sb-push-btn');
+
+  if (sbTestBtn) sbTestBtn.addEventListener('click', async () => {
+    const sbStatus = document.getElementById('sb-status');
+    if (!SB_URL || !SB_KEY) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='⚠️ Voer eerst een URL en sleutel in';} return; }
+    if(sbStatus){sbStatus.style.color='var(--text3)';sbStatus.textContent='Verbinding testen…';}
+    try {
+      // Test 1: can we read the table?
+      const r = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?select=id,name,updated_at`, { headers: sbHeaders() });
+      if (!r.ok) { const t = await r.text(); throw new Error(`Lezen mislukt (${r.status}): ${t.slice(0,120)}`); }
+      const rows = await r.json();
+      // Test 2: can we write a test row?
+      const testId = '__test__';
+      const w = await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?on_conflict=id`, {
+        method: 'POST', headers: sbHeaders(),
+        body: JSON.stringify({ id: testId, name: '__test__', cards: [], history: [], updated_at: new Date().toISOString() })
+      });
+      if (!w.ok) { const t = await w.text(); throw new Error(`Schrijven mislukt (${w.status}): ${t.slice(0,120)}`); }
+      // Clean up test row
+      await fetch(`${SB_URL}/rest/v1/pokewaarde_collections?id=eq.${testId}`, { method: 'DELETE', headers: sbHeaders() });
+      if(sbStatus){sbStatus.style.color='var(--green)';sbStatus.textContent=`✓ Verbinding OK — ${rows.length} collectie(s) in Supabase. Lezen ✓ Schrijven ✓`;}
+    } catch(e) {
+      if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='✗ ' + e.message;}
+    }
+  });
+
+  if (sbPushBtn) sbPushBtn.addEventListener('click', async () => {
+    const sbStatus = document.getElementById('sb-status');
+    if (!SB_URL || !SB_KEY) { if(sbStatus){sbStatus.style.color='var(--red)';sbStatus.textContent='⚠️ Voer eerst een URL en sleutel in';} return; }
+    if(sbStatus){sbStatus.style.color='var(--text3)';sbStatus.textContent='Alle collecties uploaden…';}
+    const index = getCollections() || [];
+    let ok = 0, fail = 0;
+    for (const c of index) {
+      try {
+        await sbPush(c.id);
+        ok++;
+      } catch { fail++; }
+    }
+    if(sbStatus){
+      sbStatus.style.color = fail ? 'var(--red)' : 'var(--green)';
+      sbStatus.textContent = fail
+        ? `✗ ${fail} collectie(s) mislukt, ${ok} gelukt`
+        : `✓ ${ok} collectie(s) geüpload`;
+    }
+  });
 }
 
 function renderSettingsScreen() {
