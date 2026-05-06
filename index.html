@@ -815,6 +815,27 @@
   </div>
 
   <div class="stat-card" style="margin-top:8px;">
+    <div class="stat-card-title">Cardmarket proxy</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.6;">
+      Cloudflare Worker URL voor nauwkeurige per-variant, per-taal prijzen van Cardmarket. Zie SETUP.md voor instructies.
+    </div>
+    <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;">Worker URL</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <input id="settings-cm-proxy" type="text" placeholder="https://pokewaarde-proxy.xxx.workers.dev" autocomplete="off" spellcheck="false"
+        style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;color:var(--text);font-size:13px;outline:none;">
+      <button onclick="saveCmProxy()"
+        style="background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap;">
+        Opslaan
+      </button>
+    </div>
+    <button id="cm-proxy-test-btn"
+      style="width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:9px 14px;font-size:12px;cursor:pointer;margin-bottom:8px;">
+      🔍 Test proxy
+    </button>
+    <div id="cm-proxy-status" style="font-size:11px;color:var(--text3);min-height:16px;"></div>
+  </div>
+
+  <div class="stat-card" style="margin-top:8px;">
     <div class="stat-card-title">Supabase sync</div>
     <div style="font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.6;">
       Synchroniseer collecties tussen apparaten.
@@ -1286,8 +1307,32 @@ function renderCollectionsManager() {
 }
 
 // ── SUPABASE SYNC ──
-let SB_URL = localStorage.getItem('sb_url') || '';
-let SB_KEY = localStorage.getItem('sb_key') || '';
+let SB_URL      = localStorage.getItem('sb_url') || '';
+let SB_KEY      = localStorage.getItem('sb_key') || '';
+let CM_PROXY_URL = localStorage.getItem('cm_proxy_url') || '';
+
+// Per-card price cache: key = cardId|variant|lang, value = {data, ts}
+const _cmPriceCache = new Map();
+const CM_PRICE_CACHE_MS = 24 * 60 * 60 * 1000; // 24h
+
+async function fetchCmPriceViaProxy(card, variant, lang) {
+  if (!CM_PROXY_URL) return null;
+  const cacheKey = `${card.id}|${variant}|${lang}`;
+  const cached = _cmPriceCache.get(cacheKey);
+  if (cached && Date.now() - cached.ts < CM_PRICE_CACHE_MS) return cached.data;
+  // Build the Cardmarket URL for this card+variant
+  const langParam = lang === 'NL' ? '&language=12' : '&language=1';
+  const cmUrl = buildCardmarketUrl(card, 'en', langParam, '', variant, null);
+  if (cmUrl.includes('searchString=')) return null; // search URLs not useful for prices
+  try {
+    const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(cmUrl)}`);
+    if (!r.ok) return null;
+    const data = await r.json();
+    if (data.error) return null;
+    _cmPriceCache.set(cacheKey, { data, ts: Date.now() });
+    return data;
+  } catch { return null; }
+}
 
 function sbHeaders() {
   return {
@@ -1999,11 +2044,52 @@ function buildCardmarketUrl(card, langPath, langParam, countryParam, variant, co
 
 // ── CARDMARKET PRICE FETCH (from pokemontcg.io card object) ──
 function fetchCardmarketPrice(card, collSnap) {
-  // Prices are already on the card object from pokemontcg.io — no extra API call needed.
-  // Field: card.cardmarket.prices.{trendPrice, averageSellPrice, lowPrice, avg1, avg7, avg30}
   const statusEl = document.getElementById('ov-price-status');
   const priceEl  = _ovPriceEl;
 
+  // If proxy configured, fetch accurate per-variant/language price from Cardmarket
+  if (CM_PROXY_URL) {
+    statusEl.style.color = 'var(--text3)';
+    statusEl.textContent = 'Prijs ophalen van Cardmarket…';
+    fetchCmPriceViaProxy(card, selectedVariant, selectedLang).then(proxyData => {
+      if (proxyData && (proxyData.trend != null || (proxyData.listings && proxyData.listings.length))) {
+        _renderProxyPrice(proxyData, card, collSnap, statusEl, priceEl);
+      } else {
+        _renderBlendedPrice(card, collSnap, statusEl, priceEl);
+      }
+    });
+    return;
+  }
+  _renderBlendedPrice(card, collSnap, statusEl, priceEl);
+}
+
+function _renderProxyPrice(data, card, collSnap, statusEl, priceEl) {
+  const trend = data.trend;
+  const avg30 = data.avg30;
+  const low   = data.low;
+  const existing = collSnap ? collSnap.find(c => c.id === card.id && (c.variant||'standard') === selectedVariant) : null;
+  if ((!existing || !existing.price) && trend) priceEl.value = trend.toFixed(2);
+  const fmt = v => v != null ? `€${v.toFixed(2).replace('.',',')}` : '—';
+  // Filter listings to current variant+language
+  const isFirstEd = selectedVariant === 'first_ed' || selectedVariant === 'first_ed_shadowless';
+  const targetLang = selectedLang === 'NL' ? 'Dutch' : 'English';
+  const matching = (data.listings || []).filter(l =>
+    l.language === targetLang && (isFirstEd ? l.isFirstEd : !l.isFirstEd)
+  ).slice(0, 3);
+  statusEl.style.color = 'var(--green)';
+  let txt = `Cardmarket ${variantLabel(selectedVariant)} (${selectedLang}): trend ${fmt(trend)} · 30d ${fmt(avg30)} · laagste ${fmt(low)}`;
+  if (matching.length) {
+    txt += '\nGoedkoopste: ' + matching.map(l =>
+      `${l.condition} ${fmt(l.price)}${l.sellerCountry ? ' (' + l.sellerCountry + ')' : ''}`
+    ).join(' · ');
+  }
+  statusEl.textContent = txt;
+  statusEl.style.whiteSpace = 'pre-line';
+}
+
+function _renderBlendedPrice(card, collSnap, statusEl, priceEl) {
+  // Prices are already on the card object from pokemontcg.io — no extra API call needed.
+  // Field: card.cardmarket.prices.{trendPrice, averageSellPrice, lowPrice, avg1, avg7, avg30}
   const cm = card.cardmarket?.prices;
   if (!cm) {
     statusEl.style.color = 'var(--text3)';
@@ -3074,9 +3160,43 @@ function renderSettingsScreen() {
   const sbKeyInput = document.getElementById('settings-sb-key');
   if (ptcgInput && API_KEY)       ptcgInput.placeholder  = API_KEY.slice(0,6) + '••••••••' + API_KEY.slice(-4);
   if (anthInput && ANTHROPIC_KEY) anthInput.placeholder   = ANTHROPIC_KEY.slice(0,10) + '••••••••' + ANTHROPIC_KEY.slice(-4);
-  if (sbUrlInput && SB_URL)       sbUrlInput.placeholder  = SB_URL;
+  const cmProxyInput = document.getElementById('settings-cm-proxy');
+  if (cmProxyInput && CM_PROXY_URL) cmProxyInput.placeholder = CM_PROXY_URL;
+  if (sbUrlInput && SB_URL)         sbUrlInput.placeholder  = SB_URL;
   if (sbKeyInput && SB_KEY)       sbKeyInput.placeholder  = SB_KEY.slice(0,16) + '••••••••';
 }
+
+function saveCmProxy() {
+  const val = (document.getElementById('settings-cm-proxy').value || '').trim();
+  if (!val) { showToast('⚠️ Voer een geldige URL in'); return; }
+  const url = val.endsWith('/') ? val.slice(0, -1) : val;
+  CM_PROXY_URL = url;
+  localStorage.setItem('cm_proxy_url', url);
+  document.getElementById('settings-cm-proxy').value = '';
+  document.getElementById('settings-cm-proxy').placeholder = url;
+  _cmPriceCache.clear();
+  showToast('✓ Cardmarket proxy opgeslagen');
+}
+
+document.getElementById('cm-proxy-test-btn').addEventListener('click', async () => {
+  const statusEl = document.getElementById('cm-proxy-status');
+  if (!CM_PROXY_URL) { statusEl.style.color='var(--red)'; statusEl.textContent='⚠️ Geen proxy URL ingesteld'; return; }
+  statusEl.style.color='var(--text3)'; statusEl.textContent='Testen…';
+  try {
+    const testUrl = 'https://www.cardmarket.com/en/Pokemon/Products/Singles/Base-Set/Charizard-V3-BS4';
+    const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(testUrl)}`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    const trend = d.trend != null ? `trend €${d.trend.toFixed(2)}` : 'geen trend';
+    const listings = d.listings?.length || 0;
+    statusEl.style.color='var(--green)';
+    statusEl.textContent=`✓ Proxy werkt — Charizard: ${trend}, ${listings} aanbiedingen`;
+  } catch(e) {
+    statusEl.style.color='var(--red)';
+    statusEl.textContent='✗ Test mislukt: ' + e.message;
+  }
+});
 
 function saveSettingsKey(type) {
   if (type === 'ptcg') {
