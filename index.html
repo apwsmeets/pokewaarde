@@ -1961,10 +1961,10 @@ const CM_CARD_OVERRIDES = {
   // The regular Mew promo (basep-8) links to Wizards-Black-Star-Promos via the search fallback.
 };
 
-// Cardmarket version numbers for Base Set print runs:
-//   V1 = Unlimited (all languages, with or without 1st Ed stamp)
-//   V2 = Shadowless (English only, with or without 1st Ed stamp)
-// isFirstEd=Y is added as a query param for any 1st Edition variant.
+// Cardmarket version numbers for Base Set print runs (confirmed from real URLs):
+//   V1 = Unlimited / 1st Edition Unlimited (main page — all languages)
+//   V2 = Shadowless / 1st Edition Shadowless (English only)
+// isFirstEd=Y query param distinguishes 1st Ed from non-1st Ed within each page.
 // All other sets have only one version per card number, so no Vn suffix is used.
 const BASE1_VERSION = { standard: 'V1', first_ed: 'V1', shadowless: 'V2', first_ed_shadowless: 'V2' };
 
@@ -3183,7 +3183,7 @@ document.getElementById('cm-proxy-test-btn').addEventListener('click', async () 
   if (!CM_PROXY_URL) { statusEl.style.color='var(--red)'; statusEl.textContent='⚠️ Geen proxy URL ingesteld'; return; }
   statusEl.style.color='var(--text3)'; statusEl.textContent='Testen…';
   try {
-    const testUrl = 'https://www.cardmarket.com/en/Pokemon/Products/Singles/Base-Set/Charizard-V3-BS4';
+    const testUrl = 'https://www.cardmarket.com/en/Pokemon/Products/Singles/Base-Set/Charizard-V1-BS4';
     const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(testUrl)}`);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const d = await r.json();
