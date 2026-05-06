@@ -2142,27 +2142,32 @@ function _renderBlendedPrice(card, collSnap, statusEl, priceEl) {
     return;
   }
 
-  // Only auto-fill if there is no existing saved price for this card
-  // collSnap is already in scope from openCardDetail
-  const cmExisting = collSnap ? collSnap.find(c => c.id === card.id) : getCollection().find(c => c.id === card.id);
+  // Only auto-fill if there is no existing saved price for this card+variant
+  // Skip auto-fill for multi-variant sets when proxy is configured — proxy gives
+  // accurate per-variant price and will fill it asynchronously
+  const isMultiVariantSet = FIRST_ED_SETS.has(card.set?.id || '') || SHADOWLESS_SETS.has(card.set?.id || '');
+  const cmExisting = collSnap
+    ? collSnap.find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant)
+    : getCollection().find(c => c.id === card.id && (c.variant || 'standard') === selectedVariant);
   if (!cmExisting || !cmExisting.price) {
-    priceEl.value = price.toFixed(2);
+    if (!CM_PROXY_URL || !isMultiVariantSet) {
+      priceEl.value = price.toFixed(2);
+    }
+    // else: leave field empty — proxy will fill it with accurate variant price
   }
 
   const avg7  = cm.avg7  ?? price;
   const avg30 = cm.avg30 ?? price;
   statusEl.style.color = 'var(--green)';
 
-  // For Base Set non-standard variants, the API returns a blended price across all
-  // print runs (Unlimited + Shadowless + 1st Edition listings combined).
-  // Warn the user and point them to the correct Cardmarket version page.
-  const isBase1AltVariant = (card.set?.id === 'base1') &&
-    (selectedVariant !== 'standard');
-  if (isBase1AltVariant) {
+  // For multi-variant sets, the pokemontcg.io price is blended across all variants.
+  // Warn the user — proxy gives accurate per-variant prices.
+  if (isMultiVariantSet && selectedVariant !== 'standard') {
     const varName = variantLabel(selectedVariant);
     statusEl.style.color = 'var(--accent)';
     statusEl.textContent = `⚠️ Gemengde prijs (alle drukken) — trend €${price.toFixed(2)}. `
-      + `${varName} heeft een hogere marktprijs. Configureer de Cardmarket proxy voor de echte ${varName}-prijs.`;
+      + `${varName} heeft een andere marktprijs.`
+      + (CM_PROXY_URL ? '' : ' Configureer de Cardmarket proxy voor nauwkeurige prijzen.');
   } else {
     statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
   }
