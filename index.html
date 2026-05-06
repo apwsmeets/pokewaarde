@@ -1317,18 +1317,24 @@ const CM_PRICE_CACHE_MS = 24 * 60 * 60 * 1000; // 24h
 
 async function fetchCmPriceViaProxy(card, variant, lang) {
   if (!CM_PROXY_URL) return null;
-  const cacheKey = `${card.id}|${variant}|${lang}`;
+  const cacheKey = `${card.id}|${variant}`;
   const cached = _cmPriceCache.get(cacheKey);
   if (cached && Date.now() - cached.ts < CM_PRICE_CACHE_MS) return cached.data;
-  // Build the Cardmarket URL for this card+variant
-  const langParam = lang === 'NL' ? '&language=12' : '&language=1';
-  const cmUrl = buildCardmarketUrl(card, 'en', langParam, '', variant, null);
-  if (cmUrl.includes('searchString=')) return null; // search URLs not useful for prices
+
+  // Build the base Cardmarket URL (without language filter — worker adds EN+NL in parallel)
+  const cmUrl = buildCardmarketUrl(card, 'en', '', '', variant, null);
+  if (cmUrl.includes('searchString=')) return null;
+
+  // Pass isFirstEd param if applicable so the worker fetches the right filtered page
+  const isFirstEd = (variant === 'first_ed' || variant === 'first_ed_shadowless');
+  const finalUrl = cmUrl + (isFirstEd ? (cmUrl.includes('?') ? '&isFirstEd=Y' : '?isFirstEd=Y') : '');
+
   try {
-    const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(cmUrl)}`);
+    const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(finalUrl)}`);
     if (!r.ok) return null;
     const data = await r.json();
     if (data.error) return null;
+    // data = { en: {...}, nl: {...} }
     _cmPriceCache.set(cacheKey, { data, ts: Date.now() });
     return data;
   } catch { return null; }
@@ -2052,7 +2058,8 @@ function fetchCardmarketPrice(card, collSnap) {
     statusEl.style.color = 'var(--text3)';
     statusEl.textContent = 'Prijs ophalen van Cardmarket…';
     fetchCmPriceViaProxy(card, selectedVariant, selectedLang).then(proxyData => {
-      if (proxyData && (proxyData.trend != null || (proxyData.listings && proxyData.listings.length))) {
+      const hasData = proxyData && (proxyData.en || proxyData.nl);
+      if (hasData) {
         _renderProxyPrice(proxyData, card, collSnap, statusEl, priceEl);
       } else {
         _renderBlendedPrice(card, collSnap, statusEl, priceEl);
@@ -2064,27 +2071,46 @@ function fetchCardmarketPrice(card, collSnap) {
 }
 
 function _renderProxyPrice(data, card, collSnap, statusEl, priceEl) {
-  const trend = data.trend;
-  const avg30 = data.avg30;
-  const low   = data.low;
+  // data = { en: { trend, avg30, avg7, avg1, low, available, listings[] },
+  //          nl: { trend, avg30, avg7, avg1, low, available, listings[] } }
+  const langData = selectedLang === 'NL' ? data.nl : data.en;
+  const otherData = selectedLang === 'NL' ? data.en : data.nl;
+  if (!langData) return;
+
+  const trend = langData.trend;
+  const avg30 = langData.avg30;
+  const low   = langData.low;
+  const available = langData.available;
+
+  const fmt = v => v != null ? `€${v.toFixed(2).replace('.',',')}` : '—';
+
+  // Auto-fill price if not already saved
   const existing = collSnap ? collSnap.find(c => c.id === card.id && (c.variant||'standard') === selectedVariant) : null;
   if ((!existing || !existing.price) && trend) priceEl.value = trend.toFixed(2);
-  const fmt = v => v != null ? `€${v.toFixed(2).replace('.',',')}` : '—';
-  // Filter listings to current variant+language
-  const isFirstEd = selectedVariant === 'first_ed' || selectedVariant === 'first_ed_shadowless';
-  const targetLang = selectedLang === 'NL' ? 'Dutch' : 'English';
-  const matching = (data.listings || []).filter(l =>
-    l.language === targetLang && (isFirstEd ? l.isFirstEd : !l.isFirstEd)
-  ).slice(0, 3);
+
+  // Show cheapest matching listings for selected language
+  const cheapest = (langData.listings || []).slice(0, 3);
+
   statusEl.style.color = 'var(--green)';
-  let txt = `Cardmarket ${variantLabel(selectedVariant)} (${selectedLang}): trend ${fmt(trend)} · 30d ${fmt(avg30)} · laagste ${fmt(low)}`;
-  if (matching.length) {
-    txt += '\nGoedkoopste: ' + matching.map(l =>
+  statusEl.style.whiteSpace = 'pre-line';
+
+  // Show both EN and NL trend prices for comparison
+  const enTrend = data.en?.trend;
+  const nlTrend = data.nl?.trend;
+  const comparison = enTrend != null && nlTrend != null && enTrend !== nlTrend
+    ? ` (EN: ${fmt(enTrend)} · NL: ${fmt(nlTrend)})`
+    : '';
+
+  let txt = `Cardmarket ${variantLabel(selectedVariant)} ${selectedLang}: trend ${fmt(trend)}${comparison}`;
+  txt += `\n30d gem. ${fmt(avg30)} · Laagste ${fmt(low)} · ${available} aanbieding(en)`;
+
+  if (cheapest.length) {
+    txt += '\nGoedkoopste: ' + cheapest.map(l =>
       `${l.condition} ${fmt(l.price)}${l.sellerCountry ? ' (' + l.sellerCountry + ')' : ''}`
     ).join(' · ');
   }
+
   statusEl.textContent = txt;
-  statusEl.style.whiteSpace = 'pre-line';
 }
 
 function _renderBlendedPrice(card, collSnap, statusEl, priceEl) {
@@ -3188,10 +3214,12 @@ document.getElementById('cm-proxy-test-btn').addEventListener('click', async () 
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const d = await r.json();
     if (d.error) throw new Error(d.error);
-    const trend = d.trend != null ? `trend €${d.trend.toFixed(2)}` : 'geen trend';
-    const listings = d.listings?.length || 0;
+    const enTrend = d.en?.trend != null ? `EN €${d.en.trend.toFixed(2)}` : 'EN: geen trend';
+    const nlTrend = d.nl?.trend != null ? `NL €${d.nl.trend.toFixed(2)}` : 'NL: geen trend';
+    const enListings = d.en?.listings?.length || 0;
+    const nlListings = d.nl?.listings?.length || 0;
     statusEl.style.color='var(--green)';
-    statusEl.textContent=`✓ Proxy werkt — Charizard: ${trend}, ${listings} aanbiedingen`;
+    statusEl.textContent=`✓ Proxy werkt — Charizard: ${enTrend} · ${nlTrend} · ${enListings} EN + ${nlListings} NL aanbiedingen`;
   } catch(e) {
     statusEl.style.color='var(--red)';
     statusEl.textContent='✗ Test mislukt: ' + e.message;
