@@ -2071,39 +2071,62 @@ function fetchCardmarketPrice(card, collSnap) {
 }
 
 function _renderProxyPrice(data, card, collSnap, statusEl, priceEl) {
-  // data = { en: { trend, avg30, avg7, avg1, low, available, listings[] },
-  //          nl: { trend, avg30, avg7, avg1, low, available, listings[] } }
-  const langData = selectedLang === 'NL' ? data.nl : data.en;
+  // data = { en: { trend, avg30, avg7, avg1, globalLow, globalAvailable,
+  //                listingCount, listingLow, listingMedian, listingAvg, listings[] },
+  //          nl: { same } }
+  // NOTE: trend/avg30/avg7 are GLOBAL (all languages) — Cardmarket does not provide
+  // per-language trend prices. Per-language stats are derived from visible listings only.
+  const langData  = selectedLang === 'NL' ? data.nl : data.en;
   const otherData = selectedLang === 'NL' ? data.en : data.nl;
   if (!langData) return;
 
-  const trend = langData.trend;
-  const avg30 = langData.avg30;
-  const low   = langData.low;
-  const available = langData.available;
-
   const fmt = v => v != null ? `€${v.toFixed(2).replace('.',',')}` : '—';
 
-  // Auto-fill price if not already saved
-  const existing = collSnap ? collSnap.find(c => c.id === card.id && (c.variant||'standard') === selectedVariant) : null;
-  if ((!existing || !existing.price) && trend) priceEl.value = trend.toFixed(2);
+  // Cardmarket trend IS variant-specific (V1=Unlimited, V2=Shadowless have different trends)
+  // but NOT language or 1st-Edition specific.
+  // Use it as the primary price reference — it's more accurate than pokemontcg.io's blend.
+  const variantTrend = langData.trend;   // variant-specific, language-agnostic
+  const langLow      = langData.listingLow;    // cheapest listing in selected language
+  const langMedian   = langData.listingMedian;
+  const langCount    = langData.listingCount || 0;
+  const isFirstEd    = selectedVariant === 'first_ed' || selectedVariant === 'first_ed_shadowless';
 
-  // Show cheapest matching listings for selected language
+  // Price reference strategy:
+  // - Non-1st-Ed: use variant trend (V1/V2 page trend is variant-specific and reliable)
+  // - 1st Edition: trend is BLENDED with regular copies of same variant — use listing
+  //   median instead, as it reflects only 1st Ed copies (isFirstEd=Y filtered listings)
+  const bestPrice = isFirstEd ? (langData.listingMedian ?? langData.listingLow ?? variantTrend)
+                               : variantTrend;
+
+  const existing = collSnap ? collSnap.find(c => c.id === card.id && (c.variant||'standard') === selectedVariant) : null;
+  if ((!existing || !existing.price) && bestPrice) priceEl.value = bestPrice.toFixed(2);
+
   const cheapest = (langData.listings || []).slice(0, 3);
+  const otherLangLabel = selectedLang === 'NL' ? 'EN' : 'NL';
+  const otherLow = otherData?.listingLow;
 
   statusEl.style.color = 'var(--green)';
   statusEl.style.whiteSpace = 'pre-line';
 
-  // Show both EN and NL trend prices for comparison
-  const enTrend = data.en?.trend;
-  const nlTrend = data.nl?.trend;
-  const comparison = enTrend != null && nlTrend != null && enTrend !== nlTrend
-    ? ` (EN: ${fmt(enTrend)} · NL: ${fmt(nlTrend)})`
-    : '';
+  // Line 1: price reference with honest label about what it represents
+  let txt;
+  if (isFirstEd) {
+    // Trend is blended with non-1st-Ed — use listing median as reference price
+    txt = `Cardmarket ${variantLabel(selectedVariant)}: mediaan ${fmt(langData.listingMedian)} · laagste ${fmt(langData.listingLow)}`;
+    txt += ` (trend ${fmt(variantTrend)} incl. niet-1e-Ed.)`;
+  } else {
+    txt = `Cardmarket ${variantLabel(selectedVariant)} trend: ${fmt(variantTrend)} · 30d ${fmt(langData.avg30)}`;
+  }
 
-  let txt = `Cardmarket ${variantLabel(selectedVariant)} ${selectedLang}: trend ${fmt(trend)}${comparison}`;
-  txt += `\n30d gem. ${fmt(avg30)} · Laagste ${fmt(low)} · ${available} aanbieding(en)`;
+  // Line 2: per-language listing stats
+  if (langCount > 0) {
+    txt += `\n${selectedLang} aanbiedingen (${langCount}): laagste ${fmt(langLow)} · mediaan ${fmt(langMedian)}`;
+    if (otherLow != null) txt += ` · ${otherLangLabel} laagste ${fmt(otherLow)}`;
+  } else {
+    txt += `\nGeen ${selectedLang} aanbiedingen — ${otherLangLabel} laagste ${fmt(otherLow ?? null)}`;
+  }
 
+  // Line 3: cheapest listings
   if (cheapest.length) {
     txt += '\nGoedkoopste: ' + cheapest.map(l =>
       `${l.condition} ${fmt(l.price)}${l.sellerCountry ? ' (' + l.sellerCountry + ')' : ''}`
@@ -2151,7 +2174,7 @@ function _renderBlendedPrice(card, collSnap, statusEl, priceEl) {
     const varName = variantLabel(selectedVariant);
     statusEl.style.color = 'var(--accent)';
     statusEl.textContent = `⚠️ Gemengde prijs (alle drukken) — trend €${price.toFixed(2)}. `
-      + `${varName} heeft een hogere marktprijs. Klik Cardmarket voor de echte ${varName}-prijs.`;
+      + `${varName} heeft een hogere marktprijs. Configureer de Cardmarket proxy voor de echte ${varName}-prijs.`;
   } else {
     statusEl.textContent = `Cardmarket (EUR): trend €${price.toFixed(2)} · 7d €${avg7.toFixed(2)} · 30d €${avg30.toFixed(2)}`;
   }
