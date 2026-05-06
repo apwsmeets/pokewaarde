@@ -1325,12 +1325,10 @@ async function fetchCmPriceViaProxy(card, variant, lang) {
   const cmUrl = buildCardmarketUrl(card, 'en', '', '', variant, null);
   if (cmUrl.includes('searchString=')) return null;
 
-  // Pass isFirstEd param if applicable so the worker fetches the right filtered page
-  const isFirstEd = (variant === 'first_ed' || variant === 'first_ed_shadowless');
-  const finalUrl = cmUrl + (isFirstEd ? (cmUrl.includes('?') ? '&isFirstEd=Y' : '?isFirstEd=Y') : '');
-
+  // Worker now fetches all 4 combinations (EN/NL × isFirstEd Y/N) in parallel
+  // No need to pass isFirstEd in the URL — the worker adds it itself
   try {
-    const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(finalUrl)}`);
+    const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(cmUrl)}`);
     if (!r.ok) return null;
     const data = await r.json();
     if (data.error) return null;
@@ -2071,60 +2069,50 @@ function fetchCardmarketPrice(card, collSnap) {
 }
 
 function _renderProxyPrice(data, card, collSnap, statusEl, priceEl) {
-  // data = { en: { trend, avg30, avg7, avg1, globalLow, globalAvailable,
-  //                listingCount, listingLow, listingMedian, listingAvg, listings[] },
-  //          nl: { same } }
-  // NOTE: trend/avg30/avg7 are GLOBAL (all languages) — Cardmarket does not provide
-  // per-language trend prices. Per-language stats are derived from visible listings only.
-  const langData  = selectedLang === 'NL' ? data.nl : data.en;
-  const otherData = selectedLang === 'NL' ? data.en : data.nl;
-  if (!langData) return;
+  // data = { en, en_1ed, nl, nl_1ed }
+  // Each key: { trend, avg30, listingCount, listingLow, listingMedian, listingAvg, listings[] }
+  // trend = global (variant-specific but not language/edition specific)
+  // listing stats = accurate per language+edition from isFirstEd=N/Y filtered pages
+  const isFirstEd = selectedVariant === 'first_ed' || selectedVariant === 'first_ed_shadowless';
+  const langKey   = selectedLang === 'NL'
+    ? (isFirstEd ? 'nl_1ed' : 'nl')
+    : (isFirstEd ? 'en_1ed' : 'en');
+  const otherLangKey = selectedLang === 'NL'
+    ? (isFirstEd ? 'en_1ed' : 'en')
+    : (isFirstEd ? 'nl_1ed' : 'nl');
 
+  const langData  = data[langKey]  || {};
+  const otherData = data[otherLangKey] || {};
   const fmt = v => v != null ? `€${v.toFixed(2).replace('.',',')}` : '—';
 
-  // Cardmarket trend IS variant-specific (V1=Unlimited, V2=Shadowless have different trends)
-  // but NOT language or 1st-Edition specific.
-  // Use it as the primary price reference — it's more accurate than pokemontcg.io's blend.
-  const variantTrend = langData.trend;   // variant-specific, language-agnostic
-  const langLow      = langData.listingLow;    // cheapest listing in selected language
-  const langMedian   = langData.listingMedian;
-  const langCount    = langData.listingCount || 0;
-  const isFirstEd    = selectedVariant === 'first_ed' || selectedVariant === 'first_ed_shadowless';
-
-  // Price reference strategy:
-  // - Non-1st-Ed: use variant trend (V1/V2 page trend is variant-specific and reliable)
-  // - 1st Edition: trend is BLENDED with regular copies of same variant — use listing
-  //   median instead, as it reflects only 1st Ed copies (isFirstEd=Y filtered listings)
-  const bestPrice = isFirstEd ? (langData.listingMedian ?? langData.listingLow ?? variantTrend)
-                               : variantTrend;
+  // Best price: listing average from filtered page (language + edition specific)
+  // Fall back to listing median, then listing low, then global trend
+  const bestPrice = langData.listingAvg ?? langData.listingMedian ?? langData.listingLow ?? langData.trend;
 
   const existing = collSnap ? collSnap.find(c => c.id === card.id && (c.variant||'standard') === selectedVariant) : null;
   if ((!existing || !existing.price) && bestPrice) priceEl.value = bestPrice.toFixed(2);
 
   const cheapest = (langData.listings || []).slice(0, 3);
   const otherLangLabel = selectedLang === 'NL' ? 'EN' : 'NL';
-  const otherLow = otherData?.listingLow;
 
   statusEl.style.color = 'var(--green)';
   statusEl.style.whiteSpace = 'pre-line';
 
-  // Line 1: price reference with honest label about what it represents
-  let txt;
-  if (isFirstEd) {
-    // Trend is blended with non-1st-Ed — use listing median as reference price
-    txt = `Cardmarket ${variantLabel(selectedVariant)}: mediaan ${fmt(langData.listingMedian)} · laagste ${fmt(langData.listingLow)}`;
-    txt += ` (trend ${fmt(variantTrend)} incl. niet-1e-Ed.)`;
+  const count = langData.listingCount || 0;
+
+  // Line 1: filtered listing average (the accurate per-language+edition price)
+  let txt = `Cardmarket ${variantLabel(selectedVariant)} (${selectedLang}${isFirstEd ? ' · 1e Ed.' : ''})`;
+  if (count > 0) {
+    txt += `: gem. ${fmt(langData.listingAvg)} · mediaan ${fmt(langData.listingMedian)} · laagste ${fmt(langData.listingLow)}`;
+    txt += ` (${count} aanbod${count !== 1 ? 's' : ''})`;
   } else {
-    txt = `Cardmarket ${variantLabel(selectedVariant)} trend: ${fmt(variantTrend)} · 30d ${fmt(langData.avg30)}`;
+    txt += `: geen aanbiedingen gevonden`;
   }
 
-  // Line 2: per-language listing stats
-  if (langCount > 0) {
-    txt += `\n${selectedLang} aanbiedingen (${langCount}): laagste ${fmt(langLow)} · mediaan ${fmt(langMedian)}`;
-    if (otherLow != null) txt += ` · ${otherLangLabel} laagste ${fmt(otherLow)}`;
-  } else {
-    txt += `\nGeen ${selectedLang} aanbiedingen — ${otherLangLabel} laagste ${fmt(otherLow ?? null)}`;
-  }
+  // Line 2: global variant trend for reference + other language comparison
+  const otherAvg = otherData.listingAvg ?? otherData.listingLow;
+  txt += `\nVariant trend (alle talen): ${fmt(langData.trend)} · 30d ${fmt(langData.avg30)}`;
+  if (otherAvg != null) txt += ` · ${otherLangLabel} gem. ${fmt(otherAvg)}`;
 
   // Line 3: cheapest listings
   if (cheapest.length) {
@@ -3237,12 +3225,13 @@ document.getElementById('cm-proxy-test-btn').addEventListener('click', async () 
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const d = await r.json();
     if (d.error) throw new Error(d.error);
-    const enTrend = d.en?.trend != null ? `EN €${d.en.trend.toFixed(2)}` : 'EN: geen trend';
-    const nlTrend = d.nl?.trend != null ? `NL €${d.nl.trend.toFixed(2)}` : 'NL: geen trend';
-    const enListings = d.en?.listings?.length || 0;
-    const nlListings = d.nl?.listings?.length || 0;
+    const fmt = v => v != null ? `€${v.toFixed(2)}` : '—';
+    const enAvg    = fmt(d.en?.listingAvg);
+    const nlAvg    = fmt(d.nl?.listingAvg);
+    const en1edAvg = fmt(d.en_1ed?.listingAvg);
+    const nl1edAvg = fmt(d.nl_1ed?.listingAvg);
     statusEl.style.color='var(--green)';
-    statusEl.textContent=`✓ Proxy werkt — Charizard: ${enTrend} · ${nlTrend} · ${enListings} EN + ${nlListings} NL aanbiedingen`;
+    statusEl.textContent=`✓ Proxy werkt — Charizard Unlimited: EN gem. ${enAvg} · NL gem. ${nlAvg} | 1e Ed.: EN gem. ${en1edAvg} · NL gem. ${nl1edAvg}`;
   } catch(e) {
     statusEl.style.color='var(--red)';
     statusEl.textContent='✗ Test mislukt: ' + e.message;
@@ -3324,10 +3313,11 @@ async function updateCollectionPrices() {
 
       // For non-1st-Ed: use trend (variant-specific, reliable)
       // For 1st-Ed: use listing median (trend is blended with non-1st-Ed copies)
-      const enData = data.en || {};
-      const price  = isFirstEd
-        ? (enData.listingMedian ?? enData.listingLow ?? enData.trend ?? null)
-        : (enData.trend ?? null);
+      // Use language+edition specific listing average from new 4-key response
+      const isFirstEdItem = variant === 'first_ed' || variant === 'first_ed_shadowless';
+      // Prefer EN data for collection value (most liquid market)
+      const enData   = isFirstEdItem ? (data.en_1ed || data.en || {}) : (data.en || {});
+      const price    = enData.listingAvg ?? enData.listingMedian ?? enData.listingLow ?? enData.trend ?? null;
       if (price === null) continue;
 
       // Update only entries matching this exact card+variant
