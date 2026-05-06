@@ -3311,18 +3311,17 @@ async function updateCollectionPrices() {
       const isFirstEd = variant === 'first_ed' || variant === 'first_ed_shadowless';
       const finalUrl  = cmUrl + (isFirstEd ? (cmUrl.includes('?') ? '&isFirstEd=Y' : '?isFirstEd=Y') : '');
 
-      const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(finalUrl)}`);
+      const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(cmUrl)}&lang=1`);
       if (!r.ok) continue;
       const data = await r.json();
       if (data.error) continue;
 
       // For non-1st-Ed: use trend (variant-specific, reliable)
       // For 1st-Ed: use listing median (trend is blended with non-1st-Ed copies)
-      // Use language+edition specific listing average from new 4-key response
+      // Worker returns en + en_1ed (we always request EN for collection value)
       const isFirstEdItem = variant === 'first_ed' || variant === 'first_ed_shadowless';
-      // Prefer EN data for collection value (most liquid market)
-      const enData   = isFirstEdItem ? (data.en_1ed || data.en || {}) : (data.en || {});
-      const price    = enData.listingAvg ?? enData.listingMedian ?? enData.listingLow ?? enData.trend ?? null;
+      const enData = isFirstEdItem ? (data.en_1ed || data.en || {}) : (data.en || {});
+      const price  = enData.listingAvg ?? enData.listingMedian ?? enData.listingLow ?? enData.trend ?? null;
       if (price === null) continue;
 
       // Update only entries matching this exact card+variant
