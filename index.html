@@ -3272,20 +3272,75 @@ function saveSettingsKey(type) {
 
 // ── PRICE AUTO-UPDATE (background, once per 24h per card) ──
 async function updateCollectionPrices() {
-  // Fetch fresh card data from pokemontcg.io (which includes Cardmarket prices)
-  // for any card not updated in the last 24 hours.
   const coll = getCollection();
-  const now = Date.now();
+  const now  = Date.now();
   let anyUpdated = false;
 
-  // Batch: collect IDs that need updating
   const toUpdate = coll.filter(item => now - (item.priceUpdated || 0) >= 86400000);
   if (!toUpdate.length) return;
 
-  // Deduplicate by card id — multiple variants share one market price, one fetch is enough
-  const seenIds = new Set();
-  const uniqueToUpdate = toUpdate.filter(item => { if (seenIds.has(item.id)) return false; seenIds.add(item.id); return true; });
-  for (const item of uniqueToUpdate) {
+  // Split cards into two groups:
+  // 1. Multi-variant cards (FIRST_ED_SETS or SHADOWLESS_SETS) with proxy configured
+  //    → fetch per-variant Cardmarket trend via proxy
+  // 2. Everything else → use pokemontcg.io blended price as before
+  const useProxy = !!CM_PROXY_URL;
+
+  // Group 1: proxy updates — one fetch per unique card+variant combination
+  const proxyItems = useProxy
+    ? toUpdate.filter(item => FIRST_ED_SETS.has(item.setId || '') || SHADOWLESS_SETS.has(item.setId || ''))
+    : [];
+
+  // Group 2: pokemontcg.io updates — deduplicated by card id
+  const tcgItems  = toUpdate.filter(item => !proxyItems.includes(item));
+  const seenIds   = new Set();
+  const uniqueTcg = tcgItems.filter(item => {
+    if (seenIds.has(item.id)) return false; seenIds.add(item.id); return true;
+  });
+
+  // ── Group 1: proxy price updates ──
+  // Deduplicate by card id + variant (each combo needs its own fetch)
+  const seenVariants = new Set();
+  const uniqueProxy  = proxyItems.filter(item => {
+    const key = `${item.id}|${item.variant || 'standard'}`;
+    if (seenVariants.has(key)) return false; seenVariants.add(key); return true;
+  });
+
+  for (const item of uniqueProxy) {
+    try {
+      // Need a card object with set.id for buildCardmarketUrl
+      const cardObj = cardCache.get(item.id) || { id: item.id, name: item.name, number: item.number,
+        set: { id: item.setId, name: item.set }, cardmarket: null };
+      const variant = item.variant || 'standard';
+      const cmUrl   = buildCardmarketUrl(cardObj, 'en', '', '', variant, null);
+      if (cmUrl.includes('searchString=')) continue; // no direct URL — skip proxy
+
+      const isFirstEd = variant === 'first_ed' || variant === 'first_ed_shadowless';
+      const finalUrl  = cmUrl + (isFirstEd ? (cmUrl.includes('?') ? '&isFirstEd=Y' : '?isFirstEd=Y') : '');
+
+      const r = await fetch(`${CM_PROXY_URL}?url=${encodeURIComponent(finalUrl)}`);
+      if (!r.ok) continue;
+      const data = await r.json();
+      if (data.error) continue;
+
+      // For non-1st-Ed: use trend (variant-specific, reliable)
+      // For 1st-Ed: use listing median (trend is blended with non-1st-Ed copies)
+      const enData = data.en || {};
+      const price  = isFirstEd
+        ? (enData.listingMedian ?? enData.listingLow ?? enData.trend ?? null)
+        : (enData.trend ?? null);
+      if (price === null) continue;
+
+      // Update only entries matching this exact card+variant
+      coll.filter(c => c.id === item.id && (c.variant || 'standard') === variant)
+          .forEach(c => { c.price = price; c.priceUpdated = now; });
+      anyUpdated = true;
+
+      await new Promise(r => setTimeout(r, 500)); // be gentle with proxy
+    } catch { /* skip silently */ }
+  }
+
+  // ── Group 2: pokemontcg.io price updates ──
+  for (const item of uniqueTcg) {
     try {
       const r = await apiFetch(`${API}/cards/${item.id}`);
       if (!r.ok) continue;
@@ -3294,13 +3349,9 @@ async function updateCollectionPrices() {
       if (!cm) continue;
       const price = cm.trendPrice ?? cm.averageSellPrice ?? cm.lowPrice ?? null;
       if (price === null) continue;
-      // Update all entries in coll with this id (different variants share a market price)
-      coll.filter(c => c.id === item.id).forEach(c => {
-        c.price = price;
-        c.priceUpdated = now;
-      });
+      // Pokemontcg.io gives one blended price — apply to all variants of this card
+      coll.filter(c => c.id === item.id).forEach(c => { c.price = price; c.priceUpdated = now; });
       anyUpdated = true;
-      // Small delay to avoid rate limiting
       await new Promise(r => setTimeout(r, 150));
     } catch { /* skip silently */ }
   }
